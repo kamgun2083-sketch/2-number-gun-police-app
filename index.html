@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>डिजिटल प्रणाली संग्रह</title>
+<link rel="icon" href="my-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f6fa; --card: #ffffff; --text: #16202e; --muted: #5b6b80;
+    --line: #dde3ec; --accent: #12508a; --accent-soft: #e8f0f9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e141c; --card: #172130; --text: #e8eef6; --muted: #93a4b8;
+      --line: #263447; --accent: #6fb2ee; --accent-soft: #1b2b3e;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e141c; --card: #172130; --text: #e8eef6; --muted: #93a4b8;
+    --line: #263447; --accent: #6fb2ee; --accent-soft: #1b2b3e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 16px 64px; background: var(--bg); color: var(--text);
+    font-family: 'Mukta', system-ui, sans-serif; line-height: 1.6;
+  }
+  header {
+    max-width: 960px; margin: 0 auto; padding: 48px 0 32px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  header img { width: 72px; height: 72px; object-fit: contain; }
+  h1 { margin: 0; font-size: clamp(22px, 4.5vw, 32px); font-weight: 800; letter-spacing: -.01em; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+  main { max-width: 960px; margin: 0 auto; }
+  h2 {
+    font-size: 14px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); font-weight: 600; margin: 40px 0 16px;
+  }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  a.card {
+    display: block; text-decoration: none; color: inherit; background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px; padding: 20px;
+    transition: border-color .15s, transform .15s;
+  }
+  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card .name { font-weight: 600; font-size: 17px; margin-bottom: 4px; }
+  .card .desc { color: var(--muted); font-size: 14px; }
+  .note {
+    background: var(--accent-soft); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 20px; color: var(--muted); font-size: 14px;
+  }
+  .note code {
+    font-family: ui-monospace, monospace; font-size: 13px;
+    background: var(--card); padding: 1px 6px; border-radius: 4px; color: var(--text);
+  }
+  footer { max-width: 960px; margin: 48px auto 0; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 20px; }
+</style>
+</head>
+<body>
+<header>
+  <img src="my-logo.png" alt="लोगो">
+  <div>
+    <h1>डिजिटल प्रणाली संग्रह</h1>
+    <p>काठमाडौं उपत्यका प्रहरी — सशस्त्र प्रहरी गण नं. २, महाराजगंज</p>
+  </div>
+</header>
+
+<main>
+  <h2>वेब प्रणालीहरू</h2>
+  <div class="grid">
+    <a class="card" href="apps/bida-management/index.html"><div class="name">बिदा व्यवस्थापन प्रणाली</div><div class="desc">कर्मचारी बिदा आवेदन तथा अभिलेख</div></a>
+    <a class="card" href="apps/duty-system/index.html"><div class="name">कार्यालय ड्युटी व्यवस्थापन</div><div class="desc">ड्युटी तालिका (Cloud Connected)</div></a>
+    <a class="card" href="apps/gate-pass/index.html"><div class="name">डिजिटल गेट पास प्रणाली</div><div class="desc">गेट पास जारी तथा रेकर्ड</div></a>
+    <a class="card" href="apps/digital-correspondence/index.html"><div class="name">डिजिटल पत्राचार तथा हस्ताक्षर</div><div class="desc">पत्राचार व्यवस्थापन प्रणाली</div></a>
+    <a class="card" href="apps/daily-record-form/index.html"><div class="name">दैनिक काम-कारवाही फारम</div><div class="desc">दैनिक अभिलेख फारम</div></a>
+    <a class="card" href="apps/pt-report/index.html"><div class="name">दैनिक पिटी / रोलकल रिपोर्ट</div><div class="desc">पिटी तथा रोलकल प्रतिवेदन</div></a>
+    <a class="card" href="apps/staff-records/index.html"><div class="name">प्रहरी कर्मचारी डिजिटल अभिलेख</div><div class="desc">कर्मचारी विवरण तथा तालिम रेकर्ड</div></a>
+  </div>
+
+  <h2>Python (Flask) प्रणालीहरू</h2>
+  <div class="note">
+    <code>python-apps/</code> फोल्डरभित्रका Flask प्रणालीहरू GitHub Pages मा चल्दैनन् — तिनलाई सर्भर चाहिन्छ।
+    सोर्स कोड यहीँ राखिएको छ; होस्ट गर्न PythonAnywhere वा Render प्रयोग गर्नुहोस्।
+  </div>
+</main>
+
+<footer>सबै प्रणालीहरू एकै ठाउँमा — <code>police-apps</code></footer>
+</body>
+</html>

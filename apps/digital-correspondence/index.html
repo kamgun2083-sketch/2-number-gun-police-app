@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सशस्त्र प्रहरी गण नं. २ - डिजिटल पत्राचार तथा हस्ताक्षर प्रणाली</title>
+    <style>
+        :root {
+            --primary-color: #0b2545;
+            --secondary-color: #134074;
+            --accent-color: #8da9c4;
+            --light-bg: #f4f6f9;
+            --text-dark: #1d2d44;
+            --white: #ffffff;
+            --success: #166534;
+            --success-bg: #dcfce7;
+            --letter-color: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        aside.sidebar {
+            width: 260px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h3 {
+            font-size: 15px;
+            color: #ffffff;
+        }
+
+        .sidebar-header h2 {
+            font-size: 13px;
+            margin-top: 5px;
+            color: #cbd5e1;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu li.active a, .sidebar-menu li a:hover {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border-left: 4px solid #38bdf8;
+        }
+
+        .sidebar-footer {
+            padding: 15px 20px;
+            font-size: 12px;
+            color: #94a3b8;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .user-profile {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            background: #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .content-body {
+            padding: 30px;
+        }
+
+        .search-box-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box-container input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            border-left: 4px solid var(--secondary-color);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .stat-card h3 {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .number {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .data-section {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+
+        .section-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 8px;
+        }
+
+        .data-section h2 {
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        table th, table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table th {
+            background-color: #f8fafc;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .badge-darta {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .badge-chalani {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .btn-view { background-color: #e0f2fe; color: #0369a1; }
+        .btn-sign { background-color: var(--success-bg); color: var(--success); }
+        .btn-reply { background-color: #fef9c3; color: #854d0e; }
+        .btn-primary-add { background-color: var(--secondary-color); color: white; padding: 8px 14px; border-radius: 4px; font-size: 13px; }
+        .btn-delete { background-color: #fee2e2; color: #b91c1c; margin-left: 4px; }
+
+        .btn-view:hover { background-color: #bae6fd; }
+        .btn-sign:hover { background-color: #bbf7d0; }
+        .btn-reply:hover { background-color: #fef08a; }
+        .btn-primary-add:hover { background-color: #0b2545; }
+        .btn-delete:hover { background-color: #fecaca; }
+
+        .status-signed {
+            color: var(--success);
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            width: 450px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .modal-content label {
+            display: block;
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .modal-content textarea, .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-submit { background-color: var(--secondary-color); color: white; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-close { background-color: #cbd5e1; color: #1d2d44; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-print { background-color: #0284c7; color: white; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-print:hover { background-color: #0369a1; }
+
+        .letterpad-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .letterpad-page {
+            background: white;
+            width: 780px;
+            height: 1050px;
+            max-width: 95%;
+            padding: 30px 40px 20px 40px;
+            margin: auto;
+            border-radius: 6px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            position: relative;
+            color: var(--letter-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .editable-input {
+            border: none;
+            background: transparent;
+            outline: none;
+            color: var(--letter-color);
+            font-family: inherit;
+            font-size: inherit;
+            padding: 2px 4px;
+        }
+
+        .editable-input:focus {
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+        }
+
+        .letterpad-top-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--letter-color);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .np-logo-box {
+            text-align: center;
+            width: 20%;
+        }
+
+        .np-logo-img {
+            width: 60px;
+            height: auto;
+            display: block;
+            margin: 0 auto 5px auto;
+            object-fit: contain;
+        }
+
+        .gov-titles {
+            text-align: center;
+            width: 60%;
+            color: var(--letter-color);
+        }
+
+        .gov-titles h4 { font-size: 12px; font-weight: normal; color: var(--letter-color); }
+        .gov-titles h3 { font-size: 13px; margin: 2px 0; color: var(--letter-color); }
+        .gov-titles h2 { font-size: 15px; font-weight: bold; color: var(--letter-color); }
+
+        .gov-contact-right {
+            text-align: right;
+            width: 22%;
+            font-size: 12px;
+            color: var(--letter-color);
+        }
+
+        .letterpad-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: var(--letter-color);
+        }
+
+        .letterpad-sub-meta-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: var(--letter-color);
+        }
+
+        .letterpad-subject-row {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            color: var(--letter-color);
+        }
+
+        .letterpad-subject-row .subject-text-container {
+            display: inline-block;
+            border-bottom: 1.5px solid var(--letter-color);
+            padding-bottom: 3px;
+            font-weight: bold;
+        }
+
+        .letterpad-body-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+            background: #f8fafc;
+            padding: 5px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .editor-toolbar button, .editor-toolbar select, .color-picker-wrapper {
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 3px 8px;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .editor-toolbar button:hover {
+            background: #f1f5f9;
+        }
+
+        .editor-toolbar input[type="color"] {
+            border: none;
+            width: 24px;
+            height: 20px;
+            cursor: pointer;
+            background: transparent;
+            padding: 0;
+        }
+
+        .letterpad-body-content {
+            font-size: 14px;
+            color: var(--letter-color);
+            line-height: 1.6;
+        }
+
+        .editable-content-box {
+            color: var(--letter-color);
+            border: 1px dashed #cbd5e1;
+            background: rgba(241, 245, 249, 0.3);
+            outline: none;
+            width: 100%;
+            height: 220px;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            padding: 8px;
+            overflow-y: auto;
+            border-radius: 4px;
+        }
+
+        .editable-content-box:focus {
+            background: rgba(241, 245, 249, 0.6);
+            border-color: var(--letter-color);
+        }
+
+        .letterpad-footer-sign {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .signature-box {
+            text-align: center;
+            min-width: 200px;
+            color: var(--letter-color);
+        }
+
+        .signature-box img {
+            max-width: 120px;
+            max-height: 50px;
+            display: block;
+            margin: 0 auto 5px auto;
+            object-fit: contain;
+        }
+
+        .signature-box .sig-line {
+            border-top: 1px solid var(--letter-color);
+            padding-top: 5px;
+            font-size: 13px;
+            color: var(--letter-color);
+        }
+
+        .letterpad-page-footer {
+            border-top: 1px solid #cbd5e1;
+            padding-top: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--letter-color);
+            width: 100%;
+        }
+
+        .letterpad-controls {
+            margin-top: 10px; 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 10px; 
+            border-top: 1.5px solid #cbd5e1; 
+            padding-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #64748b;
+            background-color: var(--white);
+            border-top: 1px solid #e2e8f0;
+            margin-top: auto;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0mm;
+            }
+            body * {
+                visibility: hidden;
+            }
+            #letterPadModal, #letterPadModal * {
+                visibility: visible;
+            }
+            #letterPadModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                display: block !important;
+            }
+            .letterpad-page {
+                box-shadow: none;
+                width: 100%;
+                max-width: 100%;
+                height: 297mm;
+                margin: 0;
+                padding: 10mm 15mm;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .modal-buttons, .btn-print, .btn-close, .btn-submit, .btn-action, .letterpad-controls, .editor-toolbar, .search-box-container {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <h3>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</h3>
+                <h2>महाराजगंज, काठमाडौं</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a onclick="switchTab('dashboard', this)">📊 ड्यासबोर्ड</a></li>
+                <li><a onclick="switchTab('letter', this)">📁 दर्ता, चलानी तथा सही</a></li>
+                <li><a onclick="switchTab('admin', this)">🏛️ प्रशासन शाखा</a></li>
+                <li><a onclick="switchTab('hr', this)">👥 कर्मचारी प्रशासन शाखा</a></li>
+                <li><a onclick="switchTab('training', this)">🎖️ तालिम शाखा</a></li>
+                <li><a onclick="switchTab('management', this)">📦 प्रबन्ध शाखा</a></li>
+                <li><a onclick="switchTab('accounts', this)">💰 आर्थिक प्रशासन शाखा</a></li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            इन्ट्रानेट प्रणाली v1.3
+        </div>
+    </aside>
+
+    <div class="main-container">
+        <header>
+            <div class="header-title" id="header-main-title">
+                <h1>गणको मुख्य ड्यासबोर्ड (Dashboard Overview)</h1>
+            </div>
+            <div class="user-profile">
+                👤 गणपति / अधिकृत
+            </div>
+        </header>
+
+        <div class="content-body">
+            
+            <div id="section-dashboard" class="branch-section">
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="filterDashboard('all')">
+                        <h3>कुल प्राप्त पत्रहरू</h3>
+                        <div class="number" id="statTotalLetters">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('pending')">
+                        <h3>सही गर्न बाँकी</h3>
+                        <div class="number" id="statPendingSign" style="color: #b91c1c;">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('admin')">
+                        <h3>प्रशासन शाखा फाइल</h3>
+                        <div class="number" id="statAdminFiles">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('hr')">
+                        <h3>कर्मचारी प्रशासन फाइल</h3>
+                        <div class="number" id="statHrFiles">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('training')">
+                        <h3>तालिम शाखा फाइल</h3>
+                        <div class="number" id="statTrainingFiles">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('management')">
+                        <h3>प्रबन्ध शाखा फाइल</h3>
+                        <div class="number" id="statManagementFiles">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('accounts')">
+                        <h3>आर्थिक प्रशासन फाइल</h3>
+                        <div class="number" id="statAccountsFiles">० वटा</div>
+                    </div>
+                    <div class="stat-card" onclick="filterDashboard('signed')">
+                        <h3>प्रमाणित पत्रहरू</h3>
+                        <div class="number" id="statSignedLetters" style="color: var(--success);">० वटा</div>
+                    </div>
+                </div>
+
+                <div class="data-section">
+                    <h2>हालैका गतिविधिहरू र जरुरी पत्रहरूको सारांश</h2>
+                    <p style="font-size: 14px; color: #475569; line-height: 1.6;">
+                        स्वागत छ! माथिका कार्डहरूमा क्लिक गरेर सीधै सम्बन्धित पत्रहरू हेर्न सक्नुहुन्छ वा बायाँपट्टिको मेनु प्रयोग गर्नुहोस्। डाटा ब्राउजरमा सुरक्षित (Store) रहनेछ।
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र दर्ता/चलानी थप्ने</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- साधारण टेबुलहरूको लागि साझा कम्पोनेन्ट (Search bar सहित) -->
+            <div id="section-letter" class="branch-section" style="display: none;">
+                <div class="data-section">
+                    <div class="section-header-flex">
+                        <h2>प्राप्त पत्रहरू र दर्ता/चलानी व्यवस्थापन</h2>
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र थप्ने</button>
+                    </div>
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput-letter" placeholder="🔍 पत्र नं, पठाउने कार्यालय वा विषयद्वारा खोज्नुहोस्..." onkeyup="filterTable('letter')">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="letterTable">
+                            <thead>
+                                <tr>
+                                    <th>सि.नं.</th>
+                                    <th>प्रकार</th>
+                                    <th>पत्र नं. (हाम्रो दर्ता/चलानी)</th>
+                                    <th>तालुक/पठाउने कार्यालय</th>
+                                    <th>तालुकको चलानी/पत्र नं.</th>
+                                    <th>विषय</th>
+                                    <th>संलग्न कागजात</th>
+                                    <th>टिप्पणी / जवाफ</th>
+                                    <th>प्रमाणिकरण / डिजिटल सही</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-admin" class="branch-section" style="display: none;">
+                <div class="data-section">
+                    <div class="section-header-flex">
+                        <h2>🏛️ प्रशासन शाखा अन्तर्गतका पत्रहरू तथा टिप्पणी</h2>
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र थप्ने</button>
+                    </div>
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput-admin" placeholder="🔍 प्रशासन शाखाका पत्रहरू खोज्नुहोस्..." onkeyup="filterTable('admin')">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="adminTable">
+                            <thead>
+                                <tr>
+                                    <th>सि.नं.</th>
+                                    <th>प्रकार</th>
+                                    <th>पत्र नं.</th>
+                                    <th>कार्यालय / शाखा</th>
+                                    <th>तालुकको चलानी नं.</th>
+                                    <th>विषय</th>
+                                    <th>मिति</th>
+                                    <th>संलग्न कागजात</th>
+                                    <th>टिप्पणी / जवाफ</th>
+                                    <th>डिजिटल सही</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-hr" class="branch-section" style="display: none;">
+                <div class="data-section">
+                    <div class="section-header-flex">
+                        <h2>👥 कर्मचारी प्रशासन शाखा - जनशक्ति तथा अभिलेख व्यवस्थापन</h2>
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र थप्ने</button>
+                    </div>
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput-hr" placeholder="🔍 कर्मचारी प्रशासन शाखाका पत्रहरू खोज्नुहोस्..." onkeyup="filterTable('hr')">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="hrTable">
+                            <thead>
+                                <tr>
+                                    <th>सि.नं.</th>
+                                    <th>प्रकार</th>
+                                    <th>पत्र नं.</th>
+                                    <th>कार्यालय / विवरण</th>
+                                    <th>तालुकको चलानी नं.</th>
+                                    <th>विषय / जनशक्ति विवरण</th>
+                                    <th>विवरण फाइल / एटेचमेन्ट</th>
+                                    <th>टिप्पणी / जवाफ</th>
+                                    <th>डिजिटल सही</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-training" class="branch-section" style="display: none;">
+                <div class="data-section">
+                    <div class="section-header-flex">
+                        <h2>🎖️ तालिम शाखा अन्तर्गत सञ्चालित तालिम तथा टिप्पणी</h2>
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र थप्ने</button>
+                    </div>
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput-training" placeholder="🔍 तालिम शाखाका पत्रहरू खोज्नुहोस्..." onkeyup="filterTable('training')">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="trainingTable">
+                            <thead>
+                                <tr>
+                                    <th>सि.नं.</th>
+                                    <th>प्रकार</th>
+                                    <th>पत्र नं.</th>
+                                    <th>कार्यालय / विवरण</th>
+                                    <th>तालुकको चलानी नं.</th>
+                                    <th>विषय / तालिम किसिम</th>
+                                    <th>निर्देशन पत्र / एटेचमेन्ट</th>
+                                    <th>टिप्पणी / जवाफ</th>
+                                    <th>डिजिटल सही</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-management" class="branch-section" style="display: none;">
+                <div class="data-section">
+                    <div class="section-header-flex">
+                        <h2>📦 प्रबन्ध शाखा (जिन्सी, हतियार तथा टिप्पणी)</h2>
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र थप्ने</button>
+                    </div>
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput-management" placeholder="🔍 प्रबन्ध शाखाका पत्रहरू खोज्नुहोस्..." onkeyup="filterTable('management')">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="managementTable">
+                            <thead>
+                                <tr>
+                                    <th>सि.नं.</th>
+                                    <th>प्रकार</th>
+                                    <th>पत्र नं.</th>
+                                    <th>कार्यालय / शाखा</th>
+                                    <th>तालुकको चलानी नं.</th>
+                                    <th>सामग्री / विषय</th>
+                                    <th>जिन्सी प्रतिवेदन / एटेचमेन्ट</th>
+                                    <th>टिप्पणी / जवाफ</th>
+                                    <th>डिजिटल सही</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-accounts" class="branch-section" style="display: none;">
+                <div class="data-section">
+                    <div class="section-header-flex">
+                        <h2>💰 आर्थिक प्रशासन शाखा - बजेट, लेखा तथा भुक्तानी व्यवस्थापन</h2>
+                        <button class="btn-action btn-primary-add" onclick="openModal('addLetterModal')">➕ नयाँ पत्र थप्ने</button>
+                    </div>
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput-accounts" placeholder="🔍 आर्थिक प्रशासन शाखाका पत्रहरू खोज्नुहोस्..." onkeyup="filterTable('accounts')">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="accountsTable">
+                            <thead>
+                                <tr>
+                                    <th>सि.नं.</th>
+                                    <th>प्रकार</th>
+                                    <th>पत्र नं.</th>
+                                    <th>कार्यालय / शाखा</th>
+                                    <th>तालुकको चलानी नं.</th>
+                                    <th>विषय / बजेट शीर्षक</th>
+                                    <th>लेखा प्रतिवेदन / एटेचमेन्ट</th>
+                                    <th>टिप्पणी / जवाफ</th>
+                                    <th>डिजिटल सही</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            &copy; २०२६ काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २, महाराजगंज। सर्वाधिकार सुरक्षित।
+        </footer>
+    </div>
+
+    <!-- लेटर प्याड मोडल -->
+    <div id="letterPadModal" class="letterpad-modal">
+        <div class="letterpad-page">
+            <div>
+                <div class="letterpad-top-grid">
+                    <div class="np-logo-box">
+                        <img src="image_749946.png" alt="निशान छाप" class="np-logo-img" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/2/25/Emblem_of_Nepal.svg'">
+                    </div>
+                    <div class="gov-titles" contenteditable="true">
+                        <h4>नेपाल सरकार</h4>
+                        <h3>गृह मन्त्रालय</h3>
+                        <h2>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</h2>
+                        <h4 id="padBranchTitle">(प्रशासन शाखा)</h4>
+                    </div>
+                    <div class="gov-contact-right">
+                        <div>कन्ट्रोल : <input type="text" class="editable-input" value="१००" style="width: 50px;"></div>
+                        <div style="margin-top: 4px;">फोन : <input type="text" class="editable-input" value="०१-४१५५" style="width: 70px;"></div>
+                    </div>
+                </div>
+
+                <div class="letterpad-meta-row">
+                    <div><strong>पत्र संख्या:</strong> <input type="text" class="editable-input" value="(०८३/०८४)" style="width: 90px;"></div>
+                    <div><strong>च.नं.:</strong> <input type="text" class="editable-input" placeholder="च.नं. लेख्नुहोस्" style="width: 90px;"></div>
+                    <div style="text-align: right;">
+                        महाराजगंज, काठमाडौं<br>
+                        <strong>मिति:</strong> <input type="text" class="editable-input" value="२०८३।०६।०६" style="width: 85px;"> गते ।
+                    </div>
+                </div>
+
+                <div class="letterpad-sub-meta-row">
+                    <div><strong>प्रा.प.संः</strong> <input type="text" id="padPraPaSa" class="editable-input" value="" placeholder="प्राप्त पत्र संख्या लेख्नुहोस्" style="width: 160px;"></div>
+                </div>
+
+                <div class="letterpad-subject-row">
+                    <div class="subject-text-container">
+                        <strong>विषय :-</strong> <input type="text" id="padSubject" class="editable-input" style="width: 350px; font-weight: bold;" placeholder="पत्रको विषय यहाँ लेख्नुहोस्...">
+                    </div>
+                </div>
+
+                <div class="letterpad-body-section">
+                    <div class="letterpad-body-content">
+                        <div class="editor-toolbar">
+                            <button type="button" onclick="formatText('bold')" title="Bold"><b>B</b></button>
+                            <button type="button" onclick="formatText('underline')" title="Underline"><u>U</u></button>
+                            <select onchange="formatFontSize(this.value)" title="अक्षरको साइज">
+                                <option value="">फन्ट साइज</option>
+                                <option value="1">सानो (Small)</option>
+                                <option value="3">साधारण (Normal)</option>
+                                <option value="5">ठूलो (Large)</option>
+                                <option value="7">धेरै ठूलो (X-Large)</option>
+                            </select>
+                            <button type="button" onclick="insertTable()" title="टेबल इन्सर्ट गर्ने">📊 <b>टेबल राख्ने</b></button>
+                            
+                            <div class="color-picker-wrapper" title="सेलेक्ट गरिएको अक्षरको कलर छान्नुहोस्">
+                                🎨 <span>अक्षर कलर:</span>
+                                <input type="color" id="textColorPicker" value="#dc2626" onchange="changeSelectedTextColor(this.value)">
+                            </div>
+                        </div>
+                        <div id="padReplyText" class="editable-content-box" contenteditable="true" placeholder="श्रीमान् / कार्यालय प्रमुख समक्ष पेस गर्ने वा पठाउने जवाफ तथा टिप्पणीको व्यहोरा यहाँ टाइप गर्नुहोस्..."></div>
+                    </div>
+
+                    <div class="letterpad-footer-sign">
+                        <div class="signature-box">
+                            <div id="padSignatureArea">
+                                <div class="sig-line" contenteditable="true">(हस्ताक्षर बाँकी - क्लिक गरी नाम/पद लेख्नुहोस्)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="letterpad-page-footer">
+                    <span>इमेल: <input type="text" id="padEmailInput" class="editable-input" value="ktmvalleygun_admin@nepalpolice.gov.np" style="width: 320px; text-align: center;"></span>
+                </div>
+                
+                <div class="letterpad-controls">
+                    <button class="btn-close" onclick="closeLetterPad()">बन्द गर्ने</button>
+                    <button class="btn-print" onclick="triggerPrint()">🖨️ प्रिन्ट गर्ने</button>
+                    <button class="btn-action btn-sign" onclick="openSignModalFromPad()">🔏 डिजिटल सही गर्ने</button>
+                    <button class="btn-submit" onclick="saveLetterPad()">सेभ गर्ने</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- सही मोडल -->
+    <div id="signModal" class="modal">
+        <div class="modal-content">
+            <h3>डिजिटल हस्ताक्षर प्रमाणीकरण</h3>
+            <input type="hidden" id="activeSigningRowId">
+            <label>अधिकृतको सही भएको फोटो (Signature Image) छान्नुहोस्:</label>
+            <input type="file" id="sigImageUpload" accept="image/*" style="margin-bottom: 15px; padding: 5px;">
+            <label>गोप्य पिन (PIN) प्रविष्ट गर्नुहोस्:</label>
+            <input type="password" id="pinInput" placeholder="••••">
+            <div class="modal-buttons">
+                <button class="btn-close" onclick="closeModal('signModal')">रद्द गर्नुहोस्</button>
+                <button class="btn-submit" onclick="confirmSign()">प्रमाणित गर्ने</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- नयाँ पत्र थप्ने मोडल -->
+    <div id="addLetterModal" class="modal">
+        <div class="modal-content">
+            <h3>नयाँ पत्र दर्ता / चलानी थप्ने फारम</h3>
+            
+            <label>पत्रको प्रकार छान्नुहोस्:</label>
+            <select id="typeSelect">
+                <option value="darta">दर्ता (Incoming - आउने पत्र)</option>
+                <option value="chalani">चलानी (Outgoing - जाने पत्र)</option>
+            </select>
+
+            <label>हाम्रो दर्ता नं. वा चलानी नं.:</label>
+            <input type="text" id="regDispatchNo" placeholder="जस्तै: १०६">
+
+            <label>पठाउने कार्यालय वा शाखाको नाम:</label>
+            <input type="text" id="senderOffice" placeholder="कार्यालय वा व्यक्तिको नाम लेख्नुहोस्">
+            
+            <label>तालुक कार्यालयको चलानी/पत्र नं. (प्रा.प.संः):</label>
+            <input type="text" id="senderDispatchNo" placeholder="जस्तै: च.नं. २४५ (छ भने मात्र)">
+
+            <label>पत्रको विषय वा विवरण:</label>
+            <input type="text" id="letterSubject" placeholder="विषय खुलाउनुहोस्">
+
+            <label>सम्बन्धित शाखा छान्नुहोस्:</label>
+            <select id="branchSelect">
+                <option value="letter">दर्ता, चलानी शाखा</option>
+                <option value="admin">प्रशासन शाखा</option>
+                <option value="hr">कर्मचारी प्रशासन शाखा</option>
+                <option value="training">तालिम शाखा</option>
+                <option value="management">प्रबन्ध शाखा</option>
+                <option value="accounts">आर्थिक प्रशासन शाखा</option>
+            </select>
+
+            <label>बाहिरी कार्यालयबाट आएको पत्र एटेच गर्ने (PDF/Image):</label>
+            <input type="file" id="newLetterAttachment" accept=".pdf,image/*" style="margin-bottom: 15px; padding: 5px;">
+
+            <div class="modal-buttons">
+                <button class="btn-close" onclick="closeModal('addLetterModal')">रद्द गर्नुहोस्</button>
+                <button class="btn-submit" onclick="addNewLetter()">दर्ता गर्ने</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- एटेचमेन्ट मोडल -->
+    <div id="attachmentModal" class="modal">
+        <div class="modal-content">
+            <h3>📎 बाहिरी कार्यालयको पत्र एटेचमेन्ट व्यवस्थापन</h3>
+            <input type="hidden" id="activeAttachmentRowId">
+            <div id="currentAttachmentInfo" style="margin-bottom: 15px; font-size: 13px; color: #475569; background: #f8fafc; padding: 10px; border-radius: 4px;">
+                हाल कुनै कागजात एटेच गरिएको छैन।
+            </div>
+            <label>नयाँ पत्र वा फाइल अपलोड गर्नुहोस् (PDF / Image):</label>
+            <input type="file" id="modalFileUpload" accept=".pdf,image/*" style="margin-bottom: 15px; padding: 5px;">
+            <div class="modal-buttons">
+                <button class="btn-close" onclick="closeModal('attachmentModal')">बन्द गर्ने</button>
+                <button class="btn-submit" onclick="saveAttachment()">अपलोड गरी सेभ गर्ने</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // LocalStorage बाट डेटा लोड गर्ने वा खाली एर्रे (Array) राख्ने
+        let lettersData = JSON.parse(localStorage.getItem('apf_letters_data')) || [
+            {
+                id: 'row-default-1',
+                branch: 'letter',
+                type: 'darta',
+                regNo: 'दर्ता नं. १०५',
+                sender: 'सशस्त्र प्रहरी बल, नेपाल प्रधान कार्यालय',
+                senderDispNo: 'च.नं. २४५ (०८३/०८४)',
+                subject: 'वार्षिक सुरक्षा नीतिको कार्यान्वयन सम्बन्धमा',
+                date: '२०८३-०६-०६',
+                signature: null,
+                attachment: null
+            },
+            {
+                id: 'row-default-admin-1',
+                branch: 'admin',
+                type: 'chalani',
+                regNo: 'चलानी नं. ४५२',
+                sender: 'मानव स्रोत विभाग',
+                senderDispNo: '-',
+                subject: 'मानव स्रोत विभाग - कर्मचारी सरुवा तथा काज सम्बन्धी विवरण',
+                date: '२०८३-०६-०६',
+                signature: null,
+                attachment: null
+            },
+            {
+                id: 'row-default-hr-1',
+                branch: 'hr',
+                type: 'darta',
+                regNo: 'दर्ता नं. ७५',
+                sender: 'मानव स्रोत निर्देशनालय',
+                senderDispNo: 'च.नं. १ीय',
+                subject: 'दर्जा वृद्धिका लागि सिफारिस तथा तालिम विवरण',
+                date: '२०८३-०६-०६',
+                signature: null,
+                attachment: null
+            },
+            {
+                id: 'row-default-training-1',
+                branch: 'training',
+                type: 'darta',
+                regNo: 'दर्ता नं. ९०',
+                sender: 'प्रशिक्षु केन्द्र',
+                senderDispNo: 'च.नं. ७८',
+                subject: 'दंगा नियन्त्रण रिफ्रेसर तालिम',
+                date: '२०८३-०६-०६',
+                signature: null,
+                attachment: null
+            },
+            {
+                id: 'row-default-mgmt-1',
+                branch: 'management',
+                type: 'darta',
+                regNo: 'दर्ता नं. ११२',
+                sender: 'केन्द्रीय जिन्सी शाखा',
+                senderDispNo: 'च.नं. ५६',
+                subject: 'युनिफर्म कपडा तथा जुत्ता सेट',
+                date: '२०८३-०६-०६',
+                signature: null,
+                attachment: null
+            },
+            {
+                id: 'row-default-acc-1',
+                branch: 'accounts',
+                type: 'darta',
+                regNo: 'दर्ता नं. ३४',
+                sender: 'आर्थिक प्रशासन निर्देशनालय',
+                senderDispNo: 'च.नं. १८',
+                subject: 'चौमासिक बजेट तथा खर्चको विवरण पेस गर्ने सम्बन्धमा',
+                date: '२०८३-०६-०६',
+                signature: null,
+                attachment: null
+            }
+        ];
+
+        let currentLetterUniqueId = '';
+        let tempSelectedSigUrl = '';
+        let tempAttachmentUrl = '';
+        let tempAttachmentName = '';
+
+        // पेज लोड हुँदा टेबल र ड्यासबोर्ड रिफ्रेस गर्ने
+        window.onload = function() {
+            renderAllTables();
+            updateDashboardCounts();
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem('apf_letters_data', JSON.stringify(lettersData));
+            renderAllTables();
+            updateDashboardCounts();
+        }
+
+        // सबै शाखाका टेबलहरू रेन्डर गर्ने र फिल्टर (Search) लागू गर्ने
+        function renderAllTables(searchQuery = '') {
+            const branches = ['letter', 'admin', 'hr', 'training', 'management', 'accounts'];
+
+            branches.forEach(branch => {
+                let tableBody = document.querySelector(`#${branch}Table tbody`);
+                if (!tableBody) return;
+                tableBody.innerHTML = '';
+
+                let filtered = lettersData.filter(item => item.branch === branch);
+
+                // सर्च क्युरी अनुसार फिल्टर गर्ने
+                if (searchQuery.trim() !== '') {
+                    let q = searchQuery.toLowerCase();
+                    filtered = filtered.filter(item => 
+                        item.regNo.toLowerCase().includes(q) ||
+                        item.sender.toLowerCase().includes(q) ||
+                        item.subject.toLowerCase().includes(q) ||
+                        item.senderDispNo.toLowerCase().includes(q)
+                    );
+                }
+
+                if (filtered.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: #94a3b8;">कुनै डाटा फेला परेन।</td></tr>`;
+                    return;
+                }
+
+                filtered.forEach((item, index) => {
+                    let rowNum = index + 1;
+                    let badgeHTML = (item.type === 'darta') ? '<span class="badge-darta">दर्ता (Incoming)</span>' : '<span class="badge-chalani">चलानी (Outgoing)</span>';
+                    let branchLabel = getBranchLabelName(item.branch);
+                    let signCellHTML = item.signature ? 
+                        `<span class="status-signed">✔️ प्रमाणित (Signed)</span> <button class="btn-action btn-delete" onclick="deleteLetter('${item.id}')">मेटाउने</button>` : 
+                        `<button class="btn-action btn-sign" onclick="openSignModal('${item.id}')">🔏 डिजिटल सही</button> <button class="btn-action btn-delete" onclick="deleteLetter('${item.id}')">मेटाउने</button>`;
+
+                    let tr = document.createElement('tr');
+                    tr.id = item.id;
+
+                    if (branch === 'letter') {
+                        tr.innerHTML = `
+                            <td>${rowNum}</td>
+                            <td>${badgeHTML}</td>
+                            <td><strong>${item.regNo}</strong></td>
+                            <td>${item.sender}</td>
+                            <td><span style="color: #0369a1; font-weight: bold;">${item.senderDispNo}</span></td>
+                            <td>${item.subject}</td>
+                            <td>
+                                <button class="btn-action btn-view" onclick="openPDF('${item.subject}', '${item.id}')">📄 पत्र हेर्नुहोस्</button>
+                                <button class="btn-action" style="background-color: #f1f5f9; color: #475569; margin-left: 4px;" onclick="openAttachmentModal('${item.id}')">📎 एटेचमेन्ट</button>
+                            </td>
+                            <td><button class="btn-action btn-reply" onclick="openLetterPad('${item.id}', '${item.subject}', '${item.sender}', '${branchLabel}', '${item.senderDispNo}')">✍️ जवाफ / लेटर प्याड</button></td>
+                            <td id="statusCell-${item.id}">${signCellHTML}</td>
+                        `;
+                    } else if (branch === 'admin' || branch === 'hr' || branch === 'accounts') {
+                        tr.innerHTML = `
+                            <td>${rowNum}</td>
+                            <td>${badgeHTML}</td>
+                            <td><strong>${item.regNo}</strong></td>
+                            <td>${item.sender}</td>
+                            <td>${item.senderDispNo}</td>
+                            <td>${item.subject}</td>
+                            <td>${item.date}</td>
+                            <td>
+                                <button class="btn-action btn-view" onclick="openPDF('${item.subject}', '${item.id}')">📄 हेर्नुहोस्</button>
+                                <button class="btn-action" style="background-color: #f1f5f9; color: #475569; margin-left: 4px;" onclick="openAttachmentModal('${item.id}')">📎 एटेचमेन्ट</button>
+                            </td>
+                            <td><button class="btn-action btn-reply" onclick="openLetterPad('${item.id}', '${item.subject}', '${item.sender}', '${branchLabel}', '${item.senderDispNo}')">✍️ जवाफ / लेटर प्याड</button></td>
+                            <td id="statusCell-${item.id}">${signCellHTML}</td>
+                        `;
+                    } else {
+                        tr.innerHTML = `
+                            <td>${rowNum}</td>
+                            <td>${badgeHTML}</td>
+                            <td><strong>${item.regNo}</strong></td>
+                            <td>${item.sender}</td>
+                            <td>${item.senderDispNo}</td>
+                            <td>${item.subject}</td>
+                            <td>
+                                <button class="btn-action btn-view" onclick="openPDF('${item.subject}', '${item.id}')">📄 पत्र हेर्नुहोस्</button>
+                                <button class="btn-action" style="background-color: #f1f5f9; color: #475569; margin-left: 4px;" onclick="openAttachmentModal('${item.id}')">📎 एटेचमेन्ट</button></td>
+                            <td><button class="btn-action btn-reply" onclick="openLetterPad('${item.id}', '${item.subject}', '${item.sender}', '${branchLabel}', '${item.senderDispNo}')">✍️ जवाफ / लेटर प्याड</button></td>
+                            <td id="statusCell-${item.id}">${signCellHTML}</td>
+                        `;
+                    }
+                    tableBody.appendChild(tr);
+                });
+            });
+        }
+
+        // सर्च बारमा टाइप गर्दा कल हुने फंक्सन
+        function filterTable(branchName) {
+            let inputVal = document.getElementById(`searchInput-${branchName}`).value;
+            renderAllTables(inputVal);
+        }
+
+        function getBranchLabelName(branchCode) {
+            switch(branchCode) {
+                case 'admin': return 'प्रशासन शाखा';
+                case 'hr': return 'कर्मचारी प्रशासन शाखा';
+                case 'training': return 'तालिम शाखा';
+                case 'management': return 'प्रबन्ध शाखा';
+                case 'accounts': return 'आर्थिक प्रशासन शाखा';
+                default: return 'दर्ता तथा चलानी शाखा';
+            }
+        }
+
+        // नयाँ पत्र थप्ने फंक्सन
+        function addNewLetter() {
+            let type = document.getElementById('typeSelect').value;
+            let regNoText = document.getElementById('regDispatchNo').value;
+            let regNo = (type === 'darta') ? 'दर्ता नं. ' + regNoText : 'चलानी नं. ' + regNoText;
+            let sender = document.getElementById('senderOffice').value;
+            let senderDispNo = document.getElementById('senderDispatchNo').value || '-';
+            let subject = document.getElementById('letterSubject').value;
+            let branch = document.getElementById('branchSelect').value;
+
+            if (regNoText && sender && subject) {
+                let newItem = {
+                    id: 'row-custom-' + Date.now(),
+                    branch: branch,
+                    type: type,
+                    regNo: regNo,
+                    sender: sender,
+                    senderDispNo: senderDispNo,
+                    subject: subject,
+                    date: '२०८३-०६-०६',
+                    signature: null,
+                    attachment: tempAttachmentUrl ? { url: tempAttachmentUrl, name: tempAttachmentName } : null
+                };
+
+                lettersData.push(newItem);
+                saveToLocalStorage();
+
+                alert('नयाँ पत्र / विवरण सफलतापूर्वक थपियो र सेभ भयो!');
+                closeModal('addLetterModal');
+                
+                document.getElementById('regDispatchNo').value = '';
+                document.getElementById('senderOffice').value = '';
+                document.getElementById('senderDispatchNo').value = '';
+                document.getElementById('letterSubject').value = '';
+                document.getElementById('newLetterAttachment').value = '';
+                tempAttachmentUrl = '';
+                tempAttachmentName = '';
+            } else {
+                alert('कृपया पत्र नम्बर, कार्यालय र विषय अनिवार्य भर्नुहोस्!');
+            }
+        }
+
+        // पत्र मेटाउने फंक्सन
+        function deleteLetter(id) {
+            if (confirm('के तपाईं यो पत्र स्थायी रूपमा मेटाउन चाहनुहुन्छ?')) {
+                lettersData = lettersData.filter(item => item.id !== id);
+                saveToLocalStorage();
+                alert('पत्र सफलतापूर्वक हटाइयो!');
+            }
+        }
+
+        // ड्यासबोर्डमा गणना अद्यावधिक गर्ने
+        function updateDashboardCounts() {
+            let total = lettersData.length;
+            let signedCount = lettersData.filter(item => item.signature !== null).length;
+            let pendingCount = total - signedCount;
+            let adminCount = lettersData.filter(item => item.branch === 'admin').length;
+            let hrCount = lettersData.filter(item => item.branch === 'hr').length;
+            let trainingCount = lettersData.filter(item => item.branch === 'training').length;
+            let managementCount = lettersData.filter(item => item.branch === 'management').length;
+            let accountsCount = lettersData.filter(item => item.branch === 'accounts').length;
+
+            document.getElementById('statTotalLetters').innerText = total + ' वटा';
+            document.getElementById('statSignedLetters').innerText = signedCount + ' वटा';
+            document.getElementById('statPendingSign').innerText = pendingCount + ' वटा';
+            document.getElementById('statAdminFiles').innerText = adminCount + ' वटा';
+            document.getElementById('statHrFiles').innerText = hrCount + ' वटा';
+            document.getElementById('statTrainingFiles').innerText = trainingCount + ' वटा';
+            document.getElementById('statManagementFiles').innerText = managementCount + ' वटा';
+            document.getElementById('statAccountsFiles').innerText = accountsCount + ' वटा';
+        }
+
+        // डिजिटल सही प्रमाणित गर्ने
+        function confirmSign() {
+            let pin = document.getElementById('pinInput').value;
+            let targetId = document.getElementById('activeSigningRowId').value;
+
+            if (pin) {
+                let item = lettersData.find(d => d.id === targetId);
+                if (item) {
+                    item.signature = tempSelectedSigUrl || 'https://via.placeholder.com/120x50?text=Signed';
+                    saveToLocalStorage();
+                    alert('डिजिटल सही सफलतापूर्वक प्रमाणित र सेभ भयो!');
+                }
+
+                closeModal('signModal');
+                document.getElementById('pinInput').value = '';
+                tempSelectedSigUrl = '';
+                document.getElementById('sigImageUpload').value = '';
+            } else {
+                alert('कृपया सही पिन हाल्नुहोस्!');
+            }
+        }
+
+        // एटेचमेन्ट सेभ गर्ने
+        function saveAttachment() {
+            let rowId = document.getElementById('activeAttachmentRowId').value;
+            if (tempAttachmentUrl) {
+                let item = lettersData.find(d => d.id === rowId);
+                if (item) {
+                    item.attachment = { url: tempAttachmentUrl, name: tempAttachmentName };
+                    saveToLocalStorage();
+                    alert('फाइल सफलतापूर्वक एटेच र सेभ भयो!');
+                }
+                closeModal('attachmentModal');
+            } else {
+                alert('कृपया एटेच गर्नका लागि कुनै फाइल छान्नुहोस्!');
+            }
+        }
+
+        // फाइल इनपुट रिडरहरू
+        document.getElementById('sigImageUpload').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) { tempSelectedSigUrl = e.target.result; }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('newLetterAttachment').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    tempAttachmentUrl = e.target.result;
+                    tempAttachmentName = file.name;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('modalFileUpload').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    tempAttachmentUrl = e.target.result;
+                    tempAttachmentName = file.name;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // नेभिगेसन र मोडल फंक्सनहरू
+        function switchTab(branchId, element) {
+            let sections = document.querySelectorAll('.branch-section');
+            sections.forEach(sec => sec.style.display = 'none');
+            document.getElementById('section-' + branchId).style.display = 'block';
+
+            let titleElement = document.querySelector('#header-main-title h1');
+            if(branchId === 'dashboard') titleElement.innerText = 'गणको मुख्य ड्यासबोर्ड (Dashboard Overview)';
+            else if(branchId === 'letter') titleElement.innerText = 'तालुक कार्यालय पत्र व्यवस्थापन र डिजिटल हस्ताक्षर प्रणाली';
+            else if(branchId === 'admin') titleElement.innerText = 'प्रशासन शाखा - आन्तरिक पत्राचार व्यवस्थापन';
+            else if(branchId === 'hr') titleElement.innerText = 'कर्मचारी प्रशासन शाखा - जनशक्ति अभिलेख व्यवस्थापन';
+            else if(branchId === 'training') titleElement.innerText = 'तालिम शाखा - तालिम तथा निर्देशिका व्यवस्थापन';
+            else if(branchId === 'management') titleElement.innerText = 'प्रबन्ध शाखा - जिन्सी तथा बन्दोबस्ती विवरण';
+            else if(branchId === 'accounts') titleElement.innerText = 'आर्थिक प्रशासन शाखा - बजेट तथा लेखा व्यवस्थापन';
+
+            let menuItems = document.querySelectorAll('.sidebar-menu li');
+            menuItems.forEach(item => item.classList.remove('active'));
+            if(element) element.parentElement.classList.add('active');
+        }
+
+        function filterDashboard(type) {
+            if(type === 'all' || type === 'pending' || type === 'signed') {
+                switchTab('letter', document.querySelectorAll('.sidebar-menu li')[1].querySelector('a'));
+            } else if(type === 'admin') {
+                switchTab('admin', document.querySelectorAll('.sidebar-menu li')[2].querySelector('a'));
+            } else if(type === 'hr') {
+                switchTab('hr', document.querySelectorAll('.sidebar-menu li')[3].querySelector('a'));
+            } else if(type === 'training') {
+                switchTab('training', document.querySelectorAll('.sidebar-menu li')[4].querySelector('a'));
+            } else if(type === 'management') {
+                switchTab('management', document.querySelectorAll('.sidebar-menu li')[5].querySelector('a'));
+            } else if(type === 'accounts') {
+                switchTab('accounts', document.querySelectorAll('.sidebar-menu li')[6].querySelector('a'));
+            }
+        }
+
+        function openPDF(docName, id) {
+            let item = lettersData.find(d => d.id === id);
+            if (item && item.attachment && item.attachment.url) {
+                let win = window.open();
+                win.document.write(`<iframe src="${item.attachment.url}" frameborder="0" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>`);
+                win.document.title = item.attachment.name || docName;
+            } else {
+                alert(docName + ' को स्क्यान गरिएको वास्तविक फाइल उपलब्ध छैन। कृपया नयाँ एटेचमेन्ट अपलोड गर्नुहोस्।');
+            }
+        }
+
+        function openAttachmentModal(id) {
+            document.getElementById('activeAttachmentRowId').value = id;
+            tempAttachmentUrl = '';
+            tempAttachmentName = '';
+            document.getElementById('modalFileUpload').value = '';
+
+            let item = lettersData.find(d => d.id === id);
+            let infoDiv = document.getElementById('currentAttachmentInfo');
+            if (item && item.attachment && item.attachment.name) {
+                infoDiv.innerHTML = `हाल एटेच गरिएको फाइल: <b style="color: #0369a1;">${item.attachment.name}</b>`;
+            } else {
+                infoDiv.innerHTML = 'हाल कुनै कागजात एटेच गरिएको छैन।';
+            }
+            openModal('attachmentModal');
+        }
+
+        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+        
+        function openSignModal(id) {
+            currentLetterUniqueId = id;
+            document.getElementById('activeSigningRowId').value = id;
+            document.getElementById('signModal').style.display = 'flex';
+        }
+
+        function openSignModalFromPad() {
+            if (currentLetterUniqueId) openSignModal(currentLetterUniqueId);
+        }
+
+        function openLetterPad(id, subject, office, branchName, senderDispatchNo) {
+            currentLetterUniqueId = id;
+            document.getElementById('padSubject').value = subject;
+            document.getElementById('padReplyText').innerHTML = '';
+            document.getElementById('padPraPaSa').value = senderDispatchNo || '-';
+            if (branchName) document.getElementById('padBranchTitle').innerText = '(' + branchName + ')';
+
+            let item = lettersData.find(d => d.id === id);
+            let sigArea = document.getElementById('padSignatureArea');
+            if (item && item.signature) {
+                sigArea.innerHTML = `<img src="${item.signature}" alt="Signature"><div class="sig-line" contenteditable="true" style="color: var(--success); font-weight: bold;">✔️ प्रमाणित (गणपति)</div>`;
+            } else {
+                sigArea.innerHTML = '<div class="sig-line" contenteditable="true">(हस्ताक्षर बाँकी - क्लिक गरी नाम/पद लेख्नुहोस्)</div>';
+            }
+            document.getElementById('letterPadModal').style.display = 'flex';
+        }
+
+        function closeLetterPad() { document.getElementById('letterPadModal').style.display = 'none'; }
+        function saveLetterPad() { alert('लेटर प्याड सुरक्षित भयो!'); closeLetterPad(); }
+        function triggerPrint() { window.print(); }
+
+        function formatText(cmd) { document.execCommand(cmd, false, null); }
+        function formatFontSize(size) { if(size) document.execCommand('fontSize', false, size); }
+        function changeSelectedTextColor(color) { document.execCommand('foreColor', false, color); }
+        
+        function insertTable() {
+            let rows = prompt("टेबलको कुल पङ्क्ति (Rows):", "3");
+            let cols = prompt("टेबलको कुल स्तम्भ (Columns):", "3");
+            if(rows && cols) {
+                let html = `<table style="width:100%; border-collapse:collapse; margin:10px 0;">`;
+                for(let i=0; i<parseInt(rows); i++) {
+                    html += '<tr>';
+                    for(let j=0; j<parseInt(cols); j++) {
+                        html += (i===0) ? `<th style="border:1px solid #dc2626; padding:6px; background:rgba(0,0,0,0.05);">शीर्षक ${j+1}</th>` : `<td style="border:1px solid #dc2626; padding:6px; text-align:center;">विवरण</td>`;
+                    }
+                    html += '</tr>';
+                }
+                html += '</table>';
+                document.getElementById('padReplyText').focus();
+                document.execCommand('insertHTML', false, html);
+            }
+        }
+    </script>
+</body>
+</html>

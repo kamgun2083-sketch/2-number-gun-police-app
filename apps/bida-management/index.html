@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज - बिदा व्यवस्थापन प्रणाली</title>
+    
+    <style>
+        :root {
+            --police-blue: #002b49;
+            --police-gold: #c5a059;
+            --light-bg: #f4f6f9;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background-color: var(--light-bg); 
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: var(--police-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid var(--police-gold);
+            justify-content: space-between;
+        }
+        .header-logo img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+        }
+        .header-title {
+            text-align: center;
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+        .header-title h1 { 
+            font-size: 20px; 
+            margin: 0; 
+        }
+        .header-title p { 
+            margin: 2px 0 0 0; 
+            font-size: 13px; 
+            color: #ccc; 
+        }
+        .header-flag img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .form-container {
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            flex: 1;
+            min-width: 320px;
+            max-width: 400px;
+            border-top: 5px solid var(--police-blue);
+            height: fit-content;
+        }
+        .right-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 600px;
+        }
+        .table-container, .history-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            border-top: 5px solid var(--police-gold);
+        }
+        h3 { 
+            color: var(--police-blue); 
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        label { display: block; margin-top: 10px; font-weight: 600; font-size: 13px; color: #444; }
+        input, select { 
+            width: 100%; 
+            padding: 8px; 
+            margin-top: 4px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        button { 
+            background: var(--police-blue); 
+            color: white; 
+            padding: 10px; 
+            border: none; 
+            width: 100%; 
+            margin-top: 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: bold;
+        }
+        button:hover { background: #001a2e; }
+        .print-btn {
+            background: #28a745;
+            width: auto;
+            padding: 6px 12px;
+            margin: 0;
+            font-size: 12px;
+        }
+        .print-btn:hover { background: #218838; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; border: 1px solid #e0e0e0; text-align: center; font-size: 13px; }
+        th { background-color: var(--police-blue); color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .info { color: #d9534f; font-size: 12px; margin-top: 3px; font-weight: 500; }
+
+        #loading-indicator {
+            display: none;
+            color: #d9534f;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        footer {
+            background-color: var(--police-blue);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            border-top: 3px solid var(--police-gold);
+            margin-top: auto;
+        }
+        footer span {
+            color: var(--police-gold);
+            font-weight: bold;
+        }
+
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 43, 73, 0.9);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+        .login-box {
+            background: #fff; padding: 30px; border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3); width: 100%; max-width: 350px;
+            border-top: 5px solid var(--police-gold); text-align: center;
+        }
+        .login-box h2 { color: var(--police-blue); margin-top: 0; font-size: 18px; }
+        .login-error { color: #d9534f; font-size: 12px; margin-top: 10px; display: none; }
+
+        #modal-overlay, #not-on-leave-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: #fff; padding: 20px; border-radius: 8px;
+            width: 100%; max-width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-top: 5px solid var(--police-blue);
+            max-height: 80vh; overflow-y: auto;
+        }
+        .modal-box h4 { margin-top: 0; color: var(--police-blue); }
+
+        .balance-box {
+            background: #eef2f7;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 12px;
+            border-left: 4px solid var(--police-gold);
+        }
+        .balance-box p { margin: 3px 0; font-weight: 600; color: #333; }
+
+        .clickable-counter {
+            background: #e8f4fd;
+            border: 2px dashed var(--police-blue);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--police-blue);
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .clickable-counter:hover {
+            background: #d0e8fc;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printable-active-list, #printable-active-list * { visibility: visible; }
+            #printable-active-list {
+                position: absolute; left: 0; top: 0; width: 100%;
+                box-shadow: none; border: none; margin: 0; padding: 10px;
+            }
+            .print-btn, .action-col { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>प्रणाली लगइन</h2>
+            <p style="font-size: 12px; color: #666;">कृपया युजर आईडी र पासवर्ड प्रविष्ट गर्नुहोस्</p>
+            <form onsubmit="handleLogin(event)">
+                <label style="text-align: left;">युजर आईडी (Username):</label>
+                <input type="text" id="login_user" placeholder="युजरनेम हाल्नुहोस्" required>
+                <label style="text-align: left;">पासवर्ड (Password):</label>
+                <input type="password" id="login_pass" placeholder="पासवर्ड हाल्नुहोस्" required>
+                <button type="submit">लगइन गर्नुहोस्</button>
+                <div id="login_error" class="login-error">गलत युजर आईडी वा पासवर्ड!</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- हाजिर गराउने Modal -->
+    <div id="modal-overlay">
+        <div class="modal-box" style="max-width: 350px;">
+            <h4>हाजिर गराउने (कैफियत विवरण)</h4>
+            <p style="font-size: 12px; color: #555;">यदि तोकिएको मितिभन्दा ढिला हाजिर भएमा वा अन्य कुरा भएमा कैफियत लेख्नुहोस्:</p>
+            <label>कैफियत (Remarks):</label>
+            <input type="text" id="modal_remarks" placeholder="जस्तै: २ दिन ढिला आएको">
+            <button onclick="confirmMarkPresent()">सुरक्षित गरी हाजिर गराउने</button>
+            <button onclick="closeModal()" style="background: #6c757d; margin-top: 5px;">रद्द गर्ने</button>
+        </div>
+    </div>
+
+    <!-- बैशाखदेखि हालसम्म बिदा नबसेका कर्मचारीहरूको सूची देखाउने Modal -->
+    <div id="not-on-leave-modal">
+        <div class="modal-box">
+            <h4>वैशाखदेखि हालसम्म कुनै पनि बिदा नबसेका कर्मचारीहरूको नामावली</h4>
+            <div id="not_on_leave_content" style="margin-top: 10px; max-height: 300px; overflow-y: auto;">
+                <!-- Table will be injected here -->
+            </div>
+            <button onclick="downloadNotOnLeaveExcel()" style="background: #28a745; margin-top: 15px;">Excel डाउनलोड गर्नुहोस्</button>
+            <button onclick="closeNotOnLeaveModal()" style="background: #6c757d; margin-top: 5px;">बन्द गर्ने</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-logo">
+            <img src="my-logo.png" alt="Logo">
+        </div>
+
+        <div class="header-title">
+            <h1>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</h1>
+            <p>प्रहरी कर्मचारी बिदा व्यवस्थापन प्रणाली (Cloud Connected)</p>
+        </div>
+
+        <div class="header-flag">
+            <img src="Animated-Flag-Nepal.png" alt="Nepal Flag">
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-container">
+            <h3>बिदा दर्ता फारम</h3>
+            <form id="leaveForm" onsubmit="saveLeaveRecord(event)">
+                <label>कम्प्युटर कोड / संकेत नं:</label>
+                <input type="text" id="computer_code" placeholder="जस्तै: 33223" required onkeyup="fetchEmployee(this.value)">
+                <div id="emp_info" class="info"></div>
+
+                <label>दर्जा:</label>
+                <input type="text" id="rank" readonly required placeholder="दर्जा देखा पर्नेछ">
+
+                <label>नाम थर:</label>
+                <input type="text" id="name" readonly required placeholder="नाम देखा पर्नेछ">
+
+                <div id="leave_balance_display" class="balance-box" style="display: none;">
+                    <p>बाँकी घर बिदा: <span id="bal_ghar" style="color: var(--police-blue);">30</span> दिन</p>
+                    <p>बाँकी भैपरी आउने बिदा: <span id="bal_bhaipari" style="color: var(--police-blue);">12</span> दिन</p>
+                </div>
+
+                <label>बिदाको प्रकार:</label>
+                <select id="leave_type">
+                    <option value="घर बिदा">घर बिदा</option>
+                    <option value="भैपरी आउने बिदा">भैपरी आउने बिदा</option>
+                    <option value="प्रसुती बिदा">प्रसुती बिदा</option>
+                    <option value="प्रसुती स्याहार बिदा">प्रसुती स्याहार बिदा</option>
+                    <option value="क्रिया बिदा">क्रिया बिदा</option>
+                    <option value="अन्य">अन्य</option>
+                </select>
+
+                <label>सुरु गर्ने मिति (वि.सं.):</label>
+                <input type="text" id="start_date" placeholder="२०८३/०४/०९" required oninput="autoCalculateReturnDate()">
+
+                <label>जम्मा दिन:</label>
+                <input type="number" id="total_days" placeholder="बिदा बसेको दिन" required oninput="autoCalculateReturnDate()">
+
+                <label>सार्वजनिक बिदा (Public Holidays):</label>
+                <input type="number" id="public_holidays" value="0" oninput="autoCalculateReturnDate()">
+
+                <label style="color: #28a745;">हाजिर हुने मिति (स्वतः गणना):</label>
+                <input type="text" id="calculated_return_date" readonly style="background-color: #e9ecef; font-weight: bold; color: #28a745;" placeholder="मिति गणना हुनेछ">
+
+                <button type="submit" id="submit_btn">बिदा रेकर्ड सुरक्षित गर्नुहोस्</button>
+                <div id="loading-indicator">डाटा सेभ हुँदैछ, कृपया पर्खनुहोस्...</div>
+            </form>
+        </div>
+
+        <div class="right-container">
+            <!-- बैशाखदेखि हालसम्म बिदा नबसेका कर्मचारीहरूको क्लिक गर्न मिल्ने बक्स -->
+            <div class="clickable-counter" onclick="openNotOnLeaveModal()">
+                <span>वैशाखदेखि हालसम्म बिदा नबसेका कर्मचारी संख्या: <span id="not_on_leave_count" style="color: #d9534f; font-size: 16px;">0</span> जना (हेर्न क्लिक गर्नुहोस्)</span>
+            </div>
+
+            <!-- दर्जागत बिदामा रहेका कर्मचारीहरूको सारांश टेबल -->
+            <div class="table-container" style="border-top-color: var(--police-blue);">
+                <h3 style="font-size: 15px; margin-bottom: 5px;">दर्जागत रूपमा हाल बिदामा रहेका संख्या</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>प्रउ</th>
+                            <th>प्रनाउ</th>
+                            <th>प्रनि</th>
+                            <th>प्रवनानि</th>
+                            <th>प्रनानि</th>
+                            <th>प्रसनि</th>
+                            <th>प्रवह</th>
+                            <th>प्रह</th>
+                            <th>प्रसह</th>
+                            <th>प्रज</th>
+                            <th>प्रकास</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="sum_prou">0</td>
+                            <td id="sum_pranau">0</td>
+                            <td id="sum_prani">0</td>
+                            <td id="sum_pravanani">0</td>
+                            <td id="sum_pranani">0</td>
+                            <td id="sum_prasani">0</td>
+                            <td id="sum_prabaha">0</td>
+                            <td id="sum_prah">0</td>
+                            <td id="sum_prasah">0</td>
+                            <td id="sum_praj">0</td>
+                            <td id="sum_prakas">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- हाल बिदामा रहेका प्रहरी कर्मचारीहरूको सूची -->
+            <div class="table-container" id="printable-active-list">
+                <h3>
+                    <span>हाल बिदामा रहेका प्रहरी कर्मचारीहरूको नामावली (<span id="active_count" style="color: #d9534f;">0</span> जना)</span>
+                    <button class="print-btn" onclick="window.print()">प्रिन्ट गर्नुहोस्</button>
+                </h3>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>कम्प्युटर कोड</th>
+                            <th>दर्जा</th>
+                            <th>नाम थर</th>
+                            <th>बिदाको किसिम</th>
+                            <th>सुरु मिति</th>
+                            <th>दिन</th>
+                            <th>हाजिर हुने मिति</th>
+                            <th class="action-col">हाजिर भएको (Mark Present)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="active_leaves_body">
+                        <tr>
+                            <td colspan="8">डाटा लोड हुँदैछ...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- बिदाबाट हाजिर भई फर्केका प्रहरी कर्मचारीहरूको सूची -->
+            <div class="table-container" style="border-top-color: #28a745;">
+                <h3 style="color: #28a745;">
+                    <span>बिदाबाट हाजिर भई फर्केका प्रहरी कर्मचारीहरूको सूची</span>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>कम्प्युटर कोड</th>
+                            <th>दर्जा</th>
+                            <th>नाम थर</th>
+                            <th>बिदाको किसिम</th>
+                            <th>सुरु मिति</th>
+                            <th>दिन</th>
+                            <th>कैफियत (Remarks)</th>
+                            <th>स्थिति</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returned_leaves_body">
+                        <tr>
+                            <td colspan="8">डाटा लोड हुँदैछ...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="history-container">
+                <h3>कर्मचारी बिदाको इतिहास खोज्नुहोस्</h3>
+                <label>कम्प्युटर कोड राख्नुहोस्:</label>
+                <input type="text" id="search_code" placeholder="कोड हाल्नुहोस्..." onkeyup="fetchHistory(this.value)">
+                <div id="history_result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Design & Developed By: <span>बैकुण्ठ सुवेदी</span>
+    </footer>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxglfVnEq7qJMhjyjuVMwkBpu8JabxSGxN57OWvMgiG_vzdUPipRh03caR3QOnrJO8/exec"; 
+
+        const employeeDatabase = {
+            "33223": { rank: "प्रउ", name: "तिलक भारती" },
+            "34468": { rank: "प्रनाउ", name: "खगेन्द्र बहादुर खड्का" },
+            "313397": { rank: "प्रनि", name: "छे फिन्जो भोटे" },
+            "313249": { rank: "प्रनि", name: "जनक राज ढुंगाना" },
+            "363519": { rank: "प्रनि", name: "केशव राज भट्ट" },
+            "472445": { rank: "प्रनि", name: "अविनाश दीप जि.सी." },
+            "125879": { rank: "प्रवनानि", name: "दिलीप कुमार श्रेष्ठ" },
+            "125724": { rank: "प्रवनानि", name: "दिनेश थापा" },
+            "350396": { rank: "प्रवनानि", name: "भिमसेन पोखरेल" },
+            "22577": { rank: "प्रवनानि", name: "समिर कुमार विष्ट" },
+            "125522": { rank: "प्रवनानि", name: "अनुप राउत" },
+            "125278": { rank: "प्रवनानि", name: "गोकर्ण थापा" },
+            "361305": { rank: "प्रनानि", name: "सरस्वती टण्डन" },
+            "312371": { rank: "प्रनानि", name: "ईश्वर कुमार महर्जन" },
+            "306447": { rank: "प्रनानि", name: "दीपक बाबु थापा" },
+            "309461": { rank: "प्रनानि", name: "गणेश बहादुर थापा" },
+            "439407": { rank: "प्रनानि", name: "संजय यादव" },
+            "313566": { rank: "प्रनानि", name: "दिपेन्द्र खवास (भुजेल)" },
+            "350902": { rank: "प्रनानि", name: "रूपा श्रीस थापा" },
+            "313582": { rank: "प्रनानि", name: "सुमित कुमार साह" },
+            "300136": { rank: "प्रनानि", name: "जुलुम कुमार चौधरी" },
+            "422693": { rank: "प्रसनि", name: "यतिराज कार्की" },
+            "365440": { rank: "प्रसनि", name: "रामहरि आचार्य" },
+            "467287": { rank: "प्रसनि", name: "शिव श्रेष्ठ" },
+            "424592": { rank: "प्रसनि", name: "श्रीमंगले घर्ती" },
+            "487166": { rank: "प्रसनि", name: "शिक्षण गुरुङ्ग" },
+            "365940": { rank: "प्रसनि", name: "चोक बहादुर खत्री" },
+            "472773": { rank: "प्रसनि", name: "नइन्द्र तामाङ" },
+            "375814": { rank: "प्रसनि", name: "जिरालाल रौतियार" },
+            "369651": { rank: "प्रसनि", name: "रामेश्वर प्रसाद यादव" },
+            "384078": { rank: "प्रसनि", name: "देव नारायण श्रेष्ठ" },
+            "376729": { rank: "प्रसनि", name: "शिव कुमार खड्का" },
+            "477886": { rank: "प्रसनि", name: "सरिता कुमारी पाध्या" },
+            "367629": { rank: "प्रसनि", name: "बिनोद प्रसाद यादव" },
+            "373135": { rank: "प्रसनि", name: "बद्रि नारायण मण्डल" },     
+            "388689": { rank: "प्रसनि", name: "श्रवण कुमार आचार्य" },
+            "475540": { rank: "प्रसनि", name: "कुशल श्रेष्ठ" },
+            "422850": { rank: "प्रसनि", name: "नवल किशोर प्रसाद यादव" },
+            "423740": { rank: "प्रसनि", name: "सिता सुवेदी" },
+            "311322": { rank: "प्रसनि", name: "रचना राजभण्डारी" },
+            "389532": { rank: "प्रवह", name: "अम्मर बहादुर बस्नेत" },
+            "363464": { rank: "प्रवह", name: "निर्मला के.सी." },
+            "367455": { rank: "प्रवह", name: "सुभाष प्रसाद केसरी" },
+            "387037": { rank: "प्रवह", name: "अम्मर सिंह ठकुरी" },
+            "363626": { rank: "प्रवह", name: "ईश्वर के.सी." },
+            "378242": { rank: "प्रवह", name: "भुपेन्द्र राई" },
+            "366117": { rank: "प्रवह", name: "झषनाथ पोखेल" },
+            "392552": { rank: "प्रवह", name: "दमेन्ती बुढाथोकी" },
+            "378154": { rank: "प्रवह", name: "बैजनाथ भोर" },
+            "360130": { rank: "प्रवह", name: "राजाराम कार्की" },
+            "361942": { rank: "प्रवह", name: "दिपेन्द्र राना" }, 
+            "362009": { rank: "प्रवह", name: "पवित्रा थापा" },
+            "391497": { rank: "प्रह", name: "सुन्तली थामी" },
+            "380507": { rank: "प्रह", name: "बद्री प्रसाद धिताल" },
+            "362621": { rank: "प्रह", name: "फिपरानी लिम्बू" },
+            "386708": { rank: "प्रह", name: "ईश्वर बहादुर खत्री" },
+            "386559": { rank: "प्रह", name: "पुरन सिंह कुँवर" },
+            "381470": { rank: "प्रह", name: "ओम बहादुर थापा" },
+            "387553": { rank: "प्रह", name: "नैन बहादुर शाही" },
+            "362596": { rank: "प्रह", name: "नारायण दत्त भट्ट" },
+            "371976": { rank: "प्रह", name: "थर्क बहादुर सारू मगर" },
+            "360697": { rank: "प्रह", name: "गोबिन्द प्रसाद अर्याल" },
+            "372741": { rank: "प्रह", name: "गणेश महतो" },
+            "370263": { rank: "प्रह", name: "कविराज सेजुवाल" },
+            "367871": { rank: "प्रह", name: "सुर्य बहादुर चितौरे" },
+            "392154": { rank: "प्रह", name: "लाल सिंह गिरी" },
+            "378812": { rank: "प्रह", name: "भवानी रायमाझी" },
+            "361541": { rank: "प्रह", name: "नकुलमान राई" },
+            "382073": { rank: "प्रह", name: "राजु प्रसाद" },
+            "371209": { rank: "प्रह", name: "बैकुण्ठ सुवेदी" },
+            "379379": { rank: "प्रह", name: "ताराचन्द्र नेपाली" },
+            "379334": { rank: "प्रह", name: "मिन वहादुर के.सी." },
+            "376060": { rank: "प्रह", name: "पिताम्बर अधिकारी" },
+            "368094": { rank: "प्रह", name: "प्रमोद कुमार यादव" },
+            "364841": { rank: "प्रह", name: "अनिता शर्मा" },
+            "388459": { rank: "प्रह", name: "रेशम वि.क." },
+            "392821": { rank: "प्रह", name: "कमला कुमारी महर" },
+            "391411": { rank: "प्रह", name: "शर्मिला कुँवर" },
+            "389290": { rank: "प्रह", name: "दिपक पाण्डे" },
+            "388846": { rank: "प्रह", name: "तिलक हमाल" },
+            "389872": { rank: "प्रह", name: "पृथ राज महत" },
+            "381805": { rank: "प्रह", name: "लाल बहादुर खत्री" },
+            "376312": { rank: "प्रह", name: "शिव कुमार चौधरी" },
+            "385804": { rank: "प्रह", name: "गजै सिंह महरा" },
+            "383746": { rank: "प्रह", name: "सुरेश कुमार सुनार" },
+            "381703": { rank: "प्रह", name: "लाल बहादुर चन्द" },
+            "380564": { rank: "प्रह", name: "बिष्णु बहादुर पछाई" },
+            "382695": { rank: "प्रह", name: "काशीनाथ पौडेल" },
+            "370480": { rank: "प्रह", name: "सीता वि.सी." },
+            "372844": { rank: "प्रह", name: "अशोक बैठा" },
+            "361863": { rank: "प्रह", name: "बाबुराम गिरी" },
+            "388092": { rank: "प्रह", name: "हुकुम सिंह बोगटी" },
+            "385930": { rank: "प्रह", name: "भुपाल बहादुर नेपाली" },
+            "383447": { rank: "प्रह", name: "निमलाल थारु" },
+            "318797": { rank: "प्रह", name: "अमृतलाल गिरी" },
+            "362007": { rank: "प्रह", name: "लक्ष्मी लामा" },
+            "362029": { rank: "प्रह", name: "जयन्ती कुमारी बोहरा" },
+            "363880": { rank: "प्रह", name: "हिक्मत सिंह धामी" },
+            "385280": { rank: "प्रह", name: "रामचन्द्र जोशी" },
+            "365492": { rank: "प्रसह", name: "लक्ष्मण रन्जित" },
+            "389250": { rank: "प्रसह", name: "सियाराम चौधरी" },
+            "414859": { rank: "प्रसह", name: "पुनम राई" },
+            "408484": { rank: "प्रसह", name: "बिजय श्रेष्ठ" },
+            "409883": { rank: "प्रसह", name: "कुशाल थापा" },
+            "410495": { rank: "प्रसह", name: "होम वहादुर श्रेष्ठ" },
+            "397791": { rank: "प्रसह", name: "गणेश सिंह विष्ट" },
+            "399577": { rank: "प्रसह", name: "रेशम थापा मगर" },
+            "364636": { rank: "प्रसह", name: "प्रदिप हुमागाई" },
+            "408901": { rank: "प्रसह", name: "सुमन परियार" },
+            "411009": { rank: "प्रसह", name: "केश नारायण विष्ट" },
+            "366196": { rank: "प्रसह", name: "रतन वहादुर पुन" },
+            "411522": { rank: "प्रसह", name: "चन्द्र वहादुर वली" },
+            "414670": { rank: "प्रसह", name: "दिपकराज गिरी" },
+            "422434": { rank: "प्रसह", name: "रमेश प्रसाद जैसी" },
+            "417151": { rank: "प्रसह", name: "निवा लिम्बु" },
+            "413210": { rank: "प्रसह", name: "शान्ता अधिकारी" },
+            "415185": { rank: "प्रसह", name: "राजु लुहार" },
+            "412931": { rank: "प्रसह", name: "दिल बहादुर दर्लामी" },
+            "415508": { rank: "प्रसह", name: "जगदिश ढकाल भुल" },
+            "399372": { rank: "प्रसह", name: "डिल बहादुर थापामागर" },
+            "411568": { rank: "प्रसह", name: "फुलमाया दहिल" },
+            "383071": { rank: "प्रसह", name: "ढल बहादुर थापा मगर" },
+            "418241": { rank: "प्रसह", name: "लक्ष्मी नेपाली" },
+            "417380": { rank: "प्रसह", name: "दिपक मगर" },
+            "421714": { rank: "प्रसह", name: "भावना मल्ल" },
+            "412596": { rank: "प्रसह", name: "कृष्ण बहादुर खड्का" },
+            "401293": { rank: "प्रसह", name: "विकास थापा मगर" },
+            "407721": { rank: "प्रसह", name: "ऋषीराम श्रेष्ठ" },
+            "412667": { rank: "प्रसह", name: "दिपक कुमार वि.क." },
+            "406649": { rank: "प्रसह", name: "सुनिल सुनार" },
+            "416659": { rank: "प्रसह", name: "प्रेम बहादुर बस्नेत" },
+            "400902": { rank: "प्रसह", name: "बालाराम वि.क." },
+            "422231": { rank: "प्रसह", name: "लोकेन्द्र बहादुर कार्की" },
+            "422357": { rank: "प्रसह", name: "झलक बहादुर बुढा" },
+            "409340": { rank: "प्रसह", name: "उमेश कुमार मण्डल" },
+            "412999": { rank: "प्रसह", name: "नरेन्द्र सिंह धामी" },
+            "411991": { rank: "प्रसह", name: "हरि बहादुर खप्तरी" },
+            "421072": { rank: "प्रसह", name: "कमल खड्का" },
+            "400549": { rank: "प्रसह", name: "रोशनी खड्गी" },
+            "409128": { rank: "प्रसह", name: "नन्दराज श्रेष्ठ" },
+            "420638": { rank: "प्रसह", name: "विक्रम बहादुर आले" },  
+            "409496": { rank: "प्रसह", name: "विरेन्द्र गुरुङ" }, 
+            "408300": { rank: "प्रसह", name: "फणिन्द्र राज अर्याल" }, 
+             "415494": { rank: "प्रसह", name: "तेज राज न्यौपाने" }, 
+            "413216": { rank: "प्रज", name: "दुर्गा बहादुर खम्चा मगर" },
+            "418404": { rank: "प्रज", name: "दिपेन्द्र कुमार ठाकुर" },
+            "412941": { rank: "प्रज", name: "सुनिल सुनार" },
+            "411545": { rank: "प्रज", name: "जगुलाल चौधरी" },
+            "410636": { rank: "प्रज", name: "उमेश दाहाल" },
+            "408175": { rank: "प्रज", name: "मानिष वि.क." },
+            "364759": { rank: "प्रज", name: "श्याम कुमार अधिकारी" },
+            "411521": { rank: "प्रज", name: "सुदिप बहादुर गुरुङ" },
+            "410867": { rank: "प्रज", name: "प्रेम खड्का" },
+            "492238": { rank: "प्रज", name: "कुनाल प्रसाद जैसी" },   
+            "408337": { rank: "प्रज", name: "धन बहादुर बगाले" },
+            "415716": { rank: "प्रज", name: "बिनिता कुमारी कामी" },
+            "470646": { rank: "प्रज", name: "विशाल राई" },
+            "482932": { rank: "प्रज", name: "भिम बहादुर चन्द" },
+            "490666": { rank: "प्रज", name: "बिबेक सिजापती" },
+            "491528": { rank: "प्रज", name: "शशि कुमार साह" },
+            "478793": { rank: "प्रज", name: "निर्जन रावल" },
+            "489462": { rank: "प्रज", name: "कृष्ण वि.क." },
+            "483004": { rank: "प्रज", name: "राजु गुर्धामी" },
+            "493500": { rank: "प्रज", name: "पूर्ण बहादुर बुढ मगर" },
+            "493526": { rank: "प्रज", name: "लक्ष्मण दत्त बाग" },
+            "493460": { rank: "प्रज", name: "सुनिल जोशी" },
+            "470612": { rank: "प्रज", name: "थुरुप चमार" },
+            "478266": { rank: "प्रज", name: "अर्जुन प्रसाद जैसी" },
+            "477726": { rank: "प्रज", name: "बिनोद साकी" },
+            "493501": { rank: "प्रज", name: "सन्तोष चौधरी" },
+            "488838": { rank: "प्रज", name: "कुमार आले मगर" },
+            "471375": { rank: "प्रज", name: "बिमला कुमारी बम्जन" },
+            "491654": { rank: "प्रज", name: "मनिसा राई" },
+            "489249": { rank: "प्रज", name: "अनिल शेर्पा" },
+            "487061": { rank: "प्रज", name: "अशोक नेपाली" },
+            "558789": { rank: "प्रज", name: "श्री कृष्ण नेपाली" },
+            "418110": { rank: "प्रज", name: "सरिता भौरिया" },
+            "497185": { rank: "प्रज", name: "अनुप चौधरी" },
+            "496731": { rank: "प्रज", name: "अमर पार्की" },
+            "497497": { rank: "प्रज", name: "अर्जुन बुढा" },
+            "496312": { rank: "प्रज", name: "उम्रराजन सिंह ठगुन्ना" },
+            "497586": { rank: "प्रज", name: "कपिल रायमाझी" },
+            "497198": { rank: "प्रज", name: "करिश्मा भट्ट" },
+            "497100": { rank: "प्रज", name: "कविन्द्र विष्ट" },
+            "496625": { rank: "प्रज", name: "गणेश सार्की" },
+            "495806": { rank: "प्रज", name: "ङिमलामु तामाङ" },
+            "496743": { rank: "प्रज", name: "जोकला साउद" },
+            "497292": { rank: "प्रज", name: "दिपक कुमार मौर्या" },
+            "497400": { rank: "प्रज", name: "दिपेश यादव" },
+            "497301": { rank: "प्रज", name: "थन बहादुर बुढा" },
+            "497237": { rank: "प्रज", name: "धर्मेन्द्र पासी" },
+            "497335": { rank: "प्रज", name: "नरेन्द्र थारु" },
+            "497343": { rank: "प्रज", name: "पवन घर्तीमगर" },
+            "497092": { rank: "प्रज", name: "पुजा भट्ट" },
+            "497246": { rank: "प्रज", name: "प्रकती थारु" },
+            "497583": { rank: "प्रज", name: "प्रिति बिष्ट" },
+            "496928": { rank: "प्रज", name: "प्रेम बहादुर वली" },
+            "497233": { rank: "प्रज", name: "बसन्ति वि.क." },
+            "496980": { rank: "प्रज", name: "बिनोद साउद" },
+            "496957": { rank: "प्रज", name: "बिनोद सिंह नेगी" },
+            "496515": { rank: "प्रज", name: "भावना चौसिर" },
+            "497515": { rank: "प्रज", name: "मनिस थापा" },
+            "497513": { rank: "प्रज", name: "माया वि.क." },
+            "497283": { rank: "प्रज", name: "युवराज पुन" },
+            "497349": { rank: "प्रज", name: "राम सागरा चमार" },
+            "496225": { rank: "प्रज", name: "रोशन सिंह धामी" },
+            "496901": { rank: "प्रज", name: "विर बहादुर वि.क." },
+            "497332": { rank: "प्रज", name: "विविशा ओली" },
+            "497387": { rank: "प्रज", name: "बिबेक नेपाली" },
+            "493657": { rank: "प्रज", name: "शकर साउद" },
+            "497389": { rank: "प्रज", name: "श्रवण कुमार हरिजन" },
+            "497374": { rank: "प्रज", name: "सन्दिप बस्नेत" },
+            "497518": { rank: "प्रज", name: "सरिता चौधरी" },
+            "497394": { rank: "प्रज", name: "सिमा क्षेत्री" },
+            "497143": { rank: "प्रज", name: "सोभा साकी" },
+            "496562": { rank: "प्रज", name: "निमा बुढा मगर" },
+            "496518": { rank: "प्रज", name: "रमा रोकाया" },
+            "497401": { rank: "प्रज", name: "रोशनी चौधरी" },
+            "497510": { rank: "प्रज", name: "शान्ता घर्तीमगर" },
+            "496512": { rank: "प्रज", name: "सुमन पुन" },
+            "496187": { rank: "प्रज", name: "अनिल एम.सी." },
+            "496188": { rank: "प्रज", name: "अनिल सेराला" },
+            "496826": { rank: "प्रज", name: "अम्मर बहादुर कामी" },
+            "497091": { rank: "प्रज", name: "उमेश न्यौपाने" },
+            "497274": { rank: "प्रज", name: "कमल राना" },
+            "496319": { rank: "प्रज", name: "खगेन्द्र बहादुर वि.क." },
+            "496609": { rank: "प्रज", name: "गणेश खत्री" },
+            "496182": { rank: "प्रज", name: "जनक बहादुर वि.क." },
+            "496597": { rank: "प्रज", name: "झकाश खड्का" },
+            "496209": { rank: "प्रज", name: "तिलक बॉठा" },
+            "496661": { rank: "प्रज", name: "तिलक रोकाया" },
+            "496791": { rank: "प्रज", name: "दिपक बुढा" },
+            "496619": { rank: "प्रज", name: "दिपक सुनार" },
+            "496375": { rank: "प्रज", name: "दिपेन्द्र शाही" },
+            "497093": { rank: "प्रज", name: "धन बहादुर वि.सी." },
+            "496183": { rank: "प्रज", name: "धिरज थापा" },
+            "496218": { rank: "प्रज", name: "नवराज ढकाल" },
+            "496778": { rank: "प्रज", name: "पशान्त रावत" },
+            "496281": { rank: "प्रज", name: "प्रेम वि.क." },
+            "496899": { rank: "प्रज", name: "बिनोद बहादुर नायक" },
+            "496214": { rank: "प्रज", name: "भुवन वि.क." },
+            "496636": { rank: "प्रज", name: "मनोज रोका मगर" },
+            "496953": { rank: "प्रज", name: "महेश पाकी" },
+            "496270": { rank: "प्रज", name: "मान बहादुर गिरी" },
+            "496353": { rank: "प्रज", name: "रमेश डि.सी." },
+            "496414": { rank: "प्रज", name: "राजेन्द्र थापा" },
+            "497200": { rank: "प्रज", name: "रेशम वली" },
+            "496204": { rank: "प्रज", name: "लोकेन्द्र बहादुर महरा" },
+            "496556": { rank: "प्रज", name: "बिनोद खड्का" },
+            "496239": { rank: "प्रज", name: "संदिप परियार" },
+            "496785": { rank: "प्रज", name: "सन्तोष टमट्टा" },
+            "496429": { rank: "प्रज", name: "सुनिल विष्ट" },
+            "496263": { rank: "प्रज", name: "सुरज चौधरी" },
+            "496681": { rank: "प्रज", name: "सुरेन्द्र वि.क." },
+            "497123": { rank: "प्रज", name: "हिमाल बराल" },
+            "497003": { rank: "प्रज", name: "हेमन्त आचार्य" },
+            "497563": { rank: "प्रज", name: "अनिल थारू" },
+            "497386": { rank: "प्रज", name: "करुणा वली" },
+            "497825": { rank: "प्रज", name: "कल्पना डाँगी" },
+            "497444": { rank: "प्रज", name: "कृष्टिका सुनार" },
+            "497491": { rank: "प्रज", name: "दिपिका सुनार" },
+            "497938": { rank: "प्रज", name: "निशा पुन मगर" },
+            "497496": { rank: "प्रज", name: "पुर्णिमा ठाडा" },
+            "497547": { rank: "प्रज", name: "प्रतिक्षा थारू" },
+            "497483": { rank: "प्रज", name: "बिरेन्द्र घर्तीमगर" },
+            "496440": { rank: "प्रज", name: "भिम बहादुर वली" },
+            "496679": { rank: "प्रज", name: "मनिष खड्का" },
+            "487672": { rank: "प्रज", name: "टेक बहादुर साउद" },
+            "494595": { rank: "प्रज", name: "कृष्ण सावद" },
+            "471977": { rank: "प्रज", name: "सुनिता वि.क." },
+            "488413": { rank: "प्रज", name: "गोपाल ढकाल" },
+            "487470": { rank: "प्रज", name: "टेक बहादुर गाहा मगर" },
+            "487921": { rank: "प्रज", name: "दिपेन्द्र बहादुर बुढ थापा" },
+            "487173": { rank: "प्रज", name: "बिनोद खान ठाकुर" },
+            "489104": { rank: "प्रज", name: "शिव तामाङ्ग" },
+            "469683": { rank: "प्रज", name: "सुरेश खड्का" },
+            "488487": { rank: "प्रज", name: "क्यामोदिन अंसारी" },
+            "488810": { rank: "प्रज", name: "जीवन कार्की" },
+            "487826": { rank: "प्रज", name: "धनबिर महर" },
+            "487315": { rank: "प्रज", name: "प्रकाश कुमार हिस्की मगर" },
+            "489895": { rank: "प्रज", name: "विकास कार्की" },
+            "488129": { rank: "प्रज", name: "सन्दिप सिंह नायक" },
+            "491264": { rank: "प्रज", name: "सरोज चौधरी" },
+            "487249": { rank: "प्रज", name: "टेकन्द्र मल्ल" },
+            "489054": { rank: "प्रज", name: "लोकेन्द्र अधिकारी" },
+            "487543": { rank: "प्रज", name: "राम चरण चौधरी" },
+            "484511": { rank: "प्रज", name: "शिव शंकर पहरी" },
+            "488988": { rank: "प्रज", name: "सबिन वि.सी." },
+            "494028": { rank: "प्रज", name: "सिर्जना बाकावल" },
+            "493393": { rank: "प्रज", name: "सुशीला राना" },
+            "478323": { rank: "प्रज", name: "रुपेश बिष्ट" },
+            "487459": { rank: "प्रज", name: "विजय लामा" },
+            "45480": { rank: "प्रज", name: "सिता के.सी." },
+            "497333": { rank: "प्रज", name: "सुमित्रा बसेल" },
+            "487062": { rank: "प्रज", name: "शिव कुमार परियार" },
+            "418717": { rank: "प्रज", name: "गणेश वि.क." },
+            "488923": { rank: "प्रज", name: "धर्मराज बिष्ट" },
+            "488528": { rank: "प्रज", name: "प्रेम राम महर" },
+            "470741": { rank: "प्रज", name: "दयाराम रोक्का" },
+            "492245": { rank: "प्रज", name: "राजिन्द्र कुमार रावल" },
+            "495526": { rank: "प्रज", name: "अन्जना थापा" },
+            "477767": { rank: "प्रज", name: "खुम बहादुर थापा मगर" },
+            "472136": { rank: "प्रज", name: "पंकज कुमार ठाकुर" },
+            "490295": { rank: "प्रज", name: "तिलक सारु" },
+            "484310": { rank: "प्रज", name: "सुनिता तामाड" },
+            "496412": { rank: "प्रज", name: "शिव बिष्ट" },
+            "494746": { rank: "प्रज", name: "चन्द्र सिंह भाट" },
+            "497279": { rank: "प्रज", name: "मौसम चमार" },
+            "496352": { rank: "प्रज", name: "अर्पण चौधरी" },
+            "493502": { rank: "प्रज", name: "देव राज भट्ट" },
+            "488946": { rank: "प्रज", name: "सचिन कुमार बोहरा" },
+            "497444": { rank: "प्रज", name: "केशव बहादुर चन्द" },
+            "493550": { rank: "प्रज", name: "सुनिल भट्ट" },
+            "490669": { rank: "प्रज", name: "अन्जन अधिकारी" },
+            "469800": { rank: "प्रज", name: "हरि सिंह धामी" },
+            "471453": { rank: "प्रज", name: "सोनि योञ्जन" },
+            "467432": { rank: "प्रज", name: "पविता चौधरी" },
+            "497840": { rank: "प्रज", name: "सन्देश लामा" },
+            "477216": { rank: "प्रज", name: "हरेन्द्र मल्ल" },
+            "493808": { rank: "प्रज", name: "भावना थापा" },
+             "484243": { rank: "प्रज", name: "हरि कार्की" },
+            "487727": { rank: "प्रज", name: "अमर बहादुर राना मगर" },
+            "490877": { rank: "प्रज", name: "श्रवण पण्डित" },
+            "468377": { rank: "प्रज", name: "तोयराज भट्ट" },
+            "494722": { rank: "प्रज", name: "अलिमुन निशा" },
+            "484390": { rank: "प्रज", name: "पवन कुमार वली" },
+             "488483": { rank: "प्रज", name: "लक्ष्मी कुमारी कुँवर" },
+            "550410": { rank: "प्रकास", name: "राम बहादुर तामाङ" },
+            "550389": { rank: "प्रकास", name: "सुमन कार्की" },
+            "552234": { rank: "प्रकास", name: "मनेश मालमुल" },
+            "552296": { rank: "प्रकास", name: "रामप्यारी महतो" },
+            "550521": { rank: "प्रकास", name: "राजुमाया गुरुङ" },
+            "552392": { rank: "प्रकास", name: "राजेश कुमार ठाकुर" },
+            "552281": { rank: "प्रकास", name: "मुना राई" },
+            "557395": { rank: "प्रकास", name: "समिक्षा नेपाली" },
+            "557942": { rank: "प्रकास", name: "अप्सरा न्यौपाने" },
+            "557944": { rank: "प्रकास", name: "मनोज मिजार" },
+            "557917": { rank: "प्रकास", name: "सर्मिला नेपाली" },
+            "550409": { rank: "प्रकास", name: "बिकुचन्द्र पोडे" },
+            "550387": { rank: "प्रकास", name: "बिष्णुमाया घले" },
+            "558165": { rank: "प्रकास", name: "सलिना थोकर" },
+            "552299": { rank: "प्रकास", name: "प्रकाश बस्नेत" },
+            "552502": { rank: "प्रकास", name: "बिकाश दाहाल" },
+            "550399": { rank: "प्रकास", name: "लक्ष्मण लामिछाने" },
+            "558140": { rank: "प्रकास", name: "सिता कुमारी टोमटा" },
+            "558411": { rank: "प्रकास", name: "रस्मिता तामाङ" },
+            "559202": { rank: "प्रकास", name: "देवी कुमारी थापा" },
+            "551437": { rank: "प्रकास", name: "कान्छी तामाङ" },
+            "550419": { rank: "प्रकास", name: "नरमाया मगर" },
+            "557590": { rank: "प्रकास", name: "सुनिता खत्री" },
+            "558856": { rank: "प्रकास", name: "कम्मान सिंह विश्वकर्मा" },
+            "558474": { rank: "प्रकास", name: "एलिसा राई" },
+            "550287": { rank: "प्रकास", name: "राम बहादुर अधिकारी" }
+        };
+
+        let leavesData = [];
+        let selectedLeaveId = null;
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('login_user').value;
+            const pass = document.getElementById('login_pass').value;
+
+            if (user === "admin" && pass === "gun1234") {
+                document.getElementById('login-overlay').style.display = 'none';
+                loadDataFromSheet();
+            } else {
+                document.getElementById('login_error').style.display = 'block';
+            }
+        }
+
+        function loadDataFromSheet() {
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    leavesData = data;
+                    renderTables();
+                    let currentCode = document.getElementById('computer_code').value;
+                    if (currentCode) {
+                        updateLeaveBalance(currentCode);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading data:', error);
+                });
+        }
+
+        function fetchEmployee(code) {
+            const empInfo = document.getElementById('emp_info');
+            const rankInput = document.getElementById('rank');
+            const nameInput = document.getElementById('name');
+            const balanceBox = document.getElementById('leave_balance_display');
+
+            if (employeeDatabase[code]) {
+                rankInput.value = employeeDatabase[code].rank;
+                nameInput.value = employeeDatabase[code].name;
+                empInfo.innerText = "";
+                balanceBox.style.display = 'block';
+                updateLeaveBalance(code);
+            } else {
+                rankInput.value = "";
+                nameInput.value = "";
+                empInfo.innerText = "यो कोड भएको कर्मचारी भेटिएन!";
+                balanceBox.style.display = 'none';
+            }
+        }
+
+        function updateLeaveBalance(code) {
+            let usedGhar = 0;
+            let usedBhaipari = 0;
+
+            leavesData.forEach(item => {
+                if (String(item.code) === String(code)) {
+                    let days = parseInt(item.days) || 0;
+                    if (String(item.type).trim() === "घर बिदा") {
+                        usedGhar += days;
+                    } else if (String(item.type).trim() === "भैपरी आउने बिदा") {
+                        usedBhaipari += days;
+                    }
+                }
+            });
+
+            let remGhar = Math.max(0, 30 - usedGhar);
+            let remBhaipari = Math.max(0, 12 - usedBhaipari);
+
+            document.getElementById('bal_ghar').innerText = remGhar;
+            document.getElementById('bal_bhaipari').innerText = remBhaipari;
+        }
+
+        function calculateReturnDate(startDate, totalDays, publicHolidays) {
+            if (!startDate) return "";
+            let cleanDate = String(startDate).trim();
+            if (cleanDate.includes('T')) {
+                cleanDate = cleanDate.split('T')[0];
+            }
+            cleanDate = cleanDate.replace(/-/g, '/');
+            let parts = cleanDate.split('/');
+            
+            if (parts.length === 3) {
+                let year, month, startDay;
+                if (parts[2].length === 4) {
+                    year = parseInt(parts[2]);
+                    month = parseInt(parts[0]);
+                    startDay = parseInt(parts[1]);
+                } 
+                else if (parts[0].length === 4) {
+                    year = parseInt(parts[0]);
+                    month = parseInt(parts[1]);
+                    startDay = parseInt(parts[2]);
+                } else {
+                    return "";
+                }
+                
+                let daysNum = parseInt(totalDays) || 0;
+                let pubNum = parseInt(publicHolidays) || 0;
+                
+                if (isNaN(year) || isNaN(month) || isNaN(startDay) || isNaN(daysNum)) return "";
+
+                const nepaliMonthDays = {
+                    1: 31, 2: 31, 3: 32, 4: 31, 5: 29, 6: 31, 
+                    7: 30, 8: 29, 9: 30, 10: 29, 11: 30, 12: 30 
+                };
+
+                let totalLeaveSpan = daysNum + pubNum;
+                startDay += totalLeaveSpan; 
+                
+                while (true) {
+                    if (month > 12) {
+                        month = 1;
+                        year += 1;
+                    } else if (month < 1) {
+                        month = 12;
+                        year -= 1;
+                    }
+
+                    let daysInCurrentMonth = nepaliMonthDays[month];
+
+                    if (startDay > daysInCurrentMonth) {
+                        startDay -= daysInCurrentMonth;
+                        month += 1;
+                    } else if (startDay <= 0) {
+                        month -= 1;
+                        let prevMonth = (month < 1) ? 12 : month;
+                        startDay += nepaliMonthDays[prevMonth];
+                    } else {
+                        break;
+                    }
+                }
+
+                return `${year}/${String(month).padStart(2, '0')}/${String(startDay).padStart(2, '0')}`;
+            }
+            return "";
+        }
+
+        function autoCalculateReturnDate() {
+            const startDate = document.getElementById('start_date').value;
+            const totalDays = document.getElementById('total_days').value || 0;
+            const publicHolidays = document.getElementById('public_holidays').value || 0;
+
+            const returnDate = calculateReturnDate(startDate, totalDays, publicHolidays);
+            document.getElementById('calculated_return_date').value = returnDate;
+        }
+
+        function saveLeaveRecord(event) {
+            event.preventDefault(); 
+
+            const leaveType = document.getElementById('leave_type').value;
+            const totalDays = parseInt(document.getElementById('total_days').value) || 0;
+            const code = document.getElementById('computer_code').value;
+
+            if (leaveType === "भैपरी आउने बिदा" && totalDays > 4) {
+                alert("भैपरी आउने बिदा एक पटकमा बढीमा ४ दिनभन्दा लिन मिल्दैन!");
+                return;
+            }
+
+            let usedGhar = 0;
+            let usedBhaipari = 0;
+            leavesData.forEach(item => {
+                if (String(item.code) === String(code)) {
+                    let d = parseInt(item.days) || 0;
+                    if (String(item.type).trim() === "घर बिदा") usedGhar += d;
+                    if (String(item.type).trim() === "भैपरी आउने बिदा") usedBhaipari += d;
+                }
+            });
+
+            if (leaveType === "घर बिदा" && (usedGhar + totalDays) > 30) {
+                alert("बार्षिक कोटा (३० दिन) भन्दा बढी घर बिदा दिन मिल्दैन!");
+                return;
+            }
+            if (leaveType === "भैपरी आउने बिदा" && (usedBhaipari + totalDays) > 12) {
+                alert("बार्षिक कोटा (१२ दिन) भन्दा बढी भैपरी आउने बिदा दिन मिल्दैन!");
+                return;
+            }
+
+            const startDate = document.getElementById('start_date').value.trim();
+            const publicHolidays = parseInt(document.getElementById('public_holidays').value) || 0;
+            const returnDate = calculateReturnDate(startDate, totalDays, publicHolidays);
+
+            document.getElementById('submit_btn').disabled = true;
+            document.getElementById('loading-indicator').style.display = 'block';
+
+            const newLeave = {
+                id: Date.now(),
+                code: code,
+                rank: document.getElementById('rank').value,
+                name: document.getElementById('name').value,
+                type: leaveType,
+                startDate: startDate,
+                days: totalDays,
+                publicHolidays: publicHolidays,
+                returnDate: returnDate,
+                remarks: '',
+                status: 'Active'
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ action: 'save', leave: newLeave })
+            })
+            .then(() => {
+                document.getElementById('leaveForm').reset();
+                document.getElementById('rank').value = '';
+                document.getElementById('name').value = '';
+                document.getElementById('calculated_return_date').value = '';
+                document.getElementById('leave_balance_display').style.display = 'none';
+                document.getElementById('submit_btn').disabled = false;
+                document.getElementById('loading-indicator').style.display = 'none';
+                
+                setTimeout(loadDataFromSheet, 1500);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('डाटा सेभ गर्न असफल भयो!');
+                document.getElementById('submit_btn').disabled = false;
+                document.getElementById('loading-indicator').style.display = 'none';
+            });
+        }
+
+        function openModal(id) {
+            selectedLeaveId = id;
+            document.getElementById('modal_remarks').value = '';
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+            selectedLeaveId = null;
+        }
+
+        function getEmployeesNotOnLeaveSinceBaisakh() {
+            let codesWithLeaveSinceBaisakh = new Set();
+
+            leavesData.forEach(item => {
+                let startDateStr = String(item.startDate).trim();
+                let compNum = parseDateToComparableNumber(startDateStr);
+                
+                if (compNum > 0) {
+                    let parts = startDateStr.split(/[\/-]/);
+                    if (parts.length === 3) {
+                        let m = (parts[0].length === 4) ? parseInt(parts[1]) : parseInt(parts[0]);
+                        if (m >= 4) {
+                            codesWithLeaveSinceBaisakh.add(String(item.code));
+                        }
+                    }
+                }
+            });
+
+            let notOnLeaveList = [];
+            for (let code in employeeDatabase) {
+                if (!codesWithLeaveSinceBaisakh.has(code)) {
+                    notOnLeaveList.push({
+                        code: code,
+                        rank: employeeDatabase[code].rank,
+                        name: employeeDatabase[code].name
+                    });
+                }
+            }
+            return notOnLeaveList;
+        }
+
+        function openNotOnLeaveModal() {
+            const contentDiv = document.getElementById('not_on_leave_content');
+            let notOnLeaveList = getEmployeesNotOnLeaveSinceBaisakh();
+
+            if (notOnLeaveList.length === 0) {
+                contentDiv.innerHTML = `<p style="text-align:center; color:#777;">वैशाखदेखि हालसम्म सबै कर्मचारीहरू कुनै न कुनै बिदा बसेका छन्।</p>`;
+            } else {
+                contentDiv.innerHTML = `<table>
+                    <thead><tr><th>कम्प्युटर कोड</th><th>दर्जा</th><th>नाम थर</th></tr></thead>
+                    <tbody>
+                        ${notOnLeaveList.map(emp => `<tr><td>${emp.code}</td><td>${emp.rank}</td><td>${emp.name}</td></tr>`).join('')}
+                    </tbody>
+                </table>`;
+            }
+            document.getElementById('not-on-leave-modal').style.display = 'flex';
+        }
+
+        function closeNotOnLeaveModal() {
+            document.getElementById('not-on-leave-modal').style.display = 'none';
+        }
+
+        function downloadNotOnLeaveExcel() {
+            let notOnLeaveList = getEmployeesNotOnLeaveSinceBaisakh();
+
+            let csvContent = "\uFEFFकम्प्युटर कोड,दर्जा,नाम थर\n";
+            notOnLeaveList.forEach(emp => {
+                csvContent += `"${emp.code}","${emp.rank}","${emp.name}"\n`;
+            });
+
+            let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'Employees_Not_On_Leave_Since_Baisakh.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function confirmMarkPresent() {
+            const remarks = document.getElementById('modal_remarks').value;
+            if (selectedLeaveId !== null) {
+                document.getElementById('modal-overlay').style.display = 'none';
+
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ action: 'updateStatus', id: selectedLeaveId, remarks: remarks || 'समयमै हाजिर भएको' })
+                })
+                .then(() => {
+                    setTimeout(loadDataFromSheet, 1500);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('स्थिति अपडेट गर्न असफल भयो!');
+                });
+            }
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            let str = String(dateStr).trim();
+            
+            if (str.includes('T')) {
+                str = str.split('T')[0];
+            }
+            
+            let parts = str.split(/[\/-]/);
+            if (parts.length === 3) {
+                if (parts[0].length === 4) {
+                    let year = parts[0];
+                    let month = parts[1].padStart(2, '0');
+                    let day = parts[2].padStart(2, '0');
+                    return `${year}/${month}/${day}`;
+                } else if (parts[2].length === 4) {
+                    let year = parts[2];
+                    let month = parts[0].padStart(2, '0');
+                    let day = parts[1].padStart(2, '0');
+                    return `${year}/${month}/${day}`;
+                }
+            }
+            
+            return str.replace(/-/g, '/');
+        }
+
+        function parseDateToComparableNumber(dateStr) {
+            if (!dateStr) return 0;
+            let cleanStr = String(dateStr).trim();
+            if (cleanStr.includes('T')) {
+                cleanStr = cleanStr.split('T')[0];
+            }
+            let parts = cleanStr.split(/[\/-]/);
+            if (parts.length === 3) {
+                let y, m, d;
+                if (parts[0].length === 4) {
+                    y = parseInt(parts[0]) || 0;
+                    m = parseInt(parts[1]) || 0;
+                    d = parseInt(parts[2]) || 0;
+                } else if (parts[2].length === 4) {
+                    y = parseInt(parts[2]) || 0;
+                    m = parseInt(parts[0]) || 0;
+                    d = parseInt(parts[1]) || 0;
+                } else {
+                    return 0;
+                }
+                return y * 10000 + m * 100 + d;
+            }
+            return 0;
+        }
+
+        function renderTables() {
+            const activeBody = document.getElementById('active_leaves_body');
+            const returnedBody = document.getElementById('returned_leaves_body');
+            const activeCount = document.getElementById('active_count');
+            const notOnLeaveCount = document.getElementById('not_on_leave_count');
+
+            let activeList = leavesData.filter(item => String(item.status).trim() === 'Active');
+            let returnedList = leavesData.filter(item => String(item.status).trim() === 'Returned');
+            
+            let notOnLeaveList = getEmployeesNotOnLeaveSinceBaisakh();
+            notOnLeaveCount.innerText = notOnLeaveList.length;
+
+            activeList.sort((a, b) => {
+                let dateA = parseDateToComparableNumber(a.startDate);
+                let dateB = parseDateToComparableNumber(b.startDate);
+                return dateA - dateB;
+            });
+
+            activeCount.innerText = activeList.length;
+
+            let counts = { "प्रउ": 0, "प्रनाउ": 0, "प्रनि": 0, "प्रवनानि": 0, "प्रनानि": 0, "प्रसनि": 0, "प्रवह": 0, "प्रह": 0, "प्रसह": 0, "प्रज": 0, "प्रकास": 0 };
+            
+            activeList.forEach(item => {
+                let r = String(item.rank).trim();
+                if (counts.hasOwnProperty(r)) {
+                    counts[r]++;
+                }
+            });
+
+            document.getElementById('sum_prou').innerText = counts["प्रउ"];
+            document.getElementById('sum_pranau').innerText = counts["प्रनाउ"];
+            document.getElementById('sum_prani').innerText = counts["प्रनि"];
+            document.getElementById('sum_pravanani').innerText = counts["प्रवनानि"];
+            document.getElementById('sum_pranani').innerText = counts["प्रनानि"];
+            document.getElementById('sum_prasani').innerText = counts["प्रसनि"];
+            document.getElementById('sum_prabaha').innerText = counts["प्रवह"];
+            document.getElementById('sum_prah').innerText = counts["प्रह"];
+            document.getElementById('sum_prasah').innerText = counts["प्रसह"];
+            document.getElementById('sum_praj').innerText = counts["प्रज"];
+            document.getElementById('sum_prakas').innerText = counts["प्रकास"];
+
+            if (activeList.length === 0) {
+                activeBody.innerHTML = `<tr><td colspan="8">कुनै रेकर्ड फेला परेन।</td></tr>`;
+            } else {
+                activeBody.innerHTML = activeList.map(item => `
+                    <tr>
+                        <td>${item.code}</td>
+                        <td>${item.rank}</td>
+                        <td>${item.name}</td>
+                        <td>${item.type}</td>
+                        <td>${formatDate(item.startDate)}</td>
+                        <td>${item.days} दिन</td>
+                        <td style="font-weight: bold; color: #d9534f;">${formatDate(item.returnDate)}</td>
+                        <td class="action-col"><button onclick="openModal(${item.id})" style="padding: 5px 10px; margin:0; background:#28a745;">हाजिर गराउने</button></td>
+                    </tr>
+                `).join('');
+            }
+
+            if (returnedList.length === 0) {
+                returnedBody.innerHTML = `<tr><td colspan="8">बिदाबाट हाजिर भएका कुनै पनि रेकर्ड छैनन्।</td></tr>`;
+            } else {
+               returnedBody.innerHTML = returnedList.slice(0, 15).map(item => `
+                    <tr>
+                        <td>${item.code}</td>
+                        <td>${item.rank}</td>
+                        <td>${item.name}</td>
+                        <td>${item.type}</td>
+                        <td>${formatDate(item.startDate)}</td>
+                        <td>${item.days} दिन</td>
+                        <td style="color: #d9534f; font-weight: 500;">${item.remarks || '-'}</td>
+                        <td style="color: green; font-weight: bold;">हाजिर भई फर्केको</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function fetchHistory(code) {
+            const resultDiv = document.getElementById('history_result');
+            if (!code) {
+                resultDiv.innerHTML = "";
+                return;
+            }
+
+            const history = leavesData.filter(item => String(item.code).includes(code));
+            if (history.length === 0) {
+                resultDiv.innerHTML = `<p style="font-size: 12px; color: #777;">यस कोडको कुनै बिदा इतिहास फेला परेन।</p>`;
+            } else {
+                resultDiv.innerHTML = `<table>
+                    <thead><tr><th>किसिम</th><th>सुरु मिति</th><th>दिन</th><th>कैफियत</th><th>स्थिति</th></tr></thead>
+                    <tbody>
+                        ${history.map(h => `<tr><td>${h.type}</td><td>${formatDate(h.startDate)}</td><td>${h.days}</td><td>${h.remarks || '-'}</td><td>${h.status === 'Active' ? 'बिदामा' : 'फर्केको'}</td></tr>`).join('')}
+                    </tbody>
+                </table>`;
+            }
+        }
+    </script>
+</body>
+</html>

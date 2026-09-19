@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>डिजिटल गेट पास प्रणाली - महाराजगंज</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 0 0 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 31, 63, 0.15);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            position: relative;
+            border-top: 5px solid #c8102e;
+            overflow: hidden;
+        }
+
+        .form-header {
+            background-color: #001f3f;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .form-header h3 {
+            color: #d4af37;
+            font-size: 15px;
+            margin: 6px 0 0 0;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        form {
+            padding: 0 25px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+            color: #001f3f;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="text"], input[type="password"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #b0bec5;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+            border-color: #001f3f;
+            outline: none;
+        }
+
+        .auto-fill {
+            background-color: #e9ecef;
+            color: #1a252f;
+            font-weight: bold;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 60px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #001f3f;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-submit:hover {
+            background-color: #001124;
+        }
+
+        .success-msg {
+            display: none;
+            margin: 15px 25px 0 25px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .admin-login-bar {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .admin-toggle-btn {
+            background: none;
+            border: none;
+            color: #001f3f;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .admin-panel {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        .logs-container {
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 31, 63, 0.1);
+            box-sizing: border-box;
+            border-top: 4px solid #001f3f;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+
+        .batch-print-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+            min-width: 600px;
+        }
+
+        th, td {
+            border: 1px solid #cfd8dc;
+            padding: 8px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        th {
+            background-color: #001f3f;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .action-btn {
+            padding: 6px 14px;
+            background-color: #c8102e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .batch-btn {
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .summary-table th {
+            background-color: #c8102e;
+            color: white;
+            font-size: 12px;
+        }
+        .summary-table td {
+            font-weight: bold;
+            color: #001f3f;
+            font-size: 13px;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #001f3f;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        #printablePass {
+            display: none;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printablePass, #printablePass * {
+                visibility: visible;
+            }
+            #printablePass {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                margin: 0;
+                padding: 4mm;
+                box-sizing: border-box;
+            }
+            .print-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                gap: 5mm;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+            }
+            .pass-ticket {
+                border: 1px solid #001f3f;
+                padding: 6px 6px;
+                border-radius: 3px;
+                background: #fff;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+                overflow: hidden;
+            }
+            .pass-header {
+                text-align: center;
+                border-bottom: 1px solid #c8102e;
+                padding-bottom: 2px;
+                margin-bottom: 3px;
+            }
+            .pass-header h2 {
+                margin: 0;
+                font-size: 11px;
+                color: #001f3f;
+            }
+            .pass-header h3 {
+                margin: 1px 0 0 0;
+                font-size: 9px;
+                color: #c8102e;
+            }
+            .pass-details {
+                width: 100%;
+                margin-bottom: 2px;
+                min-width: unset;
+            }
+            .pass-details td {
+                border: none;
+                border-bottom: 0.5px solid #eee;
+                padding: 2px 2px;
+                font-size: 9.5px;
+                text-align: left;
+            }
+            .pass-details td.label {
+                font-weight: bold;
+                width: 42%;
+                color: #001f3f;
+            }
+            .signature-box-container {
+                margin-top: 6px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                width: 100%;
+            }
+            .signature-box {
+                text-align: center;
+                border-top: 1px dashed #001f3f;
+                flex: 1;
+                margin: 0 1px;
+                padding-top: 1px;
+                font-size: 7px;
+                color: #001f3f;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+            .designer-credit {
+                font-size: 7.5px;
+                color: #555;
+                text-align: center;
+                margin-top: 3px;
+                border-top: 0.5px solid #ddd;
+                padding-top: 1px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="form-header">
+        <h2>काठमाडौं उपत्यका प्रहरी, सशस्त्र प्रहरी गण नं. २ महाराजगंज</h2>
+        <h3>डिजिटल गेट पास प्रणाली</h3>
+    </div>
+
+    <form id="gateForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+            <label for="compCode">कम्प्युटर कोड (Computer Code):</label>
+            <input type="text" id="compCode" required placeholder="जस्तै: 34468" oninput="getEmployeeDetails()">
+        </div>
+
+        <div class="form-group">
+            <label for="rank">दर्जा (Rank):</label>
+            <input type="text" id="rank" class="auto-fill" readonly placeholder="स्वयं आउनेछ">
+        </div>
+
+        <div class="form-group">
+            <label for="empName">नाम, थर (Full Name):</label>
+            <input type="text" id="empName" class="auto-fill" readonly placeholder="स्वयं आउनेछ">
+        </div>
+
+        <div class="form-group">
+            <label for="nepaliDate">मिति (Nepali Date):</label>
+            <input type="text" id="nepaliDate" class="auto-fill" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="currentTime">प्रस्थान समय (Departure Time):</label>
+            <input type="text" id="currentTime" class="auto-fill" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="returnDate">फर्कने मिति र समय (Expected Return Date & Time):</label>
+            <input type="text" id="returnDate" placeholder="जस्तै: २०८३-०५-०१ अपराह्न ०५:०० वा मिति/समय">
+        </div>
+
+        <div class="form-group">
+            <label for="destination">जाने स्थान र कारण (Destination & Purpose):</label>
+            <textarea id="destination" required placeholder="कार्यालय बाहिर जाने स्थान र कारण खुलाउनुहोस्"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">सबमिट गर्नुहोस् (Submit)</button>
+    </form>
+
+    <div id="successMessage" class="success-msg">
+        विवरण सफलतापूर्वक दर्ता भयो!
+    </div>
+</div>
+
+<!-- एडमिन लगइन बार -->
+<div class="admin-login-bar">
+    <button class="admin-toggle-btn" onclick="toggleAdminLogin()">🔐 एडमिन लगइन (Admin Login)</button>
+</div>
+
+<!-- एडमिन पासवर्ड मोडल -->
+<div id="loginModal" style="display:none; margin-top: 10px; background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 300px; text-align: center;">
+    <label for="adminPass" style="font-size: 13px; margin-bottom: 5px;">एडमिन पासवर्ड राख्नुहोस्:</label>
+    <input type="password" id="adminPass" placeholder="पासवर्ड" style="margin-bottom: 8px;">
+    <button onclick="checkAdminLogin()" class="action-btn" style="width: 100%;">लगइन गर्नुहोस्</button>
+</div>
+
+<!-- एडमिन प्यानल -->
+<div id="adminPanel" class="admin-panel">
+    <!-- दर्जागत संख्या समरी टेबल -->
+    <div class="logs-container" style="border-top: 4px solid #c8102e; margin-top: 0;">
+        <h3 style="margin-top:0; color:#001f3f;">दर्जागत संख्या विवरण</h3>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>प्रनाउ</th>
+                    <th>प्रनि</th>
+                    <th>प्रवनानि</th>
+                    <th>प्रनानि</th>
+                    <th>प्रसनि</th>
+                    <th>प्रबह</th>
+                    <th>प्रह</th>
+                    <th>प्रसह</th>
+                    <th>प्रज</th>
+                    <th>प्रकास</th>
+                    <th>अन्य</th>
+                    <th>जम्मा</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="cnt_प्रनाउ">0</td>
+                    <td id="cnt_प्रनि">0</td>
+                    <td id="cnt_प्रवनानि">0</td>
+                    <td id="cnt_प्रनानि">0</td>
+                    <td id="cnt_प्रसनि">0</td>
+                    <td id="cnt_प्रबह">0</td>
+                    <td id="cnt_प्रह">0</td>
+                    <td id="cnt_प्रसह">0</td>
+                    <td id="cnt_प्रज">0</td>
+                    <td id="cnt_प्रकास">0</td>
+                    <td id="cnt_अन्य">0</td>
+                    <td id="cnt_total" style="background-color: #001f3f; color: white;">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- दर्ता भएका पासहरूको सूची -->
+    <div class="logs-container">
+        <div class="batch-print-bar">
+            <h3 style="margin:0; color:#001f3f;">हालै जारी गरिएका गेट पासहरू</h3>
+            <button class="batch-btn" onclick="printSelectedPasses()">छानिएका (अधिकतम ६ वटा) प्रिन्ट गर्नुहोस्</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40px;">छान्नुहोस्</th>
+                    <th>कोड</th>
+                    <th>दर्जा / नाम</th>
+                    <th>प्रस्थान समय</th>
+                    <th>फर्कने मिति/समय</th>
+                    <th>स्थान / कारण</th>
+                    <th>कार्य</th>
+                </tr>
+            </thead>
+            <tbody id="logsTable">
+                <!-- डाटा यहाँ आउनेछ -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer>
+    Designed by बैकुण्ठ सुवेदी
+</footer>
+
+<!-- प्रिन्ट हुने गेट पास स्लिप -->
+<div id="printablePass">
+    <div class="print-grid">
+        <script>
+            for (let i = 1; i <= 6; i++) {
+                document.write(`
+                    <div class="pass-ticket">
+                        <div>
+                            <div class="pass-header">
+                                <h2>काठमाडौं उपत्यका प्रहरी</h2>
+                                <h3>सशस्त्र प्रहरी गण नं. २ महाराजगंज - डिजिटल गेट पास</h3>
+                            </div>
+                            <table class="pass-details">
+                                <tr><td class="label">कम्प्युटर कोड:</td><td id="p_compCode_${i}"></td></tr>
+                                <tr><td class="label">दर्जा / नाम:</td><td id="p_empName_${i}"></td></tr>
+                                <tr><td class="label">मिति:</td><td id="p_nepaliDate_${i}"></td></tr>
+                                <tr><td class="label">प्रस्थान समय:</td><td id="p_currentTime_${i}"></td></tr>
+                                <tr><td class="label">फर्कने मिति/समय:</td><td id="p_returnDate_${i}"></td></tr>
+                                <tr><td class="label">जाने स्थान / कारण:</td><td id="p_destination_${i}"></td></tr>
+                            </table>
+                        </div>
+                        <div>
+                            <div class="signature-box-container">
+                                <div class="signature-box">कर्मचारीको दस्तखत</div>
+                                <div class="signature-box">ह.मे.</div>
+                                <div class="signature-box">सु.मे.</div>
+                                <div class="signature-box">फिल्ड अधिकृत</div>
+                            </div>
+                            <div class="designer-credit">Designed by बैकुण्ठ सुवेदी</div>
+                        </div>
+                    </div>
+                `);
+            }
+        </script>
+    </div>
+</div>
+
+<script>
+    const employeeDatabase = {
+         "33223": { rank: "प्रउ", name: "तिलक भारती" },
+    "34468": { rank: "प्रनाउ", name: "खगेन्द्र बहादुर खड्का" },
+    "313397": { rank: "प्रनि", name: "छे फिन्जो भोटे" },
+    "313249": { rank: "प्रनि", name: "जनक राज ढुंगाना" },
+    "363519": { rank: "प्रनि", name: "केशव राज भट्ट" },
+    "472445": { rank: "प्रनि", name: "अविनाश दीप जि.सी." },
+    "125879": { rank: "प्रवनानि", name: "दिलीप कुमार श्रेष्ठ" },
+    "125724": { rank: "प्रवनानि", name: "दिनेश थापा" },
+    "350396": { rank: "प्रवनानि", name: "भिमसेन पोखरेल" },
+    "22577": { rank: "प्रवनानि", name: "समिर कुमार विष्ट" },
+    "125522": { rank: "प्रवनानि", name: "अनुप राउत" },
+    "125278": { rank: "प्रवनानि", name: "गोकर्ण थापा" },
+    "361305": { rank: "प्रनानि", name: "सरस्वती टण्डन" },
+    "312371": { rank: "प्रनानि", name: "ईश्वर कुमार महर्जन" },
+    "306447": { rank: "प्रनानि", name: "दीपक बाबु थापा" },
+    "309461": { rank: "प्रनानि", name: "गणेश बहादुर थापा" },
+    "439407": { rank: "प्रनानि", name: "संजय यादव" },
+    "313566": { rank: "प्रनानि", name: "दिपेन्द्र खवास (भुजेल)" },
+    "350902": { rank: "प्रनानि", name: "रूपा श्रीस थापा" },
+    "313582": { rank: "प्रनानि", name: "सुमित कुमार साह" },
+    "300136": { rank: "प्रनानि", name: "जुलुम कुमार चौधरी" },
+    "422693": { rank: "प्रसनि", name: "यतिराज कार्की" },
+    "365440": { rank: "प्रसनि", name: "रामहरि आचार्य" },
+    "467287": { rank: "प्रसनि", name: "शिव श्रेष्ठ" },
+    "424592": { rank: "प्रसनि", name: "श्रीमंगले घर्ती" },
+    "487166": { rank: "प्रसनि", name: "शिक्षण गुरुङ्ग" },
+    "365940": { rank: "प्रसनि", name: "चोक बहादुर खत्री" },
+    "472773": { rank: "प्रसनि", name: "नइन्द्र तामाङ" },
+    "375814": { rank: "प्रसनि", name: "जिरालाल रौतियार" },
+    "369651": { rank: "प्रसनि", name: "रामेश्वर प्रसाद यादव" },
+    "384078": { rank: "प्रसनि", name: "देव नारायण श्रेष्ठ" },
+    "376729": { rank: "प्रसनि", name: "शिव कुमार खड्का" },
+    "477886": { rank: "प्रसनि", name: "सरिता कुमारी पाध्या" },
+    "367629": { rank: "प्रसनि", name: "बिनोद प्रसाद यादव" },
+    "388689": { rank: "प्रसनि", name: "श्रवण कुमार आचार्य" },
+    "475540": { rank: "प्रसनि", name: "कुशल श्रेष्ठ" },
+    "422850": { rank: "प्रसनि", name: "नवल किशोर प्रसाद यादव" },
+    "423740": { rank: "प्रसनि", name: "सिता सुवेदी" },
+    "311322": { rank: "प्रसनि", name: "रचना राजभण्डारी" },  
+    "373135": { rank: "प्रसनि", name: "बद्रि नारायण मण्डल" },
+    "389532": { rank: "प्रवह", name: "अम्मर बहादुर बस्नेत" },
+    "363464": { rank: "प्रवह", name: "निर्मला के.सी." },
+    "367455": { rank: "प्रवह", name: "सुभाष प्रसाद केसरी" },
+    "387037": { rank: "प्रवह", name: "अम्मर सिंह ठकुरी" },
+    "363626": { rank: "प्रवह", name: "ईश्वर के.सी." },
+    "378242": { rank: "प्रवह", name: "भुपेन्द्र राई" },
+    "366117": { rank: "प्रवह", name: "झषनाथ पोखेल" },
+    "392552": { rank: "प्रवह", name: "दमेन्ती बुढाथोकी" },
+    "378154": { rank: "प्रवह", name: "बैजनाथ भोर" },
+    "360130": { rank: "प्रवह", name: "राजाराम कार्की" },
+    "361942": { rank: "प्रवह", name: "दिपेन्द्र राना" }, 
+    "362009": { rank: "प्रवह", name: "पवित्रा थापा" },
+    "391497": { rank: "प्रह", name: "सुन्तली थामी" },
+    "380507": { rank: "प्रह", name: "बद्री प्रसाद धिताल" },
+    "362621": { rank: "प्रह", name: "फिपरानी लिम्बू" },
+    "386708": { rank: "प्रह", name: "ईश्वर बहादुर खत्री" },
+    "386559": { rank: "प्रह", name: "पुरन सिंह कुँवर" },
+    "381470": { rank: "प्रह", name: "ओम बहादुर थापा" },
+    "387553": { rank: "प्रह", name: "नैन बहादुर शाही" },
+    "362596": { rank: "प्रह", name: "नारायण दत्त भट्ट" },
+    "371976": { rank: "प्रह", name: "थर्क बहादुर सारू मगर" },
+    "360697": { rank: "प्रह", name: "गोबिन्द प्रसाद अर्याल" },
+    "372741": { rank: "प्रह", name: "गणेश महतो" },
+    "370263": { rank: "प्रह", name: "कविराज सेजुवाल" },
+    "367871": { rank: "प्रह", name: "सुर्य बहादुर चितौरे" },
+    "392154": { rank: "प्रह", name: "लाल सिंह गिरी" },
+    "378812": { rank: "प्रह", name: "भवानी रायमाझी" },
+    "361541": { rank: "प्रह", name: "नकुलमान राई" },
+    "382073": { rank: "प्रह", name: "राजु प्रसाद" },
+    "371209": { rank: "प्रह", name: "बैकुण्ठ सुवेदी" },
+    "379379": { rank: "प्रह", name: "ताराचन्द्र नेपाली" },
+    "379334": { rank: "प्रह", name: "मिन वहादुर के.सी." },
+    "376060": { rank: "प्रह", name: "पिताम्बर अधिकारी" },
+    "368094": { rank: "प्रह", name: "प्रमोद कुमार यादव" },
+    "364841": { rank: "प्रह", name: "अनिता शर्मा" },
+    "388459": { rank: "प्रह", name: "रेशम वि.क." },
+    "392821": { rank: "प्रह", name: "कमला कुमारी महर" },
+    "391411": { rank: "प्रह", name: "शर्मिला कुँवर" },
+    "389290": { rank: "प्रह", name: "दिपक पाण्डे" },
+    "388846": { rank: "प्रह", name: "तिलक हमाल" },
+    "389872": { rank: "प्रह", name: "पृथ राज महत" },
+    "381805": { rank: "प्रह", name: "लाल बहादुर खत्री" },
+    "376312": { rank: "प्रह", name: "शिव कुमार चौधरी" },
+    "385804": { rank: "प्रह", name: "गजै सिंह महरा" },
+    "383746": { rank: "प्रह", name: "सुरेश कुमार सुनार" },
+    "381703": { rank: "प्रह", name: "लाल बहादुर चन्द" },
+    "380564": { rank: "प्रह", name: "बिष्णु बहादुर पछाई" },
+    "382695": { rank: "प्रह", name: "काशीनाथ पौडेल" },
+    "370480": { rank: "प्रह", name: "सीता वि.सी." },
+    "372844": { rank: "प्रह", name: "अशोक बैठा" },
+    "361863": { rank: "प्रह", name: "बाबुराम गिरी" },
+    "388092": { rank: "प्रह", name: "हुकुम सिंह बोगटी" },
+    "385930": { rank: "प्रह", name: "भुपाल बहादुर नेपाली" },
+    "383447": { rank: "प्रह", name: "निमलाल थारु" },
+    "318797": { rank: "प्रह", name: "अमृतलाल गिरी" },
+    "362007": { rank: "प्रह", name: "लक्ष्मी लामा" },
+    "362029": { rank: "प्रह", name: "जयन्ती कुमारी बोहरा" },
+    "363880": { rank: "प्रह", name: "हिक्मत सिंह धामी" },
+        "385280": { rank: "प्रह", name: "रामचन्द्र जोशी" },  
+    "365492": { rank: "प्रसह", name: "लक्ष्मण रन्जित" },
+    "389250": { rank: "प्रसह", name: "सियाराम चौधरी" },
+    "414859": { rank: "प्रसह", name: "पुनम राई" },
+    "408484": { rank: "प्रसह", name: "बिजय श्रेष्ठ" },
+    "409883": { rank: "प्रसह", name: "कुशाल थापा" },
+    "410495": { rank: "प्रसह", name: "होम वहादुर श्रेष्ठ" },
+    "397791": { rank: "प्रसह", name: "गणेश सिंह विष्ट" },
+    "399577": { rank: "प्रसह", name: "रेशम थापा मगर" },
+    "364636": { rank: "प्रसह", name: "प्रदिप हुमागाई" },
+    "408901": { rank: "प्रसह", name: "सुमन परियार" },
+    "411009": { rank: "प्रसह", name: "केश नारायण विष्ट" },
+    "366196": { rank: "प्रसह", name: "रतन वहादुर पुन" },
+    "411522": { rank: "प्रसह", name: "चन्द्र वहादुर वली" },
+    "414670": { rank: "प्रसह", name: "दिपकराज गिरी" },
+    "422434": { rank: "प्रसह", name: "रमेश प्रसाद जैसी" },
+    "417151": { rank: "प्रसह", name: "निवा लिम्बु" },
+    "413210": { rank: "प्रसह", name: "शान्ता अधिकारी" },
+    "415185": { rank: "प्रसह", name: "राजु लुहार" },
+    "412931": { rank: "प्रसह", name: "दिल बहादुर दर्लामी" },
+    "415508": { rank: "प्रसह", name: "जगदिश ढकाल भुल" },
+    "399372": { rank: "प्रसह", name: "डिल बहादुर थापामागर" },
+    "411568": { rank: "प्रसह", name: "फुलमाया दहिल" },
+    "383071": { rank: "प्रसह", name: "ढल बहादुर थापा मगर" },
+    "418241": { rank: "प्रसह", name: "लक्ष्मी नेपाली" },
+    "417380": { rank: "प्रसह", name: "दिपक मगर" },
+    "421714": { rank: "प्रसह", name: "भावना मल्ल" },
+    "412596": { rank: "प्रसह", name: "कृष्ण बहादुर खड्का" },
+    "401293": { rank: "प्रसह", name: "विकास थापा मगर" },
+    "407721": { rank: "प्रसह", name: "ऋषीराम श्रेष्ठ" },
+    "412667": { rank: "प्रसह", name: "दिपक कुमार वि.क." },
+    "406649": { rank: "प्रसह", name: "सुनिल सुनार" },
+    "416659": { rank: "प्रसह", name: "प्रेम बहादुर बस्नेत" },
+    "400902": { rank: "प्रसह", name: "बालाराम वि.क." },
+    "422231": { rank: "प्रसह", name: "लोकेन्द्र बहादुर कार्की" },
+    "422357": { rank: "प्रसह", name: "झलक बहादुर बुढा" },
+    "409340": { rank: "प्रसह", name: "उमेश कुमार मण्डल" },
+    "412999": { rank: "प्रसह", name: "नरेन्द्र सिंह धामी" },
+    "411991": { rank: "प्रसह", name: "हरि बहादुर खप्तरी" },
+    "421072": { rank: "प्रसह", name: "कमल खड्का" },
+    "400549": { rank: "प्रसह", name: "रोशनी खड्गी" },
+    "409128": { rank: "प्रसह", name: "नन्दराज श्रेष्ठ" },
+    "420638": { rank: "प्रसह", name: "विक्रम बहादुर आले" },
+    "409496": { rank: "प्रसह", name: "विरेन्द्र गुरुङ" },  
+        "415494": { rank: "प्रसह", name: "तेज राज न्यौपाने" },    
+    "408300": { rank: "प्रसह", name: "फणिन्द्र राज अर्याल" },  
+    "413216": { rank: "प्रज", name: "दुर्गा बहादुर खम्चा मगर" },
+    "418404": { rank: "प्रज", name: "दिपेन्द्र कुमार ठाकुर" },
+    "412941": { rank: "प्रज", name: "सुनिल सुनार" },
+    "411545": { rank: "प्रज", name: "जगुलाल चौधरी" },
+    "410636": { rank: "प्रज", name: "उमेश दाहाल" },
+    "408175": { rank: "प्रज", name: "मानिष वि.क." },
+    "364759": { rank: "प्रज", name: "श्याम कुमार अधिकारी" },
+    "411521": { rank: "प्रज", name: "सुदिप बहादुर गुरुङ" },
+    "410867": { rank: "प्रज", name: "प्रेम खड्का" },
+    "408337": { rank: "प्रज", name: "धन बहादुर बगाले" },
+    "415716": { rank: "प्रज", name: "बिनिता कुमारी कामी" },
+    "470646": { rank: "प्रज", name: "विशाल राई" },
+    "482932": { rank: "प्रज", name: "भिम बहादुर चन्द" },
+    "490666": { rank: "प्रज", name: "बिबेक सिजापती" },
+    "491528": { rank: "प्रज", name: "शशि कुमार साह" },
+    "478793": { rank: "प्रज", name: "निर्जन रावल" },
+    "489462": { rank: "प्रज", name: "कृष्ण वि.क." },
+    "483004": { rank: "प्रज", name: "राजु गुर्धामी" },
+    "493500": { rank: "प्रज", name: "पूर्ण बहादुर बुढ मगर" },
+    "493526": { rank: "प्रज", name: "लक्ष्मण दत्त बाग" },
+    "493460": { rank: "प्रज", name: "सुनिल जोशी" },
+    "470612": { rank: "प्रज", name: "थुरुप चमार" },
+    "478266": { rank: "प्रज", name: "अर्जुन प्रसाद जैसी" },
+    "477726": { rank: "प्रज", name: "बिनोद साकी" },
+    "493501": { rank: "प्रज", name: "सन्तोष चौधरी" },
+    "488838": { rank: "प्रज", name: "कुमार आले मगर" },
+    "471375": { rank: "प्रज", name: "बिमला कुमारी बम्जन" },
+    "491654": { rank: "प्रज", name: "मनिसा राई" },
+    "489249": { rank: "प्रज", name: "अनिल शेर्पा" },
+    "487061": { rank: "प्रज", name: "अशोक नेपाली" },
+    "558789": { rank: "प्रज", name: "श्री कृष्ण नेपाली" },
+    "418110": { rank: "प्रज", name: "सरिता भौरिया" },
+    "497185": { rank: "प्रज", name: "अनुप चौधरी" },
+    "496731": { rank: "प्रज", name: "अमर पार्की" },
+    "497497": { rank: "प्रज", name: "अर्जुन बुढा" },
+    "496312": { rank: "प्रज", name: "उम्रराजन सिंह ठगुन्ना" },
+    "497586": { rank: "प्रज", name: "कपिल रायमाझी" },
+    "497198": { rank: "प्रज", name: "करिश्मा भट्ट" },
+    "497100": { rank: "प्रज", name: "कविन्द्र विष्ट" },
+    "496625": { rank: "प्रज", name: "गणेश सार्की" },
+    "495806": { rank: "प्रज", name: "ङिमलामु तामाङ" },
+    "496743": { rank: "प्रज", name: "जोकला साउद" },
+    "497292": { rank: "प्रज", name: "दिपक कुमार मौर्या" },
+    "497400": { rank: "प्रज", name: "दिपेश यादव" },
+         "484243": { rank: "प्रज", name: "हरि कार्की" },
+         "488483": { rank: "प्रज", name: "लक्ष्मी कुमारी कुँवर" },
+    "497301": { rank: "प्रज", name: "थन बहादुर बुढा" },
+    "497237": { rank: "प्रज", name: "धर्मेन्द्र पासी" },
+    "497335": { rank: "प्रज", name: "नरेन्द्र थारु" },
+    "497343": { rank: "प्रज", name: "पवन घर्तीमगर" },
+    "497092": { rank: "प्रज", name: "पुजा भट्ट" },
+    "497246": { rank: "प्रज", name: "प्रकती थारु" },
+    "497583": { rank: "प्रज", name: "प्रिति बिष्ट" },
+    "496928": { rank: "प्रज", name: "प्रेम बहादुर वली" },
+    "497233": { rank: "प्रज", name: "बसन्ति वि.क." },
+    "496980": { rank: "प्रज", name: "बिनोद साउद" },
+    "496957": { rank: "प्रज", name: "बिनोद सिंह नेगी" },
+    "496515": { rank: "प्रज", name: "भावना चौसिर" },
+    "497515": { rank: "प्रज", name: "मनिस थापा" },
+    "497513": { rank: "प्रज", name: "माया वि.क." },
+    "497283": { rank: "प्रज", name: "युवराज पुन" },
+    "497349": { rank: "प्रज", name: "राम सागरा चमार" },
+    "496225": { rank: "प्रज", name: "रोशन सिंह धामी" },
+    "496901": { rank: "प्रज", name: "विर बहादुर वि.क." },
+    "497332": { rank: "प्रज", name: "विविशा ओली" },
+    "497387": { rank: "प्रज", name: "बिबेक नेपाली" },
+    "493657": { rank: "प्रज", name: "शकर साउद" },
+    "497389": { rank: "प्रज", name: "श्रवण कुमार हरिजन" },
+    "497374": { rank: "प्रज", name: "सन्दिप बस्नेत" },
+    "497518": { rank: "प्रज", name: "सरिता चौधरी" },
+    "497394": { rank: "प्रज", name: "सिमा क्षेत्री" },
+    "497143": { rank: "प्रज", name: "सोभा साकी" },
+    "496562": { rank: "प्रज", name: "निमा बुढा मगर" },
+    "496518": { rank: "प्रज", name: "रमा रोकाया" },
+    "497401": { rank: "प्रज", name: "रोशनी चौधरी" },
+    "497510": { rank: "प्रज", name: "शान्ता घर्तीमगर" },
+    "496512": { rank: "प्रज", name: "सुमन पुन" },
+    "496187": { rank: "प्रज", name: "अनिल एम.सी." },
+    "496188": { rank: "प्रज", name: "अनिल सेराला" },
+    "496826": { rank: "प्रज", name: "अम्मर बहादुर कामी" },
+    "497091": { rank: "प्रज", name: "उमेश न्यौपाने" },
+    "497274": { rank: "प्रज", name: "कमल राना" },
+    "496319": { rank: "प्रज", name: "खगेन्द्र बहादुर वि.क." },
+    "496609": { rank: "प्रज", name: "गणेश खत्री" },
+    "496182": { rank: "प्रज", name: "जनक बहादुर वि.क." },
+    "496597": { rank: "प्रज", name: "झकाश खड्का" },
+    "492238": { rank: "प्रज", name: "कुनाल प्रसाद जैसी" },
+    "496209": { rank: "प्रज", name: "तिलक बॉठा" },
+    "496661": { rank: "प्रज", name: "तिलक रोकाया" },
+    "496791": { rank: "प्रज", name: "दिपक बुढा" },
+    "496619": { rank: "प्रज", name: "दिपक सुनार" },
+    "496375": { rank: "प्रज", name: "दिपेन्द्र शाही" },
+    "497093": { rank: "प्रज", name: "धन बहादुर वि.सी." },
+    "496183": { rank: "प्रज", name: "धिरज थापा" },
+    "496218": { rank: "प्रज", name: "नवराज ढकाल" },
+    "496778": { rank: "प्रज", name: "पशान्त रावत" },
+    "496281": { rank: "प्रज", name: "प्रेम वि.क." },
+    "496899": { rank: "प्रज", name: "बिनोद बहादुर नायक" },
+    "496214": { rank: "प्रज", name: "भुवन वि.क." },
+    "496636": { rank: "प्रज", name: "मनोज रोका मगर" },
+    "496953": { rank: "प्रज", name: "महेश पाकी" },
+    "496270": { rank: "प्रज", name: "मान बहादुर गिरी" },
+    "496353": { rank: "प्रज", name: "रमेश डि.सी." },
+    "496414": { rank: "प्रज", name: "राजेन्द्र थापा" },
+    "497200": { rank: "प्रज", name: "रेशम वली" },
+    "496204": { rank: "प्रज", name: "लोकेन्द्र बहादुर महरा" },
+    "496556": { rank: "प्रज", name: "बिनोद खड्का" },
+    "496239": { rank: "प्रज", name: "संदिप परियार" },
+    "496785": { rank: "प्रज", name: "सन्तोष टमट्टा" },
+    "496429": { rank: "प्रज", name: "सुनिल विष्ट" },
+    "496263": { rank: "प्रज", name: "सुरज चौधरी" },
+    "496681": { rank: "प्रज", name: "सुरेन्द्र वि.क." },
+    "497123": { rank: "प्रज", name: "हिमाल बराल" },
+    "497003": { rank: "प्रज", name: "हेमन्त आचार्य" },
+    "497563": { rank: "प्रज", name: "अनिल थारू" },
+    "497386": { rank: "प्रज", name: "करुणा वली" },
+    "497825": { rank: "प्रज", name: "कल्पना डाँगी" },
+    "497444": { rank: "प्रज", name: "कृष्टिका सुनार" },
+    "497491": { rank: "प्रज", name: "दिपिका सुनार" },
+    "497938": { rank: "प्रज", name: "निशा पुन मगर" },
+    "497496": { rank: "प्रज", name: "पुर्णिमा ठाडा" },
+    "497547": { rank: "प्रज", name: "प्रतिक्षा थारू" },
+    "497483": { rank: "प्रज", name: "बिरेन्द्र घर्तीमगर" },
+    "496440": { rank: "प्रज", name: "भिम बहादुर वली" },
+    "496679": { rank: "प्रज", name: "मनिष खड्का" },
+    "487672": { rank: "प्रज", name: "टेक बहादुर साउद" },
+    "494595": { rank: "प्रज", name: "कृष्ण सावद" },
+    "471977": { rank: "प्रज", name: "सुनिता वि.क." },
+    "488413": { rank: "प्रज", name: "गोपाल ढकाल" },
+    "487470": { rank: "प्रज", name: "टेक बहादुर गाहा मगर" },
+    "487921": { rank: "प्रज", name: "दिपेन्द्र बहादुर बुढ थापा" },
+    "487173": { rank: "प्रज", name: "बिनोद खान ठाकुर" },
+    "489104": { rank: "प्रज", name: "शिव तामाङ्ग" },
+    "469683": { rank: "प्रज", name: "सुरेश खड्का" },
+    "488487": { rank: "प्रज", name: "क्यामोदिन अंसारी" },
+    "488810": { rank: "प्रज", name: "जीवन कार्की" },
+    "487826": { rank: "प्रज", name: "धनबिर महर" },
+    "487315": { rank: "प्रज", name: "प्रकाश कुमार हिस्की मगर" },
+    "489895": { rank: "प्रज", name: "विकास कार्की" },
+    "488129": { rank: "प्रज", name: "सन्दिप सिंह नायक" },
+    "491264": { rank: "प्रज", name: "सरोज चौधरी" },
+    "487249": { rank: "प्रज", name: "टेकन्द्र मल्ल" },
+    "489054": { rank: "प्रज", name: "लोकेन्द्र अधिकारी" },
+    "487543": { rank: "प्रज", name: "राम चरण चौधरी" },
+    "484511": { rank: "प्रज", name: "शिव शंकर पहरी" },
+    "488988": { rank: "प्रज", name: "सबिन वि.सी." },
+    "494028": { rank: "प्रज", name: "सिर्जना बाकावल" },
+    "493393": { rank: "प्रज", name: "सुशीला राना" },
+    "478323": { rank: "प्रज", name: "रुपेश बिष्ट" },
+    "487459": { rank: "प्रज", name: "विजय लामा" },
+    "45480": { rank: "प्रज", name: "सिता के.सी." },
+    "497333": { rank: "प्रज", name: "सुमित्रा बसेल" },
+    "487062": { rank: "प्रज", name: "शिव कुमार परियार" },
+    "418717": { rank: "प्रज", name: "गणेश वि.क." },
+    "488923": { rank: "प्रज", name: "धर्मराज बिष्ट" },
+    "488528": { rank: "प्रज", name: "प्रेम राम महर" },
+    "470741": { rank: "प्रज", name: "दयाराम रोक्का" },
+    "492245": { rank: "प्रज", name: "राजिन्द्र कुमार रावल" },
+    "495526": { rank: "प्रज", name: "अन्जना थापा" },
+    "477767": { rank: "प्रज", name: "खुम बहादुर थापा मगर" },
+    "472136": { rank: "प्रज", name: "पंकज कुमार ठाकुर" },
+    "490295": { rank: "प्रज", name: "तिलक सारु" },
+    "484310": { rank: "प्रज", name: "सुनिता तामाड" },
+    "496412": { rank: "प्रज", name: "शिव बिष्ट" },
+    "494746": { rank: "प्रज", name: "चन्द्र सिंह भाट" },
+    "497279": { rank: "प्रज", name: "मौसम चमार" },
+    "496352": { rank: "प्रज", name: "अर्पण चौधरी" },
+    "493502": { rank: "प्रज", name: "देव राज भट्ट" },
+    "488946": { rank: "प्रज", name: "सचिन कुमार बोहरा" },
+    "497444": { rank: "प्रज", name: "केशव बहादुर चन्द" },
+    "493550": { rank: "प्रज", name: "सुनिल भट्ट" },
+    "490669": { rank: "प्रज", name: "अन्जन अधिकारी" },
+    "469800": { rank: "प्रज", name: "हरि सिंह धामी" },
+    "471453": { rank: "प्रज", name: "सोनि योञ्जन" },
+    "467432": { rank: "प्रज", name: "पविता चौधरी" },
+    "497840": { rank: "प्रज", name: "सन्देश लामा" },
+    "477216": { rank: "प्रज", name: "हरेन्द्र मल्ल" },
+    "493808": { rank: "प्रज", name: "भावना थापा" },
+    "487727": { rank: "प्रज", name: "अमर बहादुर राना मगर" },
+    "490877": { rank: "प्रज", name: "श्रवण पण्डित" },
+    "468377": { rank: "प्रज", name: "तोयराज भट्ट" },
+    "494722": { rank: "प्रज", name: "अलिमुन निशा" },
+    "484390": { rank: "प्रज", name: "पवन कुमार वली" },
+    "550410": { rank: "प्रकास", name: "राम बहादुर तामाङ" },
+    "550389": { rank: "प्रकास", name: "सुमन कार्की" },
+    "552234": { rank: "प्रकास", name: "मनेश मालमुल" },
+    "552296": { rank: "प्रकास", name: "रामप्यारी महतो" },
+    "550521": { rank: "प्रकास", name: "राजुमाया गुरुङ" },
+    "552392": { rank: "प्रकास", name: "राजेश कुमार ठाकुर" },
+    "552281": { rank: "प्रकास", name: "मुना राई" },
+    "557395": { rank: "प्रकास", name: "समिक्षा नेपाली" },
+    "557942": { rank: "प्रकास", name: "अप्सरा न्यौपाने" },
+    "557944": { rank: "प्रकास", name: "मनोज मिजार" },
+    "557917": { rank: "प्रकास", name: "सर्मिला नेपाली" },
+    "550409": { rank: "प्रकास", name: "बिकुचन्द्र पोडे" },
+    "550387": { rank: "प्रकास", name: "बिष्णुमाया घले" },
+    "558165": { rank: "प्रकास", name: "सलिना थोकर" },
+    "552299": { rank: "प्रकास", name: "प्रकाश बस्नेत" },
+    "552502": { rank: "प्रकास", name: "बिकाश दाहाल" },
+    "550399": { rank: "प्रकास", name: "लक्ष्मण लामिछाने" },
+    "558140": { rank: "प्रकास", name: "सिता कुमारी टोमटा" },
+    "558411": { rank: "प्रकास", name: "रस्मिता तामाङ" },
+    "559202": { rank: "प्रकास", name: "देवी कुमारी थापा" },
+    "551437": { rank: "प्रकास", name: "कान्छी तामाङ" },
+    "550419": { rank: "प्रकास", name: "नरमाया मगर" },
+    "557590": { rank: "प्रकास", name: "सुनिता खत्री" },
+    "558856": { rank: "प्रकास", name: "कम्मान सिंह विश्वकर्मा" },
+    "558474": { rank: "प्रकास", name: "एलिसा राई" },
+    "550287": { rank: "प्रकास", name: "राम बहादुर अधिकारी" }
+    };
+
+    let activePasses = [];
+
+    function convertToNepaliNumber(numStr) {
+        const englishToNepali = {
+            '0': '०', '1': '१', '2': '२', '3': '३', '4': '४',
+            '5': '५', '6': '६', '7': '७', '8': '८', '9': '९'
+        };
+        return String(numStr).replace(/[0-9]/g, function(w) {
+            return englishToNepali[w];
+        });
+    }
+
+    function getAutomaticNepaliDate() {
+        const now = new Date();
+        let bsYear = 2083;
+        let bsMonth = 4; 
+        let bsDay = 16;  
+
+        const targetAD = new Date(2026, 7, 1); 
+        const diffTime = now.getTime() - targetAD.getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        let baseShrawanDays = 16 + diffDays;
+        
+        if (baseShrawanDays > 31) {
+            baseShrawanDays -= 31;
+            bsMonth = 5; 
+        }
+
+        let nepaliYearStr = convertToNepaliNumber(bsYear);
+        let nepaliDayStr = convertToNepaliNumber(baseShrawanDays);
+        let monthName = (bsMonth === 4) ? "श्रावण" : "भाद्र";
+
+        return `${nepaliYearStr} साल ${monthName} ${nepaliDayStr} गते`;
+    }
+
+    function updateTime() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'अपराह्न (PM)' : 'पूर्वाह्न (AM)';
+        hours = hours % 12 || 12;
+        
+        const formattedTime = `${convertToNepaliNumber(String(hours).padStart(2, '0'))}:${convertToNepaliNumber(minutes)}:${convertToNepaliNumber(seconds)} ${ampm}`;
+        document.getElementById('currentTime').value = formattedTime;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('nepaliDate').value = getAutomaticNepaliDate();
+        updateTime();
+        setInterval(updateTime, 1000);
+        setInterval(cleanExpiredPasses, 60000);
+    });
+
+    function getEmployeeDetails() {
+        const code = document.getElementById('compCode').value.trim();
+        const rankField = document.getElementById('rank');
+        const nameField = document.getElementById('empName');
+
+        if (employeeDatabase[code]) {
+            rankField.value = employeeDatabase[code].rank;
+            nameField.value = employeeDatabase[code].name;
+        } else {
+            rankField.value = "";
+            nameField.value = "";
+        }
+    }
+
+    function toggleAdminLogin() {
+        const modal = document.getElementById('loginModal');
+        modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function checkAdminLogin() {
+        const pass = document.getElementById('adminPass').value;
+        if (pass === "admin123") {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+        } else {
+            alert("गलत पासवर्ड! कृपया फेरि प्रयास गर्नुहोस्।");
+        }
+    }
+
+    function printSinglePass(pass) {
+        fillPassSlots([pass]);
+        setTimeout(() => { window.print(); }, 300);
+    }
+
+    function printSelectedPasses() {
+        const checkboxes = document.querySelectorAll('.pass-checkbox:checked');
+        let selectedList = [];
+        checkboxes.forEach(cb => {
+            const id = Number(cb.value);
+            const found = activePasses.find(p => p.id === id);
+            if (found) selectedList.push(found);
+        });
+
+        if (selectedList.length === 0) {
+            alert("कृपया प्रिन्ट गर्न कम्तीमा एउटा पास छान्नुहोस्!");
+            return;
+        }
+
+        fillPassSlots(selectedList);
+        setTimeout(() => { window.print(); }, 300);
+    }
+
+    function fillPassSlots(passes) {
+        for (let i = 1; i <= 6; i++) {
+            let p = passes[i - 1];
+            if (p) {
+                document.getElementById(`p_compCode_${i}`).innerText = p.code;
+                document.getElementById(`p_empName_${i}`).innerText = p.rankName;
+                document.getElementById(`p_nepaliDate_${i}`).innerText = p.date;
+                document.getElementById(`p_currentTime_${i}`).innerText = p.time;
+                document.getElementById(`p_returnDate_${i}`).innerText = p.returnDate || 'तोकिएको छैन';
+                document.getElementById(`p_destination_${i}`).innerText = p.destination;
+            } else {
+                document.getElementById(`p_compCode_${i}`).innerText = '';
+                document.getElementById(`p_empName_${i}`).innerText = '';
+                document.getElementById(`p_nepaliDate_${i}`).innerText = '';
+                document.getElementById(`p_currentTime_${i}`).innerText = '';
+                document.getElementById(`p_returnDate_${i}`).innerText = '';
+                document.getElementById(`p_destination_${i}`).innerText = '';
+            }
+        }
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        const code = document.getElementById('compCode').value;
+        const rank = document.getElementById('rank').value || 'अन्य';
+        const name = document.getElementById('empName').value;
+        const date = document.getElementById('nepaliDate').value; 
+        const time = document.getElementById('currentTime').value;
+        const returnDateInput = document.getElementById('returnDate').value.trim();
+        const returnDate = returnDateInput || '-';
+        const destination = document.getElementById('destination').value;
+        const rankName = `${rank} ${name}`.trim();
+
+        if (returnDateInput !== '') {
+            const datePattern = /^(\d{4})-(\d{2})-(\d{2})$/;
+            const match = returnDateInput.match(datePattern);
+
+            if (match) {
+                const retYear = parseInt(match[1]);
+                const retMonth = parseInt(match[2]);
+                const retDay = parseInt(match[3]);
+
+                const now = new Date();
+                const targetAD = new Date(2026, 7, 1);
+                const diffTime = now.getTime() - targetAD.getTime();
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                let depDay = 16 + diffDays;
+                let depMonth = 4;
+                let depYear = 2083;
+
+                if (depDay > 31) {
+                    depDay -= 31;
+                    depMonth = 5;
+                }
+
+                let isBefore = false;
+                if (retYear < depYear) {
+                    isBefore = true;
+                } else if (retYear === depYear && retMonth < depMonth) {
+                    isBefore = true;
+                } else if (retYear === depYear && retMonth === depMonth && retDay < depDay) {
+                    isBefore = true;
+                }
+
+                if (isBefore) {
+                    alert("फर्कने मितिमा अगाडीको मिति राख्नुहोस्");
+                    return;
+                }
+            } else {
+                const lowerInput = returnDateInput.toLowerCase();
+                if (lowerInput.includes("2082") || lowerInput.includes("श्रावण १५") || lowerInput.includes("श्रावण १४") || lowerInput.includes("श्रावण १३")) {
+                    alert("फर्कने मितिमा अगाडीको मिति राख्नुहोस्");
+                    return;
+                }
+            }
+        }
+
+        const timestamp = Date.now(); 
+
+        const passData = { id: timestamp, code, rank, rankName, date, time, returnDate, destination, timestamp };
+        
+        // --- गुगल सिटमा डाटा पठाउने कोड ---
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw2WsBOWpMvTGMnq6fFVzb5yk4YMK0JZVIAUZ9GnEUpBbsdX-Ud1hRCzuBQt1D7ROB3wQ/exec';
+        
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                code: code,
+                rank: rank,
+                name: name,
+                date: date,
+                time: time,
+                returnDate: returnDate,
+                destination: destination
+            })
+        }).catch(error => console.error('Error!', error.message));
+        // ------------------------------
+
+        activePasses.unshift(passData);
+
+        renderUI();
+
+        document.getElementById('successMessage').style.display = 'block';
+
+        document.getElementById('gateForm').reset();
+        document.getElementById('nepaliDate').value = getAutomaticNepaliDate();
+        
+        setTimeout(() => {
+            document.getElementById('successMessage').style.display = 'none';
+        }, 3000);
+    }
+
+    function cleanExpiredPasses() {
+        const now = Date.now();
+        const twelveHours = 12 * 60 * 60 * 1000; 
+        
+        const initialLength = activePasses.length;
+        activePasses = activePasses.filter(pass => (now - pass.timestamp) < twelveHours);
+        
+        if (activePasses.length !== initialLength) {
+            renderUI();
+        }
+    }
+
+    function renderUI() {
+        const tableBody = document.getElementById('logsTable');
+        tableBody.innerHTML = '';
+
+        activePasses.forEach(pass => {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="checkbox" class="pass-checkbox" value="${pass.id}"></td>
+                <td>${pass.code}</td>
+                <td>${pass.rankName}</td>
+                <td>${pass.time}</td>
+                <td>${pass.returnDate}</td>
+                <td>${pass.destination}</td>
+                <td>
+                    <button class="action-btn">प्रिन्ट</button>
+                </td>
+            `;
+
+            newRow.querySelector('.action-btn').addEventListener('click', () => {
+                printSinglePass(pass);
+            });
+
+            tableBody.appendChild(newRow);
+        });
+
+        const counts = {
+            "प्रनाउ": 0, "प्रनि": 0, "प्रवनानि": 0, "प्रनानि": 0, "प्रसनि": 0,
+            "प्रबह": 0, "प्रह": 0, "प्रसह": 0, "प्रज": 0, "प्रकास": 0, "अन्य": 0
+        };
+
+        let total = 0;
+
+        activePasses.forEach(pass => {
+            if (counts.hasOwnProperty(pass.rank)) {
+                counts[pass.rank]++;
+            } else {
+                counts["अन्य"]++;
+            }
+            total++;
+        });
+
+        for (let rank in counts) {
+            const el = document.getElementById(`cnt_${rank}`);
+            if (el) el.innerText = counts[rank];
+        }
+        document.getElementById('cnt_total').innerText = total;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>दैनिक काम-कारवाही अभिलेख फारम</title>
+    
+    <!-- Google Font for Nepali Text -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* आधारभूत शैली */
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .box {
+            max-width: 650px;
+            background: #fff;
+            padding: 30px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border-top: 6px solid #1a365d;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #1a365d;
+            padding-bottom: 15px;
+        }
+
+        .header h2 {
+            color: #1a365d;
+            margin: 5px 0;
+            font-size: 22px;
+        }
+
+        .header h3 {
+            color: #2d3748;
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        .header p {
+            color: #4a5568;
+            margin: 5px 0;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .date-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 14px;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #1a365d;
+            box-shadow: 0 0 5px rgba(26, 54, 93, 0.2);
+        }
+
+        .activity-section {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            margin-top: 8px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #4a5568;
+            cursor: pointer;
+            margin-top: 0;
+            font-weight: normal;
+        }
+
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a365d;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: #1a365d;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2a4365;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            .box {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <!-- नयाँ हेडिङ (बायाँ लोगो, बीचमा शीर्षक, दायाँ झण्डा) -->
+    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; text-align: center;">
+        <!-- बायाँ साइडको लोगो -->
+        <div>
+            <img src="my-logo.png" alt="Logo" style="width: 70px; height: 70px; object-fit: contain;">
+        </div>
+
+        <!-- बीचको शीर्षक -->
+        <div>
+            <h2 style="margin: 0; font-size: 18px;">काठमाडौं उपत्यका प्रहरी</h2>
+            <h3 style="margin: 3px 0; font-size: 16px; font-weight: normal;">सशस्त्र प्रहरी गण नं. २ महाराजगंज, काठमाडौं</h3>
+            <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">प्रहरी कर्मचारीहरुको दैनिक काम-कारवाही तथा परिचालन अभिलेख फारम</p>
+        </div>
+
+        <!-- दायाँ साइडको झण्डा -->
+        <div>
+            <img src="Animated-Flag-Nepal.png" alt="Flag" style="width: 70px; height: 70px; object-fit: contain;">
+        </div>
+    </div>
+
+    <form id="myForm">
+        
+        <div class="row">
+            <div class="col" style="flex: 1.5;">
+                <label>१. मिति (नेपालीमा) *</label>
+                <div class="date-group">
+                    <select name="nepali_year" required>
+                        <option value="२०८३">२०८३</option>
+                        <option value="२०८२">२०८२</option>
+                    </select>
+                    <select name="nepali_month" required>
+                        <option value="">महिना</option>
+                        <option value="०१">बैशाख</option><option value="०२">जेठ</option><option value="०३">असार</option>
+                        <option value="०४">साउन</option><option value="०५">भदौ</option><option value="०६">असोज</option>
+                        <option value="०७">कात्तिक</option><option value="०८">मंसिर</option><option value="०९">पुस</option>
+                        <option value="१०">माघ</option><option value="११">फागुन</option><option value="१२">चैत</option>
+                    </select>
+                    <select name="nepali_gate" id="nepaliGate" required>
+                        <option value="">गते</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col" style="flex: 1;">
+                <label>२. हप्ता (बार) *</label>
+                <select name="shift" required>
+                    <option value="">-- बार --</option>
+                    <option value="आइतबार">आइतबार</option><option value="सोमबार">सोमबार</option>
+                    <option value="मंगलबार">मंगलबार</option><option value="बुधबार">बुधबार</option>
+                    <option value="बिहीबार">बिहीबार</option><option value="शुक्रबार">शुक्रबार</option>
+                    <option value="शनिबार">शनिबार</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label>३. प्रहरी कर्मचारीको दर्जा *</label>
+                <select name="rank_name" id="rankSelect" onchange="filterNames()" required>
+                    <option value="">-- दर्जा छान्नुहोस् --</option>
+                    <option value="प्र.ब.ना.नि.">प्र.ब.ना.नि.</option>
+                    <option value="प्र.ना.नि.">प्र.ना.नि.</option>
+                    <option value="प्र.स.नि.">प्र.स.नि.</option>
+                    <option value="प्र.ब.ह.">प्र.ब.ह.</option>
+                    <option value="प्र.ह.">प्र.ह.</option>
+                    <option value="प्र.स.ह.">प्र.स.ह.</option>
+                    <option value="प्र.ज.">प्र.ज.</option>
+                    <option value="प्र.का.स.">प्र.का.स.</option>
+                </select>
+            </div>
+            <div class="col">
+                <label>४. कर्मचारीको पुरा नाम *</label>
+                <select name="batch_team" id="nameSelect" required>
+                    <option value="">-- पहिले दर्जा छान्नुहोस् --</option>
+                </select>
+            </div>
+        </div>
+
+        <label>५. कार्यको विवरण (टिक लगाउनुहोस्) *</label>
+        <div class="activity-section">
+            <div class="checkbox-group">
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="बिहानको पिटी"> बिहानको पिटी</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="चेक रोलक"> चेक रोलक</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="परेड"> परेड</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="फटिक"> फटिक</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="ड्यूटी"> ड्यूटी</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="कार्यालय"> कार्यालय</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="रोलकल"> रोलकल</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="विदा"> विदा</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="विरामी"> विरामी</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="आउट"> OUT</label>
+                <label class="checkbox-item"><input type="checkbox" name="duty_type" value="अन्य"> अन्य</label>
+            </div>
+        </div>
+
+        <label>६. कार्य सम्पादन सम्बन्धी थप विस्तृत विवरण</label>
+        <textarea name="achievements" rows="3" placeholder="थप विवरण यहाँ खुलाउनुहोस्..."></textarea>
+
+        <label>७. कैफियत</label>
+        <input type="text" name="remarks" placeholder="कैफियत भए लेख्नुहोस्">
+
+        <button type="submit" class="btn">सेभ गर्नुहोस</button>
+    </form>
+</div>
+
+<div class="footer">
+    <p>डिजाइन बाई: प्र.ह. बैकुण्ठ सुवेदी</p>
+</div>
+
+<script>
+// गते स्वतः भर्ने Dynamic Loop
+const gateSelect = document.getElementById("nepaliGate");
+const nepaliDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+
+for(let i = 1; i <= 32; i++) {
+    let str = i.toString();
+    let nepaliNum = "";
+    for(let char of str) { 
+        nepaliNum += nepaliDigits[parseInt(char)]; 
+    }
+    let option = document.createElement("option");
+    option.value = i.toString().padStart(2, '0');
+    option.textContent = nepaliNum;
+    gateSelect.appendChild(option);
+}
+
+// कर्मचारीहरुको विवरण डेटा
+const staffData = {
+  "प्र.ब.ना.नि.": [
+    "अनुप राउत",
+    "गोकर्ण थापा",
+    "दिलिप कुमार श्रेष्ठ",
+    "दिनेश थापा",
+    "भिमसेन पोखरेल",
+    "समिर कुमार बिष्ट"
+  ],
+  "प्र.ना.नि.": [
+    "ईश्वर कुमार महर्जन",
+    "गणेश बहादुर थापा",
+    "जुलुम कुमार चौधरी",
+    "दिपक बाबु थापा",
+    "दिपेन्द्र खवास (भुजेल)",
+    "रूपा श्रीस थापा",
+    "संजय यादव",
+    "सरस्वती टण्डन",
+    "सुमित कुमार साह",
+    "राम बहादुर मगर"
+  ],
+  "प्र.स.नि.": [
+    "इन्द्र तामाङ",
+    "कुशल श्रेष्ठ",
+    "चोक बहादुर खत्री",
+    "जिरालाल रौतियार",
+    "देव नारायण श्रेष्ठ",
+    "नवल किशोर प्रसाद यादव",
+    "बिनोद प्रसाद यादव",
+    "बद्रि नारायण मण्डल",
+    "यतिराज कार्की",
+    "रामहरि आचार्य",
+    "रामेश्वर प्रसाद यादव",
+    "शिक्षण गुरुङ्ग",
+    "शिव कुमार खड्का",
+    "शिव श्रेष्ठ",
+    "श्रावण कुमार आचार्य",
+    "श्रीमंगले घर्ती",
+    "सरिता कुमारी पाध्या",
+    "सिता सुवेदी",
+    "रचना राजभण्डारी"
+  ],
+  "प्र.ब.ह.": [
+    "अम्मर सिंह ठकुरी",
+    "ईश्वर के.सी.",
+    "झषनाथ पोख्रेल",
+    "दमन्ती बुढाथोकी",
+    "निर्मला के.सी.",
+    "बैजनाथ भोर",
+    "भुपेन्द्र राई",
+    "सुभाष प्रसाद केशरी",
+    "राजाराम कार्की",
+    "दिपेन्द्र राना",
+    "पवित्रा थापा",
+    "लिला बहादुर गुरुङ"
+  ],
+  "प्र.ह.": [
+    "अमृतलाल गिरी",
+    "अनिता शर्मा",
+    "अशोक बैठा",
+    "ईश्वर बहादुर खत्री",
+    "ओम बहादुर थापा",
+    "काशीनाथ पौडेल",
+    "कविराज सेजुवाल",
+    "कमला कुमारी महर",
+    "गणेश महतो",
+    "गोबिन्द प्रसाद अर्याल",
+    "जयन्ती कुमारी बोहरा",
+    "जितमान घलान",
+    "तारा चन्द्र नेपाली",
+    "तिलक हमाल",
+    "थर्क बहादुर सारु मगर",
+    "देवराज जोशी",
+    "डिल बहादुर थापामगर",
+    "दिपक पाण्डे",
+    "धरम राज यादव",
+    "धर्म बहादुर सारु मगर",
+    "नकुलमान राई",
+    "नारायण दत्त भट्ट",
+    "नैन बहादुर शाही",
+    "निमलाल थारु",
+    "पिताम्बर अधिकारी",
+    "प्रमोद कुमार यादव",
+    "पुरन सिंह कुवँर",
+    "पृथ राज महत",
+    "फिपरानी लिम्बु",
+    "बद्री प्रसाद धिताल",
+    "बैकुण्ठ सुवेदी",
+    "भवानि रायमाझी",
+    "भुपाल बहादुर नेपाली",
+    "मिन बहादुर के.सी.",
+    "राजु प्रसाद गुप्ता",
+    "रेशम बि.क.",
+    "लक्ष्मी लामा",
+    "लाल सिंह गिरी",
+    "लाल बहादुर खत्री",
+    "लाल बहादुर चन्द",
+    "विष्णु बहादुर पछाई",
+    "सिता वि.सी.",
+    "शर्मिला कुवंर",
+    "शिव कुमार चौधरी",
+    "सुन्तली धामी",
+    "सुरेश कुमार सुनार",
+    "हुकुम सिंह बोगटी",
+    "हिक्मत सिंह धामी",
+    "हस्त बहादुर चन्द",
+    "रामचन्द्र जोशी"
+  ],
+  "प्र.स.ह.": [
+    "लक्ष्मण रन्जित",
+    "सियाराम चौधरी",
+    "पुनम राई",
+    "विजय श्रेष्ठ",
+    "कुशल थापा",
+    "होम बहादुर श्रेष्ठ",
+    "रेशम थापा मगर",
+    "प्रदिप हुमागाई",
+    "सुमन परियार",
+    "केशनारायण विष्ट",
+    "रतन बहादुर पुन",
+    "चन्द्र बहादुर वली",
+    "दिपकराज गिरी",
+    "रमेश प्रसाद जैशी",
+    "निवा लिम्बु",
+    "शान्ता अधिकारी",
+    "दिल बहादुर दर्लामी",
+    "जगदिश ढिकाल भुल",
+    "डिल बहादुर थापामगर",
+    "फुलमाया दहित",
+    "ढल बहादुर थापामगर",
+    "लक्ष्मी नेपाली",
+    "दिपक मगर",
+    "भावना मल्ल",
+    "कृष्ण बहादुर खड्का",
+    "विकास थापामगर",
+    "ऋषीराम श्रेष्ठ",
+    "दिपक कुमार बि.क.",
+    "प्रेम बहादुर बस्नेत",
+    "बालाराम वि.क.",
+    "लोकेन्द्र बहादुर कार्की",
+    "उमेश कुमार मण्डल",
+    "नरेन्द्र सिंह धामी",
+    "हरि बहादुर खप्तरी",
+    "कमल खड्का",
+    "रोशनी खड्गी",
+    "नन्दराज भट्ट",
+    "दुर्गा बहादुर खाम्चा मगर",
+    "दिपेन्द्र कुमार ठाकुर",
+    "सुनिल सुनार",
+    "जगुलाल चौधरी",
+    "मनिष वि.क.",
+    "श्याम कुमार अधिकारी",
+    "प्रेम खड्का",
+    "धन बहादुर बगाले",
+    "बिनिता कुमारी कामी",
+    "काशीराज जोशी",
+    "फणिन्द्रराज अर्याल",
+    "विरेन्द्र गुरुङ",
+    "विक्रम बहादुर आले",
+    "दिलिप बहादुर रावत",
+    "तेज राज न्यौपाने",
+    "मिन बहादुर थापा",
+    "दिपक चौधरी",
+    "महेश प्रसाद भट्ट",
+    "कपिल अधिकारी (निर्दोषी)",
+    "छायादेवि रावत",
+    "नितेश पाल गडेरिया"
+  ],
+  "प्र.ज.": [
+    "विशाल राई",
+    "भिम बहादुर चन्द",
+    "बिबेक सिजापती",
+    "शशि कुमार साह",
+    "निर्न रावल",
+    "कृष्ण बि.क.",
+    "राजु गुर्धामी",
+    "पुर्ण बहादुर बुढा मगर",
+    "लक्ष्मण दत्त बाग",
+    "सुनिल जोशी",
+    "धुरुप चमार",
+    "अर्जुन प्रसाद जैशी",
+    "बिनोद सांकी",
+    "सन्तोष चौधरी",
+    "कुमार आले मगर",
+    "बिमला कुमारी बम्जन",
+    "मनिसा राई",
+    "अनिल शेर्पा",
+    "अशोक नेपाली",
+    "श्री कृष्ण नेपाली",
+    "सरिता भगौरिया",
+    "अनुप चौधरी",
+    "अमर पार्की",
+    "अर्जुन बुढा",
+    "उमराजन सिंह ठगुन्ना",
+    "कपिल रायमाझी",
+    "करिश्मा भट्ट",
+    "कबिन्द्र विष्ट",
+    "गणेश सार्की",
+    "ङिमलामु तामाङ",
+    "जौकला साउद",
+    "दिपक कुमार मौर्या",
+    "दिपेश यादव",
+    "धन बहादुर बुढा",
+    "धर्मेन्द्र पासी",
+    "नरेन्द्र थारु",
+    "पवन घर्तीमगर",
+    "पुजा भट्ट",
+    "प्रकृती थारु",
+    "प्रिति विष्ट",
+    "प्रेम बहादुर वली",
+    "बसन्ति वि.क.",
+    "बिनोद साउद",
+    "बिनोद सिंह नेगी",
+    "भावना चौसिर",
+    "मनिष थापा",
+    "माया वि.क.",
+    "युवराज पुन",
+    "राम सागर चमार",
+    "रोशन सिंह थामी",
+    "बिर बहादुर वि.क.",
+    "विबिषा ओली",
+    "विवेक नेपाली",
+    "शंकर साउद",
+    "श्रावण कुमार हरिजन",
+    "सन्दिप बस्नेत",
+    "सरिता चौधरी",
+    "सिमा क्षेत्री",
+    "सोभा सार्की",
+    "निमा बुढा मगर",
+    "रमा रोकाय",
+    "रोशनी चौधरी",
+    "शान्ता घर्तीमगर",
+    "सुमन पुन",
+    "अनिल एम.सी.",
+    "अनिल सेराला",
+    "अम्मर बहादुर कामी",
+    "उमेश न्यौपाने",
+    "कमल राना",
+    "खगेन्द्र बहादुर बि.क.",
+    "गणेश खत्री",
+    "जनक बहादुर वि.क.",
+    "झकाश खड्का",
+    "तिलक बाँठा",
+    "तिलक रोकाया",
+    "दिपक बुढा",
+    "दिपक सुनार",
+    "दिपेन्द्र शाही",
+    "धन बहादुर वि.सी.",
+    "धिरज थापा",
+    "नवराज ढकाल",
+    "प्रशान्त रावत",
+    "प्रेम बि.क.",
+    "बिनोद बहादुर नायक",
+    "भुवन बि.क.",
+    "मनोज रोका मगर",
+    "महेश पार्की",
+    "मान बहादुर गिरी",
+    "रमेश डि.सी.",
+    "राजेन्द्र थापा",
+    "रेशम वली",
+    "लोकेश बहादुर महरा",
+    "विनोद खड्का",
+    "सन्दिप परियार",
+    "सन्तोष टमटा",
+    "सुनिल बिष्ट",
+    "सुरज चौधरी",
+    "सुरेन्द्र वि.क.",
+    "हिमाल बराल",
+    "हेमन्त आचार्य",
+    "अनिल थारु",
+    "करुणा वली",
+    "कल्पना डांगी",
+    "कृतिका सुनार",
+    "दिपिका सुनार",
+    "निशा पुन मगर",
+    "पुर्णीमा ठाडा",
+    "प्रतिक्षा थारु",
+    "विरेन्द्र घर्तीमगर",
+    "भिम बहादुर वली",
+    "कृष्ण सावद",
+    "सुनिता वि.क.",
+    "गोपाल ढकाल",
+    "टेक बहादुर गाहा मगर",
+    "विनोद खान ठकुरी",
+    "शिव तामाङ्ग",
+    "सुरेश खड्का",
+    "क्यामोदिन अंसारी",
+    "जीवन कार्की",
+    "विकास कार्की",
+    "सन्दिप सिंह नायक",
+    "टेकेन्द्र मल्ल",
+    "लोकेन्द्र अधिकारी",
+    "राम चरण चौधरी",
+    "शिव शंकर पहरी",
+    "सबिन बि.सी.",
+    "सुशिला राना",
+    "रुपेश बिष्ट",
+    "विजय लामा",
+    "सिता के.सी.",
+    "सुमित्रा बसेल",
+    "शिव कुमार परियार",
+    "धर्मराज विष्ट",
+    "प्रेम राम महर",
+    "दयाराम रोक्का",
+    "राजिन्द्र कुमार रावल",
+    "अन्जना थापा",
+    "खुम बहादुर थापा मगर",
+    "पंकज कुमार ठाकुर",
+    "सुनिता तामाङ",
+    "शिव विष्ट",
+    "चन्द्र सिंह भाट",
+    "मौसम चमार",
+    "अर्पण चौधरी",
+    "देव राज भट्ट",
+    "सचिन कुमार बोहरा",
+    "केशव बहादुर चन्द",
+    "सुनिल भट्ट",
+    "अन्जन अधिकारी",
+    "सोनी योञ्जन",
+    "पविता चौधरी",
+    "हरेन्द्र मल्ल",
+    "भावना थापा",
+    "अमर बहादुर राना मगर",
+    "तोयराज भट्ट",
+    "पवन कुमार वली",
+    "अलिमुन निशा",
+    "विरेन्द्र सिंह ठकुराठी",
+    "सुदिप पासवान",
+    "निर्मला रोकाय",
+    "लक्ष्मी रोकाय",
+    "लक्ष्मी कुमारी कुँवर",
+    "हरि कार्की",
+    "निर्मल सुन्दास",
+    "पवित्रा चौधरी",
+    "बिबेक अधिकारी",
+    "विशाल थापा",
+    "हिरेन्द्र खड्का",
+    "बिनिता लामा"
+  ],
+  "प्र.का.स.": [
+    "राम बहादुर तामाङ",
+    "सुमन कार्की",
+    "मनेश मालमुल",
+    "रामप्यारी महतो",
+    "राजुमाया गुरुङ",
+    "राजेश कुमार ठाकुर",
+    "मुना राई",
+    "समिक्षा नेपाली",
+    "अप्सरा न्यौपाने",
+    "मनोज मिजार",
+    "सर्मिला नेपाली",
+    "बिकुचन्द्र पोडे",
+    "बिष्णुमाया घले",
+    "सलिना थोकर",
+    "प्रकाश बस्नेत",
+    "बिकाश दाहाल",
+    "लक्ष्मण लामिछाने",
+    "सिता कुमारी टोमटा",
+    "रस्मिता तामाङ",
+    "देवी कुमारी थापा",
+    "कान्छी तामाङ",
+    "नरमाया मगर",
+    "सुनिता खत्री",
+    "एलिसा राई",
+    "राम बहादुर अधिकारी"
+  ]
+};
+
+// दर्जा अनुसार नाम फिल्टर गर्ने फसन
+function filterNames() {
+    const rankSelect = document.getElementById("rankSelect");
+    const nameSelect = document.getElementById("nameSelect");
+    const selectedRank = rankSelect.value;
+    
+    nameSelect.innerHTML = '<option value="">-- नाम छान्नुहोस् --</option>';
+    
+    if (selectedRank && staffData[selectedRank]) {
+        staffData[selectedRank].forEach(function(name) {
+            const option = document.createElement("option");
+            option.value = name;
+            option.textContent = name;
+            nameSelect.appendChild(option);
+        });
+    } else {
+        nameSelect.innerHTML = '<option value="">-- पहिले दर्जा छान्नुहोस् --</option>';
+    }
+}
+
+// फारम सबमिट गर्दा सञ्चालन हुने फसन
+document.getElementById("myForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let form = this;
+    
+    // चेकबक्सहरू छान्ने
+    let checkboxes = document.querySelectorAll('input[name="duty_type"]:checked');
+    let values = [];
+    checkboxes.forEach((cb) => { values.push(cb.value); });
+    
+    // डाटा तयार पार्ने
+    let formData = new FormData(form);
+    formData.set("duty_type", values.join(", ")); 
+    
+    // Google Apps Script को URL
+    let scriptURL = "https://script.google.com/macros/s/AKfycbyS1mPzGd0g0IHIfTyWdFRSNHhYtSlzANPDBDaXpbW1oWBmoyA-QzrV1k_z8aK_6xuY/exec";
+    
+    // sendBeacon को प्रयोग (डाटा सेभ गर्न)
+    navigator.sendBeacon(scriptURL, formData);
+    
+    // मेसेज नदेखाई केवल फारम मात्र रिसेट हुने
+    form.reset(); 
+    document.getElementById("nameSelect").innerHTML = '<option value="">-- पहिले दर्जा छान्नुहोस् --</option>';
+});
+</script>
+
+</body>
+</html>

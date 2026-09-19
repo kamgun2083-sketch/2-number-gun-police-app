@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कार्यालय ड्युटी व्यवस्थापन प्रणाली (Cloud Connected)</title>
+  <style>
+    :root{
+      --navy:#0b2b4c;--deep:#061d35;--blue:#175a96;--slate:#e8eef4;--ink:#172536;
+      --muted:#5a6a7d;--line:#c7d3df;--gold:#f4b942;--success:#166534;--warning:#9a5a00;--danger:#b42318;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;width:100%;min-height:calc(100 * min(var(--vh,1vh),1vh));background:var(--slate);color:var(--ink);font-family:"Noto Sans Devanagari","Nirmala UI","Mangal",sans-serif}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[role="tab"]:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+    .app-shell{width:100%;padding:24px 16px 42px}
+    .app-content{width:100%;max-width:1120px;margin:auto}
+    .official-top{padding:20px 24px;border:1px solid #123f6b;border-bottom:4px solid var(--gold);border-radius:16px 16px 0 0;color:#fff;background:linear-gradient(135deg,var(--deep),#0e416d);box-shadow:0 10px 28px rgba(6,29,53,.16)}
+    .official-label{margin:0;color:#d8e8f7;font-size:.78rem;font-weight:800;letter-spacing:.05em}
+    .office-name{margin:5px 0 3px;font-size:clamp(1.2rem,2.8vw,1.6rem);font-weight:900}
+    .office-subtitle{margin:0;color:#d8e8f7;line-height:1.65}
+    .summary-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;overflow:hidden;border:1px solid var(--line);background:var(--line);border-radius:0 0 14px 14px}
+    .summary-item{padding:12px;background:#fff}
+    .summary-label{display:block;color:var(--muted);font-size:.72rem;font-weight:800}
+    .summary-value{display:block;margin-top:4px;color:var(--navy);font-size:.84rem;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 12px;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.85)}
+    .action,.small-action{display:inline-flex;align-items:center;justify-content:center;min-height:39px;padding:8px 12px;border:1px solid var(--navy);border-radius:8px;background:#fff;color:var(--navy);font-size:.84rem;font-weight:800}
+    .action:hover,.small-action:hover{background:#edf5fb}
+    .action.primary{background:var(--navy);color:#fff}
+    .action.danger,.small-action.danger{border-color:#d92d20;color:var(--danger)}
+    .action.danger:hover,.small-action.danger:hover{background:var(--danger);color:#fff}
+    .small-action{min-height:31px;padding:5px 8px;font-size:.76rem}
+    .file-input{display:none}
+    .status{min-height:28px;padding:3px 4px;color:var(--success);font-size:.88rem;font-weight:800}
+    .status.error{color:var(--danger)} .status.warning{color:var(--warning)}
+    .tabs{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border:1px solid #9eb1c3;border-radius:12px 12px 0 0;background:#dce7f0}
+    .tab{padding:14px;border:0;border-right:1px solid #9eb1c3;background:transparent;color:#36516d;font-weight:900}
+    .tab:last-child{border:0}.tab[aria-selected="true"]{background:var(--navy);color:#fff}
+    .sheet{padding:clamp(18px,4vw,32px);border:1px solid #aebdcb;border-top:0;background:#fff;box-shadow:0 12px 24px rgba(28,53,79,.08)}
+    .sheet[hidden]{display:none}
+    .sheet-title{text-align:center;margin:0;color:var(--navy);font-size:1.45rem;font-weight:900}
+    .rule{width:130px;height:3px;margin:10px auto 22px;background:#e1a420}
+    .field-row{display:flex;flex-wrap:wrap;gap:14px;align-items:end;margin-bottom:18px;padding:14px;border:1px solid #d7e0e8;border-radius:10px;background:#f8fafc}
+    .form-field{flex:1 1 180px}.form-field.small{flex:0 1 160px}
+    label{display:block;margin-bottom:5px;color:#334155;font-size:.82rem;font-weight:800}
+    input,select,textarea{width:100%;min-height:39px;padding:8px 10px;border:1px solid #aebdcb;border-radius:7px;background:#fff;color:var(--ink)}
+    textarea{min-height:75px;resize:vertical}
+    .date-panel{display:grid;grid-template-columns:1.2fr 1fr 1.25fr 1fr 1fr auto;gap:10px;align-items:end;margin:0 0 18px;padding:13px 14px;border:1px solid #d8b15c;border-radius:9px;background:#fff8e9}
+    .date-panel.reserve-date-panel{grid-template-columns:1.2fr 1fr 1.25fr 1fr auto;}
+    
+    .subject-box{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:0 0 12px;padding:10px 14px;background:#f1f5f9;border-radius:6px;border-left:4px solid var(--navy)}
+    .subject{margin:0;font-weight:900;line-height:1.6;color:var(--navy);font-size:1.05rem}
+
+    .notice{margin:0 0 20px;padding:12px 14px;border-left:4px solid #e1a420;background:#f6f9fc;line-height:1.8;display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+    .notice input, .notice select {display:inline-block; width:auto; min-height:32px; padding:3px 8px; font-weight:800; color:var(--navy);}
+    
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+    .duty-card{overflow:hidden;border:1px solid #b8c7d4;border-radius:10px;background:#fff;break-inside:avoid}
+    .duty-card.wide{grid-column:1/-1}.card-head{padding:11px 13px;color:#fff;background:var(--navy)}
+    .special-card .card-head{background:linear-gradient(135deg,#553a06,#8a5a08)}
+    .card-title{margin:0;font-size:1rem;font-weight:900}.card-meta{margin:4px 0 0;color:#d8e8f7;font-size:.78rem}
+    .card-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.card-body{padding:8px 12px}
+    
+    .row{display:grid;grid-template-columns:26px minmax(80px,.5fr) minmax(110px,.9fr) minmax(110px,.8fr) 95px minmax(70px,.6fr) 31px;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid #e1e8ee}
+    .row.reserve-row{grid-template-columns:26px minmax(90px,.8fr) minmax(150px,1.4fr) minmax(80px,.8fr) 31px;}
+    .row:last-child{border:0}
+    .row-index{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#537491;color:#fff;font-size:.75rem;font-weight:900}
+    .row.warn select,.row.warn input{border-color:#d79a37;background:#fffaf0}
+    .icon-button{width:31px;height:31px;border:1px solid #d92d20;border-radius:6px;background:#fff;color:var(--danger);font-weight:900}
+    .row-display{grid-column:2/7;margin-top:-1px;color:#284764;font-size:.8rem;font-weight:800;line-height:1.45;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .row.reserve-row .row-display{grid-column:2/5;}
+    .row-display .missing-time{color:var(--warning)}
+
+    .custom-time{grid-column:4/5}
+    .cafiyat-input{grid-column:6/7;font-size:0.8rem;padding:6px;}
+    .special-divider{display:flex;align-items:center;gap:12px;margin:28px 0 17px;color:#7a5207;font-size:.85rem;font-weight:900}
+    .special-divider:before,.special-divider:after{height:1px;content:"";flex:1;background:#d7b76e}
+    .special-label{padding:7px 11px;border:1px solid #dfc37e;border-radius:999px;background:#fff8e9}
+    .warning-note{margin:17px 0 0;padding:10px 12px;border:1px solid #edc77d;border-radius:8px;background:#fff8e9;color:#875209;font-size:.83rem;line-height:1.6}
+    .warning-note[hidden]{display:none}
+    .signature{display:flex;justify-content:flex-end;margin-top:45px}.signature-block{width:min(100%,300px);padding-top:11px;border-top:1px solid #526b83;text-align:center;line-height:1.8}
+    .signature-block p{margin:0;font-weight:900}.empty{grid-column:1/-1;padding:30px 15px;border:1px dashed #9eb1c3;border-radius:10px;color:var(--muted);text-align:center;line-height:1.8}
+    .modal-backdrop{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(6,29,53,.62)}
+    .modal-backdrop.open{display:flex}.modal{width:min(100%,760px);max-height:calc(92 * min(var(--vh,1vh),1vh));overflow:auto;padding:20px;border-radius:14px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.32)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.modal-head h2{margin:0;color:var(--navy);font-size:1.25rem}
+    .close{width:34px;height:34px;border:1px solid #aebdcb;border-radius:7px;background:#fff;color:var(--navy);font-size:1.2rem}
+    .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-grid .full{grid-column:1/-1}
+    .modal-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:9px;margin-top:17px}.personnel-tools{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}.personnel-tools>*{flex:1 1 160px}
+    .people-list{border:1px solid #d7e0e8;border-radius:9px;overflow:hidden}.person{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px;border-bottom:1px solid #e1e8ee}.person:last-child{border:0}.person small{display:block;color:var(--muted);margin-top:2px}.person-actions{display:flex;gap:6px}
+    @media(max-width:850px){
+      .app-shell{padding:12px 10px 28px}.summary-grid{grid-template-columns:repeat(2,1fr)}.tabs,.cards{grid-template-columns:1fr}.duty-card.wide{grid-column:auto}
+      .date-panel{grid-template-columns:1fr}.row{grid-template-columns:26px minmax(0,1fr) 31px;gap:5px}.row select,.row input{grid-column:2}.row .icon-button{grid-column:3;grid-row:1}.row-display{grid-column:2/4}.modal-grid{grid-template-columns:1fr}
+    }
+    @media print{
+      @page{size:A4 portrait;margin:10mm}
+      body{background:#fff}.app-shell{padding:0}.app-content{max-width:none}.toolbar,.status,.tabs,.summary-grid,.card-actions,.sheet>.field-row[style*="display: none"],.date-panel,.date-help,.no-print,.modal-backdrop,.icon-button{display:none!important}
+      .official-top{border-radius:0;box-shadow:none;padding:11px 15px;print-color-adjust:exact;-webkit-print-color-adjust:exact}.sheet{padding:18px 0 0;border:0;box-shadow:none}.sheet[hidden]{display:none!important}
+      .duty-card,.signature{break-inside:avoid}.cards{gap:12px}.duty-card{margin-bottom:10px}
+      .row{grid-template-columns:26px 1fr;padding:6px 0;gap:6px}.row select,.row input{display:none!important}.row-display{grid-column:2;margin:0;font-size:.82rem}.special-divider{margin-top:18px}
+      .notice input, .notice select {border:0; background:transparent; padding:0; -webkit-appearance:none; font-weight:900;}
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+   <div class="app-content">
+    <header class="official-top">
+     <p class="official-label">कार्यालय व्यवस्थापन</p>
+     <h1 id="officeName" class="office-name"></h1>
+     <p id="officeSubtitle" class="office-subtitle"></p>
+    </header>
+    <section class="summary-grid" aria-label="ड्युटी सारांश">
+     <div class="summary-item"><span class="summary-label">सक्रिय section</span><span class="summary-value" id="sumActive"></span></div>
+     <div class="summary-item"><span class="summary-label">मिति</span><span class="summary-value" id="sumDate"></span></div>
+     <div class="summary-item"><span class="summary-label">कुल पोष्ट</span><span class="summary-value" id="sumPosts"></span></div>
+     <div class="summary-item"><span class="summary-label">कुल duty slots</span><span class="summary-value" id="sumTotal"></span></div>
+     <div class="summary-item"><span class="summary-label">भरिएका कर्मचारी</span><span class="summary-value" id="sumFilled"></span></div>
+     <div class="summary-item"><span class="summary-label">अन्तिम save</span><span class="summary-value" id="sumSaved"></span></div>
+    </section>
+    <section class="toolbar no-print" aria-label="कार्य विकल्पहरू">
+     <button class="action primary" id="addPostBtn" type="button">नयाँ पोष्ट थप्नुहोस्</button> 
+     <button class="action" id="peopleBtn" type="button">जनशक्ति व्यवस्थापन</button> 
+     <button class="action" id="settingsBtn" type="button">प्रणाली सेटिङ</button> 
+     <button class="action" id="exportBtn" type="button">JSON Export</button> 
+     <label class="action" for="importFile" style="cursor:pointer;">JSON Import</label> 
+     <input class="file-input" id="importFile" type="file" accept=".json,application/json"> 
+     <button class="action primary" id="printBtn" type="button">प्रिन्ट / PDF</button> 
+     <button class="action" id="resetBtn" type="button">प्रारम्भिक अवस्थामा फर्काउनुहोस्</button> 
+     <button class="action danger" id="clearBtn" type="button">स्थानीय data हटाउनुहोस्</button>
+     <button class="action primary" id="manualSaveBtn" type="button" style="background:#166534; color:#fff;">Save / Submit (सेभ गर्नुहोस्)</button>
+     <button class="action" id="authBtn" type="button" style="background:#166534; color:#fff;">लगइन / एडमिन बन्नुहोस्</button>
+    </section>
+    <div class="status no-print" id="status" role="status" aria-live="polite"></div>
+    <nav class="tabs no-print" role="tablist" aria-label="ड्युटी प्रकार">
+     <button class="tab" id="internalTab" type="button" role="tab" aria-selected="true" aria-controls="internalSheet">१. आन्तरिक पेरिमिटर ड्युटी</button> 
+     <button class="tab" id="reserveTab" type="button" role="tab" aria-selected="false" aria-controls="reserveSheet">२. बाहिरी रिजर्भ ड्युटी</button>
+    </nav>
+    <main>
+     <section class="sheet" id="internalSheet" role="tabpanel" aria-labelledby="internalTab">
+      <h2 class="sheet-title" style="color: rgb(11, 43, 76); font-weight: 800; font-size: 21px;">आन्तरिक पेरिमिटर ड्युटी</h2>
+      <div class="rule"></div>
+      <div class="date-panel no-print">
+       <div><label for="internalDateSystem">मिति प्रणाली</label> <select id="internalDateSystem" disabled> <option value="nepali">नेपाली विक्रम संवत्</option> <option value="gregorian">अंग्रेजी मिति</option> </select></div>
+       <div><label for="internalNepaliDate">नेपाली मिति (वि.सं.)</label> <input id="internalNepaliDate" inputmode="numeric" placeholder="२०८३।०५।२७" disabled></div>
+       <div><label for="internalDate">अंग्रेजी मिति</label> <input id="internalDate" type="date" disabled></div>
+       <div><button class="action" id="internalTodayBs" type="button" disabled>आजको मिति</button></div>
+       <div>
+         <label for="internalShiftSelect">ड्युटी समय छान्नुहोस्</label>
+         <select id="internalShiftSelect" disabled>
+           <option value="दिन">दिनको ड्युटी</option>
+           <option value="रात">रातको ड्युटी</option>
+         </select>
+       </div>
+      </div>
+      <p class="date-help no-print" id="internalDateHelp" hidden=""></p>
+      
+      <div class="subject-box">
+       <p class="subject" id="internalSubject"></p>
+      </div>
+
+      <p class="notice" id="koteshworNotice"></p>
+      <div class="cards" id="internalCards"></div>
+
+      <div class="special-divider"><span class="special-label">क्वाटर गार्ड ड्युटी</span></div>
+      <div class="notice" id="quarterGuardNoticeBox">
+        <span>क्वाटरगार्डमा जाने समय:</span>
+        <input type="text" id="quarterGuardTimeInput" placeholder="जस्तै: ०६:०० बजे" style="max-width: 160px;" disabled>
+        <span>मा अनिवार्य रूपमा हाजीर हुनुहुन निर्देश गरिन्छ।</span>
+      </div>
+
+      <div class="cards" id="quarterGuardCards"></div>
+
+      <div class="special-divider"><span class="special-label">सबैभन्दा तलको विशेष ड्युटी</span></div>
+      <div class="cards" id="koteshworCards"></div>
+      <p class="warning-note" id="internalWarning" hidden=""></p>
+      <div class="signature">
+       <div class="signature-block">
+        <p id="internalSignRank"></p>
+        <p id="internalSignName"></p>
+       </div>
+      </div>
+     </section>
+
+     <section class="sheet" id="reserveSheet" role="tabpanel" aria-labelledby="reserveTab" hidden="">
+      <h2 class="sheet-title" style="color: rgb(11, 43, 76); font-weight: 800; font-size: 21px;">बाहिरी रिजर्भ ड्युटी</h2>
+      <div class="rule"></div>
+      <div class="date-panel reserve-date-panel no-print">
+       <div><label for="reserveDateSystem">मिति प्रणाली</label> <select id="reserveDateSystem" disabled> <option value="nepali">नेपाली विक्रम संवत्</option> <option value="gregorian">अंग्रेजी मिति</option> </select></div>
+       <div><label for="reserveNepaliDate">नेपाली मिति (वि.सं.)</label> <input id="reserveNepaliDate" inputmode="numeric" placeholder="२०८३।०५।२७" disabled></div>
+       <div><label for="reserveDate">अंग्रेजी मिति</label> <input id="reserveDate" type="date" disabled></div>
+       <div><button class="action" id="reserveTodayBs" type="button" disabled>आजको मिति</button></div>
+      </div>
+      <p class="date-help no-print" id="reserveDateHelp" hidden=""></p>
+      
+      <div class="subject-box">
+       <p class="subject" id="reserveSubject"></p>
+      </div>
+
+      <div class="notice" id="reserveNoticeBox">
+        <span>तपसिल बमोजिमका प्रहरी कर्मचारीहरूलाई उल्लेखित रिजर्भ ड्युटीका लागि समय</span>
+        <input type="text" id="reserveTimeInput" placeholder="जस्तै: १०ः०० बजे" style="max-width: 140px;" disabled>
+        <span>मा अनिवार्य रूपमा हाजीर/सामेल हुनुहुन निर्देश गरिन्छ।</span>
+      </div>
+
+      <div class="cards" id="reserveCards"></div>
+
+      <p class="warning-note" id="reserveWarning" hidden=""></p>
+      <div class="signature">
+       <div class="signature-block">
+        <p id="reserveSignRank"></p>
+        <p id="reserveSignName"></p>
+       </div>
+      </div>
+     </section>
+    </main>
+   </div>
+  </div>
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+   <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+     <h2 id="modalTitle"></h2><button class="close" id="modalClose" type="button" aria-label="बन्द गर्नुहोस्">×</button>
+    </div>
+    <div id="modalContent"></div>
+   </section>
+  </div>
+  <script>
+  (() => {
+    "use strict";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx-Jpo42JlzQzKpxRXRTBV_OD53usWbZABICHiyf_Rd6AEWEjpItIf2hpWEO0Ho6tqL/exec";
+    const nepDigits = "०१२३४५६७८९";
+    const times = ["","०६ः००-१०ः०० बजे","१०ः००-१४ः०० बजे","१४ः००-१८ः०० बजे","१८ः००-२२ः०० बजे","२२ः००-०२ः०० बजे","०२ः००-०६ः०० बजे","custom"];
+    
+    let isAdmin = false;
+    
+    const groupedData = {
+      "प्र.ब.ह.": [
+        "अम्मर सिंह ठकुरी", "ईश्वर के.सी.", "झषनाथ पोख्रेल", "दमेन्ती बुढाथोकी", "निर्मला के.सी.", "बैजनाथ भोर", "भुपेन्द्र राई", "सुभाष प्रसाद केशरी", "राजाराम कार्की", "दिपेन्द्र राना", "पवित्रा थापा"
+      ],
+      "प्र.ह.": [
+        "अमृतलाल गिरी", "अनिता शर्मा", "अशोक बैठा", "ओम बहादुर थापा", "काशीनाथ पौडेल", "कविराज सेजुवाल", "कमला कुमारी महर", "गणेश महतो", "गोबिन्द प्रसाद अर्याल", "जयन्ती कुमारी बोहरा", "डिल बहादुर थापामगर", "दिपक पाण्डे", "धर्म बहादुर सारु मगर", "नकुलमान राई", "नारायण दत्त भट्ट", "नैन बहादुर शाही", "निमलाल थारु", "पिताम्बर अधिकारी", "प्रमोद कुमार यादव", "पुरन सिंह कुवँर", "पृथ राज महत", "फिपरानी लिम्बु", "बद्री प्रसाद धिताल", "बाबुराम गिरी", "बैकुण्ठ सुवेदी", "भवानि रायमाझी", "भुपाल बहादुर नेपाली", "मिन बहादुर के.सी.", "राजु प्रसाद गुप्ता", "रेशम बि.क.", "लक्ष्मण रन्जित", "लक्ष्मी लामा", "लाल सिंह गिरी", "लाल बहादुर खत्री", "लाल बहादुर चन्द", "विष्णु बहादुर पछाई", "शर्मिला कुवंर", "शिव कुमार चौधरी", "सुन्तली धामी", "सुरेश कुमार सुनार", "हुकुम सिंह बोगटी", "हिक्मत सिंह धामी", "थर्क बहादुर सारु मगर", "रामचन्द्र जोशी"
+      ],
+      "प्र.स.ह.": [
+        "उमेश कुमार मण्डल", "उमेश दाहाल", "ऋषीराम श्रेष्ठ", "कमल खड्का", "कुशल थापा", "कृष्ण बहादुर खड्का", "केश नारायण विष्ट", "गणेश सिंह विष्ट", "जगदिश ढिकाल भुल", "डिल बहादुर थापामगर", "ढल बहादुर थापामगर", "दिपक मगर", "दिपक कुमार बि.क.", "दिपकराज गिरी", "दिपेन्द्र कुमार ठाकुर", "दिल बहादुर दर्लामी", "धन बहादुर बगाले", "धन बहादुर थामी", "दुर्गा बहादुर खाम्चा मगर", "नन्दराज भट्ट", "नरेन्द्र सिंह धामी", "निवा लिम्बु", "पुनम राई", "विरेन्द्र गुरुङ", "फणिन्द्र राज अर्याल", "विक्रम बहादुर आले", "प्रदिप हुमागाई", "प्रेम खड्का", "प्रेम बहादुर बस्नेत", "बालाराम वि.क.", "भावना मल्ल", "बिजय श्रेष्ठ", "बिनिता कुमारी कामी", "फुलमाया दहित", "मनिष वि.क.", "मिन बहादुर थापा", "रमेश प्रसाद जैशी", "राजु लुहार", "रतन बहादुर पुन", "रेशम थापा मगर", "रोशनी खड्गी", "लक्ष्मी नेपाली", "लोकेन्द्र बहादुर कार्की", "विकास थापामगर", "शान्ता अधिकारी", "श्याम कुमार अधिकारी", "सियाराम चौधरी", "सुदिप बहादुर गुरुङ", "सुनिल सुनार", "सुमन परियार", "हरि बहादुर खप्तरी", "होम बहादुर श्रेष्ठ", "जगुलाल चौधरी", "तेज राज न्यौपाने"
+      ],
+      "प्र.ज.": [
+        "अनिल थारु", "अजय राई", "अन्जन अधिकारी", "अन्जना थापा", "अनिल एम.सी.", "अनिल शेर्पा", "अनिल सेराला", "अमर पार्की", "अम्मर बहादुर कामी", "अनुप चौधरी", "अर्जुन बुढा", "अर्जुन प्रसाद जैशी", "अशोक नेपाली", "अर्पण चौधरी", "उमेश न्यौपाने", "उमेश बहादुर चन्द", "उमराजन सिंह ठगुन्ना", "कपिल रायमाझी", "कबिन्द्र विष्ट", "कमल राना", "करुणा वली", "करिश्मा भट्ट", "कल्पना डांगी", "कुनाल प्रसाद जैसी", "क्यामोदिन अंसारी", "कृतिका सुनार", "कृष्ण बि.क.", "कृष्ण सावद", "कुमार आले मगर", "केशव बहादुर चन्द", "खगेन्द्र बहादुर बि.क.", "खुम बहादुर थापा मगर", "गणेश खत्री", "गणेश बि.क.", "गणेश सार्की", "गोपाल ढकाल", "चन्द्र किशोर मण्डल", "चन्द्र सिंह भाट", "ङिमलामु तामाङ", "दर्पण राज भट्ट", "दयाराम रोक्का", "देव राज भट्ट", "जेनिस बि.क.", "दिनेश कुमार हरिजन", "दिपक बुढा", "दिपक कुमार मौर्या", "दिपक सुनार", "पवन कुमार वली", "अलिमुन निशा", "दिपेन्द्र बहादुर बुढ थापा", "दिपेन्द्र शाही", "दिपेश कुमार चौधरी", "दिपेश यादव", "दीपिका सुनार", "देव बहादुर फौजा", "धन बहादुर जि.सी.", "धन बहादुर बुढा", "धर्मराज बिष्ट", "धर्मेन्द्र पासी", "धिरज थापा", "नारायण खत्री", "नरेन्द्र थारु", "नवराज ढकाल", "निमा बुढा मगर", "निर्मला रोकाय", "निर्मल रावल", "निशा पुन मगर", "पंकज कुमार ठाकुर", "पवन घर्तीमगर", "पुजा भट्ट", "पुर्णीमा ठाडा", "धुरुप चमार", "प्रकाश कुमार हिस्की मगर", "प्रकाश पुन", "प्रकृती थारु", "प्रतिक्षा थारु", "प्रशान्त रावत", "प्रेम कुमार महर", "प्रेम बहादुर वली", "प्रेम बि.क.", "प्रिति विष्ट", "प्रेम राम महर", "बसन्ति वि.क.", "बिमला कुमारी बम्जन", "बिबेक सिजापती", "बिर बहादुर वि.क.", "बिरेन्द्र घर्तीमगर", "बिरेन्द्र बोगटी", "बिरेन्द्र वड", "बिरेन्द्र सिंह ठकुराठी", "बिनोद बहादुर नायक", "बिनोद साकी", "बिनोद साउद", "बिनोद सिंह नेगी", "विबिषा ओली", "विवेक नेपाली", "विशाल राई", "विशाल रोकाय", "विशाल थापा", "विजय लामा", "भावना चौसिर", "भिम बहादुर चन्द", "भिम बहादुर वली", "भुवन बि.क.", "मौसम चमार", "मनिष खड्का", "मनिष सिंह भाट", "मनिष थापा", "मनोज रोका मगर", "मन्दिप सहनी", "महेश पार्की", "मान बहादुर गिरी", "माया वि.क.", "युवराज पुन", "रन्जित कुमार दास", "रबिन्द्र कुमार यादव", "रमा रोकाय", "रमेश डि.सी.", "रमेश बहादुर बोहरा", "राजु गुर्धामी", "राजेन्द्र कुमार रावल", "राजेन्द्र थापा", "राधेश्याम मुखिया", "राम चरण चौधरी", "राम सागर चमार", "रुपेश बिष्ट", "रेशम वली", "रोशन सिंह थामी", "रोशनी चौधरी", "लोक बहादुर थापामगर", "लोकेन्द्र अधिकारी", "लोकेश बहादुर महरा", "लक्ष्मण दत्त बाग", "विकास कुमार साह", "विकाश कार्की", "विनोद खड्का", "विनोद खान ठकुरी", "शिव कुमार परियार", "शिव तामाङ्ग", "शिव बिष्ट", "शिव शंकर पहरी", "शशि कुमार साह", "श्री कृष्ण नेपाली", "श्रावण कुमार हरिजन", "सदिप परियार", "सचिन कुमार बोहरा", "सबिन बि.सी.", "समीक्षा नेपाली", "सन्दिप बस्नेत", "सन्दिप सिंह नायक", "सन्तोष टमटा", "सन्तोष चौधरी", "सरिता भगौरिया", "सरिता चौधरी", "सरोज चौधरी", "सिता के.सी.", "सिमा क्षेत्री", "सिर्जना बाकावल", "सुदिप पासवान", "सुमित्रा बसेल", "सुनिल जैसी", "सुनिल तामाङ", "सुनिल बिष्ट", "सुनिल भट्ट", "सुमन पुन", "सुरज चौधरी", "सुरेन्द्र वि.क.", "सुरेश खड्का", "सुशिला राना", "सोभा सार्की", "सुनिता बि.क.", "हरि सिंह धामी", "हेमन्त आचार्य", "हिमाल बराल", "सोनी योञ्जन", "पविता चौधरी", "सन्देश लामा", "हरेन्द्र मल्ल", "भावना थापा", "अमर बहादुर राना मगर", "लक्ष्मी कुमारी कुँवर", "हरी कार्की", "toayराज भट्ट"
+      ]
+    };
+
+    const baseRanks = Object.keys(groupedData);
+
+    const $ = id => document.getElementById(id);
+    const clone = value => JSON.parse(JSON.stringify(value));
+    const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+    const nep = value => String(value).replace(/\d/g, d => nepDigits[d]);
+    const safe = value => typeof value === "string" ? value.replace(/[<>]/g,"") : "";
+    const today = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0,10);
+    
+    const row = (rank="",personnelId="",time="",customTime="",remarks="") => ({id:uid(),rank,personnelId,time,customTime,remarks});
+    const post = (title,location="",description="",rows=[]) => ({id:uid(),title,location,description,rows});
+    const isKoteshwor = item => /कोटेश्वर|koteshwor/i.test(String(item?.title || "") + " " + String(item?.location || ""));
+
+    function normalizeNepaliDate(value) {
+      const latin = String(value || "").replace(/[०-९]/g, d => String(nepDigits.indexOf(d))).trim();
+      const match = latin.match(/^(\d{4})[।.\-\/](\d{1,2})[।.\-\/](\d{1,2})$/);
+      if (!match) return "";
+      const year = Number(match[1]), month = Number(match[2]), day = Number(match[3]);
+      if (year < 1900 || year > 2200 || month < 1 || month > 12 || day < 1 || day > 32) return "";
+      return nep(String(year).padStart(4,"0")) + "।" + nep(String(month).padStart(2,"0")) + "।" + nep(String(day).padStart(2,"0"));
+    }
+
+    function bsDate(dateValue) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(dateValue || "")) return "";
+      const date = new Date(dateValue + "T12:00:00Z");
+      if (Number.isNaN(date.getTime()) || date.getUTCFullYear() < 1943 || date.getUTCFullYear() > 2044) return "";
+      try {
+        const parts = new Intl.DateTimeFormat("en-u-ca-bikram-sambat-nu-latn", {timeZone:"UTC",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
+        const pick = type => parts.find(part => part.type === type)?.value;
+        const year = Number(pick("year")), month = Number(pick("month")), day = Number(pick("day"));
+        if (!year || !month || !day) return "";
+        return nep(String(year).padStart(4,"0")) + "।" + nep(String(month).padStart(2,"0")) + "।" + nep(String(day).padStart(2,"0"));
+      } catch (_) { return ""; }
+    }
+
+    function defaults() {
+      const personnel = [];
+      for (const [rank, names] of Object.entries(groupedData)) {
+        names.forEach(name => {
+          personnel.push({id:uid(), name, rank, code:"", remarks:""});
+        });
+      }
+      const find = name => personnel.find(p => p.name === name)?.id || "";
+      return {
+        version:12,
+        adminPassword:"admin123",
+        settings:{
+          officeName:"काठमाडौं उपत्यका सशस्त्र प्रहरी गण नं. २, महाराजगंज",
+          officeSubtitle:"ड्युटी खटन विवरण",
+          battalionMajor:"II बगालियन मेजर II",
+          signatureRank:"बटालियन मेजर",
+          signatureName:"प्र.ब.ह. राजाराम कार्की"
+        },
+        personnel,
+        ranks:clone(baseRanks),
+        internalPosts:[
+          post("पोष्ट नं. १","आन्तरिक पेरिमिटर","",[row("","","०६ः००-१०ः०० बजे","","RP"), row("","","२२ः००-०२ः०० बजे","","")]),
+          post("पोष्ट नं. २","आन्तरिक पेरिमिटर","",[row("","","१०ः००-१४ः०० बजे","","हतियार")]),
+          post("पोष्ट नं. ४","आन्तरिक पेरिमिटर","",[row("","","१४ः००-१८ः०० बजे","","")]),
+          post("पोष्ट नं. ५","आन्तरिक पेरिमिटर","",[row("","","१८ः००-२२ः०० बजे","","")]),
+          post("कार्यालय भन्दा बाहिर भारतीय केन्द्रिय विद्यालय","बाहिर","",[row("","","०६ः००-१०ः०० बजे","","")]),
+          post("CIB सामाखुशी","CIB","",[row("","","१०ः००-१४ः०० बजे","","RP")])
+        ],
+        quarterGuardPost:post("क्वाटर गार्ड ड्युटी","क्वाटर गार्ड","",[row("","","","","")]),
+        koteshworPost:post("कोटेश्वर विशेष ड्युटी","कोटेश्वर","फुलगियरमा पानी वर्षादी सहित",[row()]),
+        reservePosts:[
+          post("R-1","बाहिरी रिजर्भ","",[row("प्र.ब.ह.",find("अम्मर सिंह ठकुरी"),"","",""), row("प्र.ह.",find("अनिता शर्मा"),"","","")]),
+          post("R-2","बाहिरी रिजर्भ","",[row("प्र.ज.",find("रेशम बि.क."),"","","")])
+        ],
+        activeTab:"internal",
+        dates:{
+          internal:{dateSystem:"nepali",nepaliDate:"",gregorianDate:today(),manualNepali:false,shift:"दिन"},
+          reserve:{dateSystem:"nepali",nepaliDate:"",gregorianDate:today(),manualNepali:false,shift:"दिन"}
+        },
+        reserveTimeText:"१०ः०० बजे",
+        quarterGuardTimeText:"०६:०० बजे",
+        lastSavedAt:""
+      };
+    }
+
+    let state = defaults(), lastFocus = null;
+
+    function fixRows(posts) {
+      posts.forEach(item => {
+        if (!item || typeof item !== "object") return;
+        item.id = item.id || uid();
+        item.title = safe(item.title || "").replace(/ट्रक/g, "").trim();
+        item.location = safe(item.location || "");
+        item.description = safe(item.description || "");
+        if (!Array.isArray(item.rows)) item.rows = [];
+        item.rows.forEach(entry => {
+          entry.id = entry.id || uid();
+          entry.rank = safe(entry.rank || "");
+          entry.personnelId = safe(entry.personnelId || "");
+          entry.time = times.includes(entry.time) ? entry.time : "";
+          entry.customTime = safe(entry.customTime || entry.dutyTime || "");
+          entry.remarks = safe(entry.remarks || "");
+        });
+      });
+    }
+
+    function migrate(raw) {
+      const base = defaults();
+      const data = {...base,...raw,settings:{...base.settings,...(raw.settings || {})},ranks:Array.isArray(raw.ranks) ? raw.ranks.map(safe).filter(Boolean) : base.ranks};
+      data.adminPassword = raw.adminPassword || base.adminPassword;
+      
+      if (Array.isArray(raw.personnel) && raw.personnel.length > 10) {
+        data.personnel = raw.personnel.map(p => ({id:p.id || uid(),name:safe(p.name || ""),rank:safe(p.rank || ""),code:safe(p.code || ""),remarks:safe(p.remarks || "")})).filter(p => p.name);
+      } else {
+        data.personnel = base.personnel;
+      }
+
+      data.internalPosts = Array.isArray(raw.internalPosts) ? raw.internalPosts : base.internalPosts;
+      data.reservePosts = Array.isArray(raw.reservePosts) ? raw.reservePosts : base.reservePosts;
+      
+      data.reservePosts.forEach(p => {
+        if (p.title) p.title = p.title.replace(/ट्रक/g, "").replace(/रिजर्भ\s*—?/g, "").trim();
+        if (!p.title) p.title = "R-1";
+      });
+
+      const legacyKoteshwor = data.internalPosts.find(isKoteshwor);
+      data.internalPosts = data.internalPosts.filter(item => !isKoteshwor(item));
+      data.koteshworPost = raw.koteshworPost || legacyKoteshwor || base.koteshworPost;
+      data.quarterGuardPost = raw.quarterGuardPost || base.quarterGuardPost;
+
+      fixRows(data.internalPosts); 
+      fixRows(data.reservePosts); 
+      fixRows([data.koteshworPost]);
+      fixRows([data.quarterGuardPost]);
+      
+      const oldDates = raw.dates || {};
+      const makeDate = key => {
+        const old = oldDates[key];
+        return {
+          dateSystem:old?.dateSystem === "gregorian" ? "gregorian" : "nepali",
+          nepaliDate:normalizeNepaliDate(old?.nepaliDate || ""),
+          gregorianDate:/^\d{4}-\d{2}-\d{2}$/.test(old?.gregorianDate || "") ? old.gregorianDate : today(),
+          manualNepali:Boolean(old?.manualNepali || old?.nepaliDate),
+          shift:old?.shift === "रात" ? "रात" : "दिन"
+        };
+      };
+      data.dates = {internal:makeDate("internal"),reserve:makeDate("reserve")};
+      data.reserveTimeText = safe(raw.reserveTimeText || "१०ः०० बजे");
+      data.quarterGuardTimeText = safe(raw.quarterGuardTimeText || "०६:०० बजे");
+      data.version = 12;
+      return data;
+    }
+
+    function valid(raw) { return raw && typeof raw === "object" && Array.isArray(raw.personnel) && Array.isArray(raw.internalPosts) && Array.isArray(raw.reservePosts); }
+    
+    async function restoreFromCloud() {
+      try {
+        status("क्लाउडबाट डेटा लोड हुँदैछ...", "warning");
+        let response = await fetch(WEB_APP_URL);
+        let raw = await response.json();
+        if (raw && Object.keys(raw).length > 0 && valid(raw)) {
+          state = migrate(raw);
+          render();
+          status("क्लाउडबाट सफलतापूर्वक डेटा लोड भयो");
+          return true;
+        }
+      } catch (e) {
+        console.error(e);
+        status("क्लाउड डेटा लोड गर्न असफल, पूर्वनिर्धारित डेटा प्रयोग गरिँदैछ", "error");
+      }
+      state = defaults();
+      render();
+      return false;
+    }
+
+    function status(message,type="success") {
+      const el = $("status");
+      el.textContent = message + " · " + new Date().toLocaleTimeString("ne-NP",{hour:"2-digit",minute:"2-digit"});
+      el.className = "status no-print" + (type === "error" ? " error" : type === "warning" ? " warning" : "");
+    }
+    
+    async function saveToCloud(message="") {
+      try {
+        state.lastSavedAt = new Date().toLocaleString("ne-NP",{dateStyle:"short",timeStyle:"short"});
+        renderSummary();
+        status("क्लाउडमा सेभ हुँदैछ...", "warning");
+        
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(state)
+        });
+        
+        if (message) status(message);
+        else status("क्लाउडमा सफलतापूर्वक सेभ भयो");
+      } catch (err) {
+        console.error(err);
+        status("क्लाउडमा सेभ गर्न असफल भयो", "error");
+      }
+    }
+
+    function person(id) { return state.personnel.find(p => p.id === id); }
+    function allPosts(type) { return type === "internal" ? [...state.internalPosts, state.quarterGuardPost, state.koteshworPost] : state.reservePosts; }
+    function getPost(id) { return [...state.internalPosts, state.quarterGuardPost, state.koteshworPost, ...state.reservePosts].find(p => p.id === id); }
+    function getRow(id) { for (const p of [...state.internalPosts, state.quarterGuardPost, state.koteshworPost, ...state.reservePosts]) { const r = p.rows.find(x => x.id === id); if (r) return r; } }
+    function dateData(type) { return state.dates[type]; }
+    
+    function displayDate(type) {
+      const date = dateData(type);
+      if (date.dateSystem === "gregorian") return date.gregorianDate || "मिति छैन";
+      return normalizeNepaliDate(date.nepaliDate) || bsDate(date.gregorianDate) || "मिति छैन";
+    }
+
+    function dateHelp(type) {
+      const date = dateData(type);
+      if (date.dateSystem === "nepali" && date.nepaliDate && !normalizeNepaliDate(date.nepaliDate)) return "नेपाली मिति ढाँचा मिलेन";
+      return "";
+    }
+    function dutyTime(entry) { return entry.time === "custom" ? safe(entry.customTime).trim() : entry.time; }
+
+    function renderSummary() {
+      const posts = state.activeTab === "internal" ? [...state.internalPosts, state.quarterGuardPost] : state.reservePosts, rows = posts.flatMap(p => p.rows);
+      $("sumActive").textContent = state.activeTab === "internal" ? "आन्तरिक पेरिमिटर" : "बाहिरी रिजर्भ";
+      $("sumDate").textContent = displayDate(state.activeTab);
+      $("sumPosts").textContent = nep(posts.length);
+      $("sumTotal").textContent = nep(rows.length);
+      $("sumFilled").textContent = nep(rows.filter(r => r.personnelId).length);
+      $("sumSaved").textContent = state.lastSavedAt || "अहिलेसम्म छैन";
+    }
+
+    function option(value,text,selected) { const el=document.createElement("option");el.value=value;el.textContent=text;el.selected=value===selected;return el; }
+    function selectRank(entry) {
+      const el=document.createElement("select");el.dataset.action="rank";el.dataset.row=entry.id;
+      el.disabled = !isAdmin;
+      el.append(option("","पद छान्नुहोस्",!entry.rank));state.ranks.forEach(rank => el.append(option(rank,rank,entry.rank===rank)));return el;
+    }
+    
+    function selectPerson(entry) {
+      const el=document.createElement("select");el.dataset.action="person";el.dataset.row=entry.id;
+      el.disabled = !isAdmin;
+      el.append(option("","नाम छान्नुहोस्",!entry.personnelId));
+      
+      const filteredPeople = entry.rank 
+        ? state.personnel.filter(p => p.rank === entry.rank) 
+        : state.personnel;
+
+      filteredPeople.sort((a,b)=>a.name.localeCompare(b.name,"ne")).forEach(p=>el.append(option(p.id,p.name,p.id===entry.personnelId)));
+      
+      if(entry.personnelId && !person(entry.personnelId)) {
+        el.append(option(entry.personnelId,"अज्ञात/हटाइएको जनशक्ति",true));
+      }
+      return el;
+    }
+
+    function selectTime(entry) {
+      const el=document.createElement("select");el.dataset.action="time";el.dataset.row=entry.id;
+      el.disabled = !isAdmin;
+      el.append(option("","समय चयन गर्नुहोस्",!entry.time));
+      times.slice(1).forEach(time => el.append(option(time,time==="custom"?"आफैं समय लेख्नुहोस्":time,entry.time===time)));
+      return el;
+    }
+
+    function buildCard(item, cardType="normal") {
+      const isSpecial = cardType === "special";
+      const isQuarterGuard = cardType === "quarterGuard";
+      const isReserve = cardType === "reserve";
+
+      const card=document.createElement("article");
+      card.className="duty-card"+(isSpecial || isQuarterGuard ? " wide special-card":"");
+      card.dataset.post=item.id;
+      
+      const head=document.createElement("div");head.className="card-head";
+      const title=document.createElement("h3");title.className="card-title";title.textContent=item.title||"नाम नभएको पोष्ट";head.append(title);
+      if(item.location||item.description){const meta=document.createElement("p");meta.className="card-meta";meta.textContent=[item.location,item.description].filter(Boolean).join(" — ");head.append(meta);}
+      
+      const actions=document.createElement("div");actions.className="card-actions";
+      if(isAdmin){
+        const controls = isQuarterGuard 
+          ? [["addRow","ड्युटी पंक्ति थप्नुहोस्",""]]
+          : isSpecial 
+          ? [["addRow","ड्युटी पंक्ति थप्नुहोस्",""]] 
+          : [["editPost","पोष्ट सम्पादन",""],["addRow","ड्युटी पंक्ति थप्नुहोस्",""],["deletePost","पोष्ट हटाउनुहोस्","danger"]];
+        
+        controls.forEach(([action,label,klass])=>{const btn=document.createElement("button");btn.type="button";btn.className="small-action "+klass;btn.dataset.action=action;btn.dataset.post=item.id;btn.textContent=label;actions.append(btn);});
+      }
+      head.append(actions);card.append(head);
+      
+      const body=document.createElement("div");body.className="card-body";
+      item.rows.forEach((entry,index)=>{
+        const line=document.createElement("div");line.className="row" + (isReserve ? " reserve-row" : "");line.dataset.rowwrap=entry.id;
+        const num=document.createElement("span");num.className="row-index";num.textContent=nep(index+1);
+        const remove=document.createElement("button");remove.type="button";remove.className="icon-button no-print";remove.dataset.action="deleteRow";remove.dataset.post=item.id;remove.dataset.row=entry.id;remove.setAttribute("aria-label","ड्युटी पंक्ति हटाउनुहोस्");remove.textContent="×";
+        if(!isAdmin) remove.style.display = "none";
+        
+        const display=document.createElement("div");display.className="row-display";
+        const p=person(entry.personnelId); 
+        const who=[entry.rank || p?.rank,p?.name || (entry.personnelId ? "अज्ञात/हटाइएको जनशक्ति" : "कर्मचारी चयन गरिएको छैन")].filter(Boolean).join(" ");
+        
+        const cafiyatInput = document.createElement("input");
+        cafiyatInput.dataset.action = "cafiyat";
+        cafiyatInput.dataset.row = entry.id;
+        cafiyatInput.placeholder = "कैफियत (RP, हतियार आदि)";
+        cafiyatInput.value = entry.remarks || "";
+        cafiyatInput.className = "cafiyat-input";
+        cafiyatInput.disabled = !isAdmin;
+
+        if (isReserve) {
+          display.textContent = who + (entry.remarks ? " [" + entry.remarks + "]" : "");
+          line.append(num,selectRank(entry),selectPerson(entry),cafiyatInput,remove,display);
+        } else {
+          const custom=document.createElement("input");custom.dataset.action="customTime";custom.dataset.row=entry.id;custom.placeholder="जस्तै ०७ः३०-११ः३० बजे";custom.value=entry.customTime||"";custom.className="custom-time";custom.hidden=entry.time!=="custom";
+          custom.disabled = !isAdmin;
+          const time=dutyTime(entry);
+          display.textContent = who + " — समय: ";
+          const timeText = document.createElement("span");
+          timeText.textContent = time || "समय चयन गरिएको छैन"; 
+          if(!time) timeText.className = "missing-time";
+          display.append(timeText);
+          if(entry.remarks) {
+            const remSpan = document.createElement("span");
+            remSpan.textContent = " | कैफियत: " + entry.remarks;
+            display.append(remSpan);
+          }
+          line.append(num,selectRank(entry),selectPerson(entry),selectTime(entry),custom,cafiyatInput,remove,display);
+        }
+        body.append(line);
+      });
+      card.append(body);return card;
+    }
+
+    function renderPosts(type) {
+      if (type === "internal") {
+        const container = $("internalCards"); 
+        container.replaceChildren();
+        state.internalPosts.forEach(p => container.append(buildCard(p, "normal")));
+        
+        const qContainer = $("quarterGuardCards");
+        qContainer.replaceChildren();
+        qContainer.append(buildCard(state.quarterGuardPost, "quarterGuard"));
+
+        const special = $("koteshworCards"); 
+        special.replaceChildren(); 
+        special.append(buildCard(state.koteshworPost, "special"));
+      } else {
+        const container = $("reserveCards");
+        container.replaceChildren();
+        state.reservePosts.forEach(p => container.append(buildCard(p, "reserve")));
+      }
+      warnings(type);
+    }
+
+    function warnings(type) {
+      const posts=allPosts(type), all=posts.flatMap(p=>p.rows.map(r=>({...r,postId:p.id})));
+      const note=$(type==="internal" ? "internalWarning" : "reserveWarning"),problems=[];
+      all.forEach(r=>document.querySelector(`[data-rowwrap="${r.id}"]`)?.classList.remove("warn"));
+      
+      if (type === "internal") {
+        const count={};
+        all.filter(r=>r.personnelId&&dutyTime(r)).forEach(r=>{const key=r.personnelId+"|"+dutyTime(r);count[key]=(count[key]||0)+1;});
+        all.forEach(r=>{
+          const time=dutyTime(r);
+          const samePost=time&&all.filter(x=>x.postId===r.postId&&dutyTime(x)===time).length>1;
+          const duplicate=r.personnelId&&time&&count[r.personnelId+"|"+time]>1;
+          const missing=!time;
+          if(samePost||duplicate||missing){
+            document.querySelector(`[data-rowwrap="${r.id}"]`)?.classList.add("warn");
+            if(missing)problems.push("केही duty slots मा समय चयन गरिएको छैन");
+            if(duplicate)problems.push("एउटै जनशक्ति/समय दोहोरिएको छ");
+            else if(samePost)problems.push("एउटै पोष्टमा समय दोहोरिएको छ");
+          }
+        });
+      } else {
+        all.forEach(r => {
+          if (!r.personnelId) {
+            document.querySelector(`[data-rowwrap="${r.id}"]`)?.classList.add("warn");
+            problems.push("केही पङ्क्तिहरूमा कर्मचारी चयन गरिएको छैन");
+          }
+        });
+      }
+      if(problems.length){note.textContent="सूचना: "+[...new Set(problems)].join("। ");note.hidden=false;}else note.hidden=true;
+    }
+
+    function renderDate(type) {
+      const d=dateData(type),prefix=type==="internal"?"internal":"reserve",help=dateHelp(type);
+      $(prefix+"DateSystem").value=d.dateSystem;
+      $(prefix+"NepaliDate").value=d.nepaliDate || "";
+      $(prefix+"Date").value=d.gregorianDate || "";
+      if (prefix === "internal") $(prefix+"ShiftSelect").value=d.shift || "दिन";
+      $(prefix+"DateHelp").textContent=help;$(prefix+"DateHelp").hidden=!help;
+      
+      $(prefix+"DateSystem").disabled = !isAdmin;
+      $(prefix+"NepaliDate").disabled = !isAdmin;
+      $(prefix+"Date").disabled = !isAdmin;
+      $(prefix+"TodayBs").disabled = !isAdmin;
+      if(prefix==="internal") $(prefix+"ShiftSelect").disabled = !isAdmin;
+    }
+
+    function render() {
+      $("officeName").textContent=state.settings.officeName;
+      $("officeSubtitle").textContent=state.settings.officeSubtitle;
+      $("reserveTimeInput").value=state.reserveTimeText || "";
+      $("reserveTimeInput").disabled = !isAdmin;
+      $("quarterGuardTimeInput").value=state.quarterGuardTimeText || "";
+      $("quarterGuardTimeInput").disabled = !isAdmin;
+      
+      $("internalSignRank").textContent=state.settings.signatureRank;
+      $("internalSignName").textContent=state.settings.signatureName;
+      $("reserveSignRank").textContent=state.settings.battalionMajor;
+      $("reserveSignName").textContent=state.settings.signatureName;
+
+      renderDate("internal");renderDate("reserve");
+      const internalDate=displayDate("internal"),reserveDate=displayDate("reserve");
+      const internalShift=dateData("internal").shift || "दिन";
+      
+      $("internalSubject").textContent="विषय: मिति " + internalDate + " गतेको " + internalShift + "को ड्युटी सम्बन्धमा ।";
+      $("koteshworNotice").textContent="मिति "+internalDate+" का लागि फुलगियरमा पानी वर्षादी सहित ‘कोटेश्वर’ मा सामेल हुनुपर्ने।";
+
+      $("reserveSubject").textContent="विषय: मिति " + reserveDate + " गतेको रिजर्भ ड्युटी सम्बन्धमा ।";
+
+      $("internalSheet").hidden=state.activeTab!=="internal";
+      $("reserveSheet").hidden=state.activeTab!=="reserve";
+      $("internalTab").setAttribute("aria-selected",String(state.activeTab==="internal"));
+      $("reserveTab").setAttribute("aria-selected",String(state.activeTab==="reserve"));
+      
+      $("addPostBtn").style.display = isAdmin ? "inline-flex" : "none";
+      $("peopleBtn").style.display = isAdmin ? "inline-flex" : "none";
+      $("settingsBtn").style.display = isAdmin ? "inline-flex" : "none";
+      $("resetBtn").style.display = isAdmin ? "inline-flex" : "none";
+      $("clearBtn").style.display = isAdmin ? "inline-flex" : "none";
+      
+      $("authBtn").textContent = isAdmin ? "लगआउट (View Only)" : "लगइन / एडमिन बन्नुहोस्";
+      $("authBtn").style.background = isAdmin ? "#b42318" : "#166534";
+
+      renderPosts("internal");renderPosts("reserve");renderSummary();
+    }
+
+    function openModal(title,node){lastFocus=document.activeElement;$("modalTitle").textContent=title;$("modalContent").replaceChildren(node);$("modalBackdrop").classList.add("open");$("modalBackdrop").setAttribute("aria-hidden","false");setTimeout(()=>node.querySelector("input,button,select,textarea")?.focus(),0);}
+    function closeModal(){$("modalBackdrop").classList.remove("open");$("modalBackdrop").setAttribute("aria-hidden","true");$("modalContent").replaceChildren();lastFocus?.focus();}
+    function field(label,id,value="",type="text"){const wrap=document.createElement("div");wrap.className="form-field";const lab=document.createElement("label");lab.htmlFor=id;lab.textContent=label;const input=document.createElement(type==="textarea"?"textarea":"input");input.id=id;input.value=value;wrap.append(lab,input);return wrap;}
+
+    function promptLogin(onSuccess) {
+      const form = document.createElement("form"), grid = document.createElement("div");
+      grid.className = "modal-grid";
+      grid.append(field("प्रशासनिक पासवर्ड राख्नुहोस्", "adminPass", "", "password"));
+      form.append(grid);
+      const actions = document.createElement("div"); actions.className = "modal-actions";
+      const cancel = document.createElement("button"); cancel.type = "button"; cancel.className = "action"; cancel.textContent = "रद्द गर्नुहोस्"; cancel.onclick = closeModal;
+      const submit = document.createElement("button"); submit.type = "submit"; submit.className = "action primary"; submit.textContent = "लगइन गर्नुहोस्";
+      actions.append(cancel, submit); form.append(actions);
+      
+      form.onsubmit = e => {
+        e.preventDefault();
+        const enteredPass = $("adminPass").value;
+        if (enteredPass === (state.adminPassword || "admin123")) {
+          isAdmin = true;
+          closeModal();
+          render();
+          status("सफलतापूर्वक एडमिन लगइन भयो");
+          if (typeof onSuccess === "function") onSuccess();
+        } else {
+          status("गलत पासवर्ड!", "error");
+        }
+      };
+      openModal("आधिकारिक व्यक्ति लगइन", form);
+    }
+
+    function postModal(existing=null){
+      if(!isAdmin) { promptLogin(()=>postModal(existing)); return; }
+      const form=document.createElement("form"),grid=document.createElement("div");grid.className="modal-grid";
+      grid.append(field("पोष्टको नाम वा नम्बर (ट्रक शब्द प्रयोग नगर्ने)","postTitle",existing?.title||""),field("स्थान/शीर्षक","postLocation",existing?.location||""),field("वैकल्पिक विवरण","postDescription",existing?.description||"","textarea"));grid.lastChild.classList.add("full");form.append(grid);
+      const actions=document.createElement("div");actions.className="modal-actions";const cancel=document.createElement("button");cancel.type="button";cancel.className="action";cancel.textContent="रद्द गर्नुहोस्";cancel.onclick=closeModal;const submit=document.createElement("button");submit.type="submit";submit.className="action primary";submit.textContent="सुरक्षित गर्नुहोस्";actions.append(cancel,submit);form.append(actions);
+      form.onsubmit=e=>{e.preventDefault();const title=safe($("postTitle").value).replace(/ट्रक/g, "").trim();if(!title){status("पोष्टको नाम लेख्नुहोस्","warning");return;}if(existing){existing.title=title;existing.location=safe($("postLocation").value);existing.description=safe($("postDescription").value);}else{const p=post(title,safe($("postLocation").value),safe($("postDescription").value),[state.activeTab==="internal"?row():row()]);if(state.activeTab==="internal")state.internalPosts.push(p);else state.reservePosts.push(p);}closeModal();render();saveToCloud("पोष्ट सुरक्षित भयो");};
+      openModal(existing?"पोष्ट सम्पादन":"नयाँ पोष्ट थप्नुहोस्",form);
+    }
+    function confirmModal(message,yes){
+      if(!isAdmin) { promptLogin(()=>confirmModal(message, yes)); return; }
+      const box=document.createElement("div"),text=document.createElement("p");text.textContent=message;box.append(text);const actions=document.createElement("div");actions.className="modal-actions";const no=document.createElement("button");no.className="action";no.type="button";no.textContent="रद्द गर्नुहोस्";no.onclick=closeModal;const ok=document.createElement("button");ok.className="action danger";ok.type="button";ok.textContent="हो, हटाउनुहोस्";ok.onclick=()=>{closeModal();yes();};actions.append(no,ok);box.append(actions);openModal("पुष्टि गर्नुहोस्",box);
+    }
+
+    function peopleModal(edit=null){
+      if(!isAdmin) { promptLogin(()=>peopleModal(edit)); return; }
+      const wrap=document.createElement("div"),form=document.createElement("form"),grid=document.createElement("div");grid.className="modal-grid";
+      grid.append(field("जनशक्तिको नाम","personName",edit?.name||""),field("पद","personRank",edit?.rank||""),field("code (वैकल्पिक)","personCode",edit?.code||""),field("remarks (वैकल्पिक)","personRemarks",edit?.remarks||""));form.append(grid);
+      const actions=document.createElement("div");actions.className="modal-actions";const saveBtn=document.createElement("button");saveBtn.className="action primary";saveBtn.type="submit";saveBtn.textContent=edit?"परिवर्तन सुरक्षित गर्नुहोस्":"जनशक्ति थप्नुहोस्";actions.append(saveBtn);form.append(actions);
+      form.onsubmit=e=>{e.preventDefault();const name=safe($("personName").value).trim(),rank=safe($("personRank").value).trim();if(!name||!rank){status("नाम र पद अनिवार्य छन्","warning");return;}if(!state.ranks.includes(rank))state.ranks.push(rank);const item=edit||{id:uid()};Object.assign(item,{name,rank,code:safe($("personCode").value),remarks:safe($("personRemarks").value)});if(!edit)state.personnel.push(item);saveToCloud("जनशक्ति सुरक्षित भयो");peopleModal();};wrap.append(form);
+      const tools=document.createElement("div");tools.className="personnel-tools";const search=document.createElement("input");search.placeholder="नाम खोज्नुहोस्";const filter=document.createElement("select");filter.append(option("","सबै पद",true));state.ranks.forEach(r=>filter.append(option(r,r,false)));tools.append(search,filter);wrap.append(tools);
+      const list=document.createElement("div");list.className="people-list";wrap.append(list);
+      const listRender=()=>{list.replaceChildren();const query=search.value.toLowerCase(),rank=filter.value;state.personnel.filter(p=>(!query||p.name.toLowerCase().includes(query))&&(!rank||p.rank===rank)).sort((a,b)=>a.name.localeCompare(b.name,"ne")).forEach(p=>{const item=document.createElement("div");item.className="person";const text=document.createElement("div");text.textContent=p.name;const small=document.createElement("small");small.textContent=p.rank+(p.code?" · "+p.code:"")+(p.remarks?" · "+p.remarks:"");text.append(small);const buttons=document.createElement("div");buttons.className="person-actions";const editBtn=document.createElement("button");editBtn.type="button";editBtn.className="small-action";editBtn.textContent="सम्पादन";editBtn.onclick=()=>peopleModal(p);const del=document.createElement("button");del.type="button";del.className="small-action danger";del.textContent="हटाउनुहोस्";del.onclick=()=>confirmModal("जनशक्ति हटाउने हो?",()=>{state.personnel=state.personnel.filter(x=>x.id!==p.id);saveToCloud("जनशक्ति हटाइयो");peopleModal();});buttons.append(editBtn,del);item.append(text,buttons);list.append(item);});if(!list.children.length){const empty=document.createElement("p");empty.className="empty";empty.textContent="मिल्ने जनशक्ति भेटिएन।";list.append(empty);}};
+      search.oninput=listRender;filter.onchange=listRender;listRender();openModal("जनशक्ति व्यवस्थापन",wrap);
+    }
+
+    function settingsModal(){
+      if(!isAdmin) { promptLogin(()=>settingsModal()); return; }
+      const form=document.createElement("form"),grid=document.createElement("div");grid.className="modal-grid";
+      const s=state.settings;
+      grid.append(
+        field("कार्यालयको नाम","officeNameSetting",s.officeName),
+        field("कार्यालयको उपशीर्षक","officeSubSetting",s.officeSubtitle),
+        field("बटालियन मेजर (पद/नाम)", "majorSetting", s.battalionMajor),
+        field("हस्ताक्षर पद","signRankSetting",s.signatureRank),
+        field("हस्ताक्षर गर्ने व्यक्तिको नाम","signNameSetting",s.signatureName),
+        field("एडमिन नयाँ पासवर्ड","adminPassSetting",state.adminPassword || "admin123")
+      );
+      form.append(grid);
+      const actions=document.createElement("div");actions.className="modal-actions";
+      const submit=document.createElement("button");submit.type="submit";submit.className="action primary";submit.textContent="सेटिङ सुरक्षित गर्नुहोस्";
+      actions.append(submit);form.append(actions);
+      form.onsubmit=e=>{
+        e.preventDefault();
+        Object.assign(s,{
+          officeName:safe($("officeNameSetting").value),
+          officeSubtitle:safe($("officeSubSetting").value),
+          battalionMajor:safe($("majorSetting").value),
+          signatureRank:safe($("signRankSetting").value),
+          signatureName:safe($("signNameSetting").value)
+        });
+        state.adminPassword = safe($("adminPassSetting").value) || "admin123";
+        closeModal();render();saveToCloud("प्रणाली सेटिङ सुरक्षित भयो");
+      };
+      openModal("प्रणाली सेटिङ",form);
+    }
+
+    function exportJSON(){const payload={...state,version:12,exportedAt:new Date().toISOString()};const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download="duty-system-"+(state.dates.internal.gregorianDate||"export")+".json";document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);status("JSON Export तयार भयो");}
+    
+    function importJSON(file){
+      if(!isAdmin) { promptLogin(()=>importJSON(file)); return; }
+      if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const raw=JSON.parse(String(e.target.result));if(!valid(raw))throw new Error();state=migrate(raw);render();saveToCloud("Import सफल भयो");}catch(_){status("अवैध JSON फाइल वा संरचना","error");}finally{$("importFile").value="";}};reader.onerror=()=>status("फाइल पढ्न सकिएन","error");reader.readAsText(file);
+    }
+
+    function updateDate(type,field,value){
+      if(!isAdmin) return;
+      const d=dateData(type);
+      if(field==="system") d.dateSystem=value==="gregorian"?"gregorian":"nepali";
+      if(field==="gregorian"){d.gregorianDate=value;if(!d.manualNepali){const converted=bsDate(value);if(converted)d.nepaliDate=converted;}}
+      if(field==="nepali"){d.nepaliDate=safe(value);d.manualNepali=Boolean(value.trim());}
+      if(field==="shift") d.shift=value;
+      render();saveToCloud("विवरण सुरक्षित भयो");
+    }
+    
+    function todayNepali(type){
+      if(!isAdmin) return;
+      const converted=bsDate(today());
+      if(converted){const d=dateData(type);d.nepaliDate=converted;d.manualNepali=true;d.dateSystem="nepali";render();saveToCloud("आजको नेपाली मिति प्रयोग गरियो");}
+      else status("नेपाली मिति आफैं लेख्नुहोस्","warning");
+    }
+
+    document.addEventListener("click",e=>{
+      const action=e.target.dataset.action;if(!action)return;
+      if(!isAdmin){ promptLogin(); return; }
+      if(action==="addRow"){getPost(e.target.dataset.post).rows.push(row());render();saveToCloud("ड्युटी पंक्ति थपियो");}
+      if(action==="editPost")postModal(getPost(e.target.dataset.post));
+      if(action==="deletePost"){const p=getPost(e.target.dataset.post);confirmModal("‘"+p.title+"’ पोष्ट हटाउने हो?",()=>{const key=state.internalPosts.includes(p)?"internalPosts":"reservePosts";state[key]=state[key].filter(x=>x.id!==p.id);render();saveToCloud("पोष्ट हटाइयो");});}
+      if(action==="deleteRow"){const p=getPost(e.target.dataset.post);p.rows=p.rows.filter(x=>x.id!==e.target.dataset.row);render();saveToCloud("ड्युटी पंक्ति हटाइयो");}
+    });
+
+    document.addEventListener("change",e=>{
+      const action=e.target.dataset.action,entry=getRow(e.target.dataset.row);if(!entry)return;
+      if(!isAdmin) return;
+      if(action==="rank"){
+        entry.rank=e.target.value;
+        entry.personnelId="";
+        render();
+        saveToCloud("पद परिवर्तन सुरक्षित भयो");
+      }
+      if(action==="person"){entry.personnelId=e.target.value;render();saveToCloud("जनशक्ति चयन सुरक्षित भयो");}
+      if(action==="time"){entry.time=e.target.value;if(entry.time!=="custom")entry.customTime="";render();saveToCloud("समय सुरक्षित भयो");}
+    });
+
+    document.addEventListener("input",e=>{
+      if(!isAdmin) return;
+      const entry=getRow(e.target.dataset.row);
+      if(e.target.dataset.action==="customTime"&&entry){
+        entry.customTime=safe(e.target.value);
+        const type=(state.internalPosts.some(p=>p.rows.includes(entry))||state.koteshworPost.rows.includes(entry)||state.quarterGuardPost.rows.includes(entry))?"internal":"reserve";
+        warnings(type);saveToCloud();
+      }
+      if(e.target.dataset.action==="cafiyat"&&entry){
+        entry.remarks=safe(e.target.value);
+        saveToCloud();
+      }
+    });
+    
+    $("addPostBtn").onclick=()=>postModal();
+    $("peopleBtn").onclick=()=>peopleModal();
+    $("settingsBtn").onclick=settingsModal;
+    $("exportBtn").onclick=exportJSON;
+    $("importFile").onchange=e=>importJSON(e.target.files[0]);
+    $("printBtn").onclick=()=>window.print();
+    
+    $("manualSaveBtn").onclick = () => {
+      if(!isAdmin) {
+        promptLogin(() => saveToCloud("डेटा सफलतापूर्वक सेभ / सबमिट भयो!"));
+        return;
+      }
+      saveToCloud("डेटा सफलतापूर्वक सेभ / सबमिट भयो!");
+    };
+
+    $("resetBtn").onclick=()=>confirmModal("सम्पूर्ण data प्रारम्भिक अवस्थामा फर्काउने हो?",()=>{state=defaults();render();saveToCloud("प्रारम्भिक अवस्थामा फर्काइयो");});
+    $("clearBtn").onclick=()=>confirmModal("स्थानीय रूपमा सुरक्षित सबै data हटाउने हो?",()=>{state=defaults();render();saveToCloud("डेटा रिसेट गरियो");});
+    
+    $("authBtn").onclick = () => {
+      if(isAdmin) {
+        isAdmin = false;
+        render();
+        status("लगआउट भयो (अब हेर्न मात्र मिल्नेछ)");
+      } else {
+        promptLogin();
+      }
+    };
+
+    $("internalTab").onclick=()=>{state.activeTab="internal";render();saveToCloud();};
+    $("reserveTab").onclick=()=>{state.activeTab="reserve";render();saveToCloud();};
+    
+    $("internalDateSystem").onchange=e=>updateDate("internal","system",e.target.value);
+    $("reserveDateSystem").onchange=e=>updateDate("reserve","system",e.target.value);
+    
+    $("internalDate").onchange=e=>updateDate("internal","gregorian",e.target.value);
+    $("reserveDate").onchange=e=>updateDate("reserve","gregorian",e.target.value);
+    
+    $("internalNepaliDate").onchange=e=>updateDate("internal","nepali",e.target.value);
+    $("reserveNepaliDate").onchange=e=>updateDate("reserve","nepali",e.target.value);
+    
+    $("internalShiftSelect").onchange=e=>updateDate("internal","shift",e.target.value);
+    $("internalTodayBs").onclick=()=>todayNepali("internal");
+    $("reserveTodayBs").onclick=()=>todayNepali("reserve");
+    
+    $("reserveTimeInput").oninput=e=>{
+      if(!isAdmin) return;
+      state.reserveTimeText=safe(e.target.value);
+      saveToCloud();
+    };
+
+    $("quarterGuardTimeInput").oninput=e=>{
+      if(!isAdmin) return;
+      state.quarterGuardTimeText=safe(e.target.value);
+      saveToCloud();
+    };
+
+    $("modalClose").onclick=closeModal;
+    $("modalBackdrop").onclick=e=>{if(e.target===$("modalBackdrop"))closeModal();};
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("modalBackdrop").classList.contains("open"))closeModal();});
+    
+    restoreFromCloud();
+  })();
+  </script>
+</body>
+</html>

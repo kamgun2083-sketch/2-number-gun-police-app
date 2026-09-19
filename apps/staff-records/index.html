@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>प्रहरी कर्मचारी डिजिटल अभिलेख प्रणाली - काठमाडौँ उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</title>
+    
+    <link rel="icon" type="image/png" href="my-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --secondary: #0284c7;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --border: #cbd5e1;
+            --danger: #dc2626;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: #334155; padding: 15px; font-size: 13px; }
+
+        header {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .header-logo-img {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        header h1 { font-size: 20px; margin-bottom: 5px; }
+        header h2 { font-size: 15px; font-weight: 400; color: #93c5fd; margin-bottom: 8px; }
+
+        /* Navigation Menu Bar */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #e2e8f0;
+            color: #0f172a;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-buttons { margin-top: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .btn { padding: 8px 14px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+        .btn-excel { background-color: #16a34a; color: white; }
+        .btn-import { background-color: #0284c7; color: white; }
+        .btn-backup { background-color: #7c3aed; color: white; }
+        .btn-restore { background-color: #d97706; color: white; }
+        .btn-print { background-color: #e2e8f0; color: #0f172a; }
+        .btn-primary { background-color: #2563eb; color: white; }
+        .btn-warning { background-color: #f59e0b; color: white; }
+        .btn-cancel { background-color: #64748b; color: white; }
+        .btn-danger { background-color: #ef4444; color: white; }
+
+        .panel { background: var(--card); padding: 18px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 15px; border: 1px solid var(--border); }
+        .panel-title { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-weight: 600; font-size: 12px; color: #475569; }
+        .form-group input, .form-group select { padding: 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; }
+
+        .prefix-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .prefix-input-group .prefix-addon {
+            background-color: #e2e8f0;
+            color: #1e3a8a;
+            padding: 8px 10px;
+            font-weight: 700;
+            font-size: 12px;
+            border-right: 1px solid var(--border);
+            user-select: none;
+        }
+        .prefix-input-group input {
+            border: none !important;
+            border-radius: 0 !important;
+            width: 100%;
+            outline: none;
+        }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .filter-group select, .filter-group input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; }
+
+        .table-responsive { overflow-x: auto; max-height: 60vh; border: 1px solid var(--border); border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; background: white; white-space: nowrap; }
+        thead { position: sticky; top: 0; background-color: var(--primary-dark); color: white; z-index: 10; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; font-size: 12px; }
+        tbody tr:nth-child(even) { background-color: #f8fafc; }
+        tbody tr:hover { background-color: #e0f2fe; }
+
+        .truncated-cell {
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .status-badge { background-color: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; display: inline-block; }
+        .clickable-cell { cursor: pointer; color: #1d4ed8; font-weight: 600; text-decoration: underline; text-align: center; }
+        .clickable-cell:hover { color: #1e40af; background-color: #eff6ff; }
+        .total-badge { background-color: #dcfce7; color: #15803d; padding: 3px 10px; border-radius: 4px; font-weight: 700; cursor: pointer; display: inline-block; text-align: center; }
+
+        /* Sub-tabs for Dashboard Categories */
+        .sub-tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+        .sub-tab-btn { background: #e2e8f0; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px; color: #0f172a; }
+        .sub-tab-btn.active, .sub-tab-btn:hover { background: var(--secondary); color: white; }
+
+        /* Modal for viewing details */
+        #detailModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 10000;
+        }
+        .detail-card {
+            background: white; padding: 20px; border-radius: 8px; width: 420px; max-width: 90%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .detail-card h3 { color: var(--primary); margin-bottom: 4px; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .detail-subtitle { font-size: 12px; color: #64748b; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; font-weight: 600; }
+        .detail-list { list-style-type: none; padding-left: 0; margin-bottom: 15px; max-height: 250px; overflow-y: auto; }
+        .detail-list li { padding: 6px 8px; border-bottom: 1px solid #f1f5f9; font-size: 12px; }
+        .detail-list li:nth-child(odd) { background-color: #f8fafc; }
+
+        #loginOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85); display: flex; justify-content: center; align-items: center; z-index: 9999;
+        }
+        .login-card {
+            background: white; padding: 30px; border-radius: 10px; width: 320px; text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .login-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 16px; }
+        .login-card input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 5px; font-size: 14px; text-align: center; }
+        .login-card button { width: 100%; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+
+        footer {
+            text-align: center;
+            padding: 16px 20px;
+            margin-top: 25px;
+            background: linear-gradient(135deg, #1e3a8a, #0f172a);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.3px;
+        }
+
+        .designer-name {
+            color: #1e3a8a;
+            background-color: #fef08a;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-block;
+            margin-left: 5px;
+            border: 1px solid #fde047;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        #restoreFileInput, #excelFileInput { display: none; }
+
+        @page {
+            size: A4 landscape;
+            margin: 8mm;
+        }
+
+       @media print { 
+            .no-print, header, .nav-menu, .panel:not(#recordsSection):not(#summarySection), footer { display: none !important; } 
+            body { padding: 0; background: white; font-size: 10px; } 
+            #recordsSection, #summarySection { border: none; box-shadow: none; padding: 0; margin: 0; width: 100%; display: block !important; }
+            .table-responsive { max-height: none; overflow: visible; border: none; }
+            table { font-size: 10px; width: 100%; page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            th, td { padding: 4px 6px; }
+            .truncated-cell { max-width: none; white-space: normal; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Modal -->
+<div id="loginOverlay">
+    <div class="login-card">
+        <h3><i class="fa-solid fa-lock"></i> काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंजको तालिमको डिजिटल अभिलेख</h3>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 15px;">कृपया पासवर्ड प्रविष्ट गर्नुहोस्:</p>
+        <input type="password" id="loginPasswordInput" placeholder="पासवर्ड लेख्नुहोस्">
+        <button onclick="checkPassword()">लगइन गर्नुहोस्</button>
+        <p id="loginErrorMsg" style="color: red; font-size: 11px; margin-top: 10px; display: none;">गलत पासवर्ड! फेरि प्रयास गर्नुहोस्।</p>
+    </div>
+</div>
+
+<!-- Detail View Modal -->
+<div id="detailModal">
+    <div class="detail-card">
+        <h3 id="modalTitle"><span><i class="fa-solid fa-eye"></i> तालिम विवरण</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeDetailModal()"></i></h3>
+        <div id="modalSubtitle" class="detail-subtitle"></div>
+        <ul id="modalDetailList" class="detail-list"></ul>
+        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="closeDetailModal()">बन्द गर्नुहोस्</button>
+    </div>
+</div>
+
+<div class="container" id="mainContainer" style="display: none;">
+    <header>
+        <img src="my-logo.png" class="header-logo-img" alt="नेपाल प्रहरी लोगो">
+        <h1>काठमाडौँ उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगञ्ज</h1>
+        <h2>प्रहरी कर्मचारीहरूको तालिम तथा व्यक्तिगत डिजिटल अभिलेख प्रणाली</h2>
+        
+        <div class="action-buttons no-print">
+            <button class="btn btn-excel" onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Excel डाउनलोड (.xlsx)</button>
+            <button class="btn btn-import" onclick="triggerExcelImport()"><i class="fa-solid fa-file-upload"></i> Excel अपलोड</button>
+            <button class="btn btn-backup" onclick="exportJSONBackup()"><i class="fa-solid fa-download"></i> JSON ब्याकअप</button>
+            <button class="btn btn-restore" onclick="triggerRestore()"><i class="fa-solid fa-upload"></i> रिस्टोर</button>
+            <button class="btn btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> प्रिन्ट / PDF</button>
+
+            <input type="file" id="restoreFileInput" accept=".json" onchange="importJSONBackup(event)">
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" onchange="importExcelFile(event)">
+        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <div class="nav-menu no-print">
+        <button class="nav-btn active" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> होम पेज</button>
+        <button class="nav-btn" onclick="switchTab('form')"><i class="fa-solid fa-user-plus"></i> फारम मात्र भर्ने पेज</button>
+        <button class="nav-btn" onclick="switchTab('summary')"><i class="fa-solid fa-chart-pie"></i> तथ्याङ्क (Summary)</button>
+        <button class="nav-btn" onclick="switchTab('records')"><i class="fa-solid fa-users"></i> कार्यरत प्रहरी कर्मचारी (<span id="navRecordCount">0</span> जना)</button>
+        <button class="nav-btn" onclick="switchTab('notrain')"><i class="fa-solid fa-triangle-exclamation"></i> आधारभूत तालिम नगरेका प्रहरी</button>
+        <button class="nav-btn" onclick="switchTab('ongoingtrain')"><i class="fa-solid fa-person-walking-arrow-right"></i> तालिम गर्न गएका प्रहरी</button>
+        <button class="nav-btn" onclick="switchTab('completedtrain')"><i class="fa-solid fa-clipboard-check"></i> तालिम समाप्त पश्चात हाजिर भएका</button>
+    </div>
+
+    <!-- 1. HOME PAGE SECTION -->
+    <div id="tabHome" class="tab-content">
+        <div class="panel">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-house-chimney"></i> गृहपृष्ठ (Dashboard)</span>
+            </div>
+            <p style="color: #475569; line-height: 1.6; margin-bottom: 15px;">काठमाडौँ उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ को डिजिटल अभिलेख तथा तालिम व्यवस्थापन प्रणालीमा यहाँलाई हार्दिक स्वागत छ।</p>
+        </div>
+    </div>
+
+    <!-- 2. ENTRY FORM SECTION -->
+    <div id="tabForm" class="tab-content" style="display: none;">
+        <div class="panel">
+            <div class="panel-title">
+                <span id="formHeaderTitle"><i class="fa-solid fa-user-plus"></i> नयाँ प्रहरी कर्मचारीको विवरण प्रविष्टि</span>
+                <span id="editBadge" class="status-badge" style="display: none; background:#fef3c7; color:#92400e;">संशोधन मोड</span>
+            </div>
+            <form id="recordForm">
+                <input type="hidden" id="editRecordId" value="">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>कम्प्युटर कोड *:</label>
+                        <input type="text" id="compCode" placeholder="उदा: 371209" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>संकेत नम्बर *:</label>
+                        <div class="prefix-input-group">
+                            <span class="prefix-addon">C-</span>
+                            <input type="text" id="pmisNo" placeholder="001412" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>दर्जा *:</label>
+                        <select id="rank" required>
+                            <option value="">दर्जा छान्नुहोस्</option>
+                            <option value="प्रउ">प्रउ</option>
+                            <option value="प्रनाउ">प्रनाउ</option>
+                            <option value="प्रनि">प्रनि</option>
+                            <option value="प्रवनानि">प्रवनानि</option>
+                            <option value="प्रनानि">प्रनानि</option>
+                            <option value="प्रसनि">प्रसनि</option>
+                            <option value="प्रवह">प्रवह</option>
+                            <option value="प्रह">प्रह</option>
+                            <option value="प्रसह">प्रसह</option>
+                            <option value="प्रज">प्रज</option>
+                            <option value="प्रकास">प्रकास</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>नाम/थर *:</label>
+                        <input type="text" id="fullname" placeholder="पुरा नाम लेख्नुहोस्" required>
+                    </div>
+                    <div class="form-group">
+                        <label>दरबन्दी *:</label>
+                        <input type="text" id="darbandi" placeholder="दरबन्दी स्थान" required>
+                    </div>
+                    <div class="form-group">
+                        <label>कार्यरत स्थान (फिल्ड) *:</label>
+                        <input type="text" id="workingPlace" placeholder="हाल खटिएको स्थान" required>
+                    </div>
+                    <div class="form-group">
+                        <label>भर्ना मिति (नेपाली BS) *:</label>
+                        <input type="text" id="joinDate" placeholder="YYYY-MM-DD" required>
+                    </div>
+                    <div class="form-group">
+                        <label>बढुवा मिति (नेपाली BS):</label>
+                        <input type="text" id="promotionDate" placeholder="YYYY-MM-DD">
+                    </div>
+                    <div class="form-group">
+                        <label>जन्म मिति (नेपाली BS) *:</label>
+                        <input type="text" id="dob" placeholder="YYYY-MM-DD" required>
+                    </div>
+                    <div class="form-group">
+                        <label>शैक्षिक योग्यता *:</label>
+                        <input type="text" id="education" placeholder="+2 / B.A." required>
+                    </div>
+                    <div class="form-group">
+                        <label>सम्पर्क नम्बर *:</label>
+                        <input type="tel" id="phone" placeholder="98XXXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>आफन्तको सम्पर्क नम्बर:</label>
+                        <input type="tel" id="relativePhone" placeholder="98XXXXXXXX">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>तालिमको विवरण (कमा/Comma ले छुट्याउनुहोस्):</label>
+                        <input type="text" id="trainingDetails" placeholder="उदा: आधारभूत, विपद् व्यवस्थापन, VIP सुरक्षा">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>घुम्ती तालिम:</label>
+                        <input type="text" id="mobileTraining" placeholder="घुम्ती तालिम विवरण">
+                    </div>
+                </div>
+                <div style="margin-top: 15px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" id="cancelBtn" class="btn btn-cancel" style="display: none;" onclick="resetForm()"><i class="fa-solid fa-xmark"></i> रद्द गर्नुहोस्</button>
+                    <button type="submit" id="submitBtn" class="btn btn-primary"><i class="fa-solid fa-save"></i> विवरण सुरक्षित गर्नुहोस्</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. SUMMARY SECTION -->
+    <div id="tabSummary" class="tab-content" style="display: none;">
+        <div class="panel" id="summarySection">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-chart-pie"></i> तालीमगत तथा दर्जागत संख्यात्मक तथ्याङ्क (Summary)</span>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>क्र.सं.</th>
+                            <th>तालिमको नाम</th>
+                            <th style="text-align:center;">प्रउ</th>
+                            <th style="text-align:center;">प्रनाउ</th>
+                            <th style="text-align:center;">प्रनि</th>
+                            <th style="text-align:center;">प्रवनानि</th>
+                            <th style="text-align:center;">प्रनानि</th>
+                            <th style="text-align:center;">प्रसनि</th>
+                            <th style="text-align:center;">प्रवह</th>
+                            <th style="text-align:center;">प्रह</th>
+                            <th style="text-align:center;">प्रसह</th>
+                            <th style="text-align:center;">प्रज</th>
+                            <th style="text-align:center;">प्रकास</th>
+                            <th style="text-align:center;">जम्मा</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RECORDS TABLE SECTION -->
+    <div class="panel tab-content" id="tabRecords" style="display: none;">
+        <div id="recordsSection">
+            <div class="controls no-print" style="margin-bottom: 12px;">
+                <div class="panel-title" style="border:none; margin:0; padding:0;">
+                    <span><i class="fa-solid fa-users"></i> कार्यरत प्रहरी कर्मचारी (<span id="recordCount">0</span> जना)</span>
+                </div>
+                <div class="filter-group">
+                    <select id="trainingFilter" onchange="renderTable()"><option value="">-- सबै तालिम --</option></select>
+                    <select id="rankFilter" onchange="renderTable()"><option value="">-- सबै दर्जा --</option></select>
+                    <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="🔍 खोजी गर्नुहोस्..." style="width:180px;">
+                    <button class="btn btn-cancel" onclick="clearFilters()"><i class="fa-solid fa-rotate-left"></i> रिसेट</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>क्र.सं.</th>
+                            <th>कम्प्युटर कोड</th>
+                            <th>संकेत नं.</th>
+                            <th>दर्जा</th>
+                            <th>नाम/थर</th>
+                            <th>दरबन्दी</th>
+                            <th>कार्यरत स्थान</th>
+                            <th>भर्ना मिति</th>
+                            <th>बढुवा मिति</th>
+                            <th>जन्म मिति</th>
+                            <th>शैक्षिक योग्यता</th>
+                            <th>तालिम विवरण</th>
+                            <th>घुम्ती तालिम</th>
+                            <th>सम्पर्क नं.</th>
+                            <th>आफन्तको नं.</th>
+                            <th class="no-print">कार्य (Actions)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. NO-BASIC-TRAINING SECTION -->
+    <div id="tabNoTrain" class="tab-content" style="display: none;">
+        <div class="panel">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-triangle-exclamation"></i> आधारभूत तालिम नगरेका प्रहरी कर्मचारी विवरण</span>
+            </div>
+            
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchSubTab('Inspector')">प्रहरी निरीक्षक</button>
+                <button class="sub-tab-btn" onclick="switchSubTab('ASI')">प्रहरी सहायक निरीक्षक</button>
+                <button class="sub-tab-btn" onclick="switchSubTab('ShortTermASI')">प्रसनि अल्पकालिन तालिम</button>
+                <button class="sub-tab-btn" onclick="switchSubTab('Jawan')">प्रहरी जवान</button>
+                <button class="sub-tab-btn" onclick="switchSubTab('OfficeHelper')">प्रहरी कार्यालय सहयोगी</button>
+            </div>
+
+            <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 12px;">
+                <h4 id="noTrainFormTitle" style="font-size: 13px; color: var(--secondary); margin-bottom: 8px;">नयाँ प्रविष्टि (प्रहरी निरीक्षक)</h4>
+                <form id="noTrainForm" onsubmit="handleNoTrainSubmit(event)">
+                    <input type="hidden" id="ntEditId" value="">
+                    <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;">
+                        <div class="form-group">
+                            <label>कम्प्युटर कोड *:</label>
+                            <input type="text" id="ntCompCode" required placeholder="कम्प्युटर कोड">
+                        </div>
+                        <div class="form-group">
+                            <label>दर्जा *:</label>
+                            <input type="text" id="ntRank" required placeholder="दर्जा">
+                        </div>
+                        <div class="form-group">
+                            <label>नामथर *:</label>
+                            <input type="text" id="ntFullname" required placeholder="नामथर">
+                        </div>
+                        <div class="form-group">
+                            <label>दरबन्दी *:</label>
+                            <input type="text" id="ntDarbandi" required placeholder="दरबन्दी">
+                        </div>
+                        <div class="form-group">
+                            <label>कार्यरत स्थान *:</label>
+                            <input type="text" id="ntWorkingPlace" required placeholder="कार्यरत स्थान">
+                        </div>
+                        <div class="form-group">
+                            <label>भर्ना मिति *:</label>
+                            <input type="text" id="ntJoinDate" required placeholder="YYYY-MM-DD">
+                        </div>
+                        <div class="form-group">
+                            <label>तालिम गर्न सक्ने/नसक्ने *:</label>
+                            <select id="ntCanTrain" required>
+                                <option value="सक्ने">सक्ने</option>
+                                <option value="नसक्ने">नसक्ने</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>नसक्ने भए कारण:</label>
+                            <input type="text" id="ntReason" placeholder="कारण खुलाउने">
+                        </div>
+                        <div class="form-group">
+                            <label>सम्पर्क नम्बर *:</label>
+                            <input type="tel" id="ntPhone" required placeholder="98XXXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>कै.:</label>
+                            <input type="text" id="ntRemarks" placeholder="कैफियत">
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: flex-end;">
+                        <button type="button" id="ntCancelBtn" class="btn btn-cancel" style="display:none; padding:4px 10px; font-size:11px;" onclick="resetNoTrainForm()">रद्द</button>
+                        <button type="submit" id="ntSubmitBtn" class="btn btn-primary" style="padding:4px 10px; font-size:11px;"><i class="fa-solid fa-save"></i> सुरक्षित गर्नुहोस्</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>सि.नं.</th>
+                            <th>कम्प्युटर कोड</th>
+                            <th>दर्जा</th>
+                            <th>नामथर</th>
+                            <th>दरबन्दी</th>
+                            <th>कार्यरत स्थान</th>
+                            <th>भर्ना मिति</th>
+                            <th>तालिम गर्न सक्ने/नसक्ने</th>
+                            <th>नसक्ने भए कारण</th>
+                            <th>सम्पर्क नम्बर</th>
+                            <th>कै.</th>
+                            <th class="no-print">कार्य</th>
+                        </tr>
+                    </thead>
+                    <tbody id="noTrainTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. ONGOING TRAINING SECTION -->
+    <div id="tabOngoingTrain" class="tab-content" style="display: none;">
+        <div class="panel">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-person-walking-arrow-right"></i> तालिम गर्न गएका प्रहरी कर्मचारी विवरण</span>
+            </div>
+
+            <!-- तालिम गर्न गएका कर्मचारी इन्ट्री तथा इडिट फर्म -->
+            <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 12px;">
+                <h4 id="ogFormTitle" style="font-size: 13px; color: var(--secondary); margin-bottom: 8px;">नयाँ प्रविष्टि तथा सम्पादन फारम</h4>
+                <form id="ongoingTrainForm" onsubmit="handleOngoingTrainSubmit(event)">
+                    <input type="hidden" id="ogEditId" value="">
+                    <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;">
+                        <div class="form-group">
+                            <label>कम्प्युटर कोड *:</label>
+                            <input type="text" id="ogCompCode" required placeholder="कम्प्युटर कोड">
+                        </div>
+                        <div class="form-group">
+                            <label>दर्जा *:</label>
+                            <input type="text" id="ogRank" required placeholder="दर्जा">
+                        </div>
+                        <div class="form-group">
+                            <label>नामथर *:</label>
+                            <input type="text" id="ogFullname" required placeholder="नामथर">
+                        </div>
+                        <div class="form-group">
+                            <label>दरबन्दी *:</label>
+                            <input type="text" id="ogDarbandi" required placeholder="दरबन्दी स्थान">
+                        </div>
+                        <div class="form-group">
+                            <label>तालिम सुरु मिति *:</label>
+                            <input type="text" id="ogStartDate" required placeholder="YYYY-MM-DD">
+                        </div>
+                        <div class="form-group">
+                            <label>कार्य दिन *:</label>
+                            <input type="text" id="ogWorkDays" required placeholder="उदा: ४५ दिन">
+                        </div>
+                        <div class="form-group">
+                            <label>तालिमको नाम *:</label>
+                            <input type="text" id="ogTrainingName" required placeholder="तालिमको नाम">
+                        </div>
+                        <div class="form-group">
+                            <label>तालिम संचालन हुने स्थान *:</label>
+                            <input type="text" id="ogTrainingPlace" required placeholder="तालिम हुने स्थान">
+                        </div>
+                        <div class="form-group">
+                            <label>रवाना मिति *:</label>
+                            <input type="text" id="ogDispatchDate" required placeholder="YYYY-MM-DD">
+                        </div>
+                        <div class="form-group">
+                            <label>हाजिर मिति (कार्यालयमा हाजिर भएपछि):</label>
+                            <input type="text" id="ogAttendanceDate" placeholder="YYYY-MM-DD">
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: flex-end;">
+                        <button type="button" id="ogCancelBtn" class="btn btn-cancel" style="display:none; padding:4px 10px; font-size:11px;" onclick="resetOngoingTrainForm()">रद्द</button>
+                        <button type="submit" id="ogSubmitBtn" class="btn btn-primary" style="padding:4px 10px; font-size:11px;"><i class="fa-solid fa-save"></i> सुरक्षित गर्नुहोस्</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>सि.नं.</th>
+                            <th>कम्प्युटर कोड</th>
+                            <th>दर्जा</th>
+                            <th>नामथर</th>
+                            <th>दरबन्दी</th>
+                            <th>तालिम सुरु मिति</th>
+                            <th>कार्य दिन</th>
+                            <th>तालिमको नाम</th>
+                            <th>तालिम संचालन हुने स्थान</th>
+                            <th>रवाना मिति</th>
+                            <th>हाजिर मिति</th>
+                            <th class="no-print">कार्य</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ongoingTrainTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. COMPLETED TRAINING ATTENDED SECTION -->
+    <div id="tabCompletedTrain" class="tab-content" style="display: none;">
+        <div class="panel">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-clipboard-check"></i> तालिम समाप्त पश्चात हाजिर भएका प्रहरी कर्मचारी विवरण</span>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>सि.नं.</th>
+                            <th>कम्प्युटर कोड</th>
+                            <th>दर्जा</th>
+                            <th>नामथर</th>
+                            <th>दरबन्दी</th>
+                            <th>तालिम सुरु मिति</th>
+                            <th>कार्य दिन</th>
+                            <th>तालिमको नाम</th>
+                            <th>तालिम संचालन हुने स्थान</th>
+                            <th>रवाना मिति</th>
+                            <th>हाजिर मिति</th>
+                            <th class="no-print">कार्य</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completedTrainTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            © काठमाडौँ उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगञ्ज &nbsp;|&nbsp; 
+            <i class="fa-solid fa-laptop-code" style="color:#fde047;"></i> System Designed & Developed by: 
+            <span class="designer-name">Baikuntha Subedi</span>
+        </p>
+    </footer>
+</div>
+
+<script>
+    const SYSTEM_PASSWORD = "gun123";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwhtfd8FtnB7Noz1_1uJAioEHZCt8jiRN8s3th7D8F6PBJMiFh-xC6Q2oPevxFzoVxs/exec";
+                        
+    function checkPassword() {
+        const inputVal = document.getElementById('loginPasswordInput').value;
+        if (inputVal === SYSTEM_PASSWORD) {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            fetchCloudData(); 
+        } else {
+            document.getElementById('loginErrorMsg').style.display = 'block';
+            document.getElementById('loginPasswordInput').value = '';
+            document.getElementById('loginPasswordInput').focus();
+        }
+    }
+
+    document.getElementById('loginPasswordInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') checkPassword();
+    });
+
+    let staffRecords = JSON.parse(localStorage.getItem('police_records_v4')) || [];
+    let noTrainRecords = JSON.parse(localStorage.getItem('police_notrain_records_v1')) || {
+        Inspector: [], ASI: [], ShortTermASI: [], Jawan: [], OfficeHelper: []
+    };
+    let ongoingTrainRecords = JSON.parse(localStorage.getItem('police_ongoing_train_records_v2')) || [];
+    let currentSubCategory = 'Inspector';
+
+    const subCategoryNames = {
+        Inspector: 'प्रहरी निरीक्षक',
+        ASI: 'प्रहरी सहायक निरीक्षक',
+        ShortTermASI: 'प्रसनि अल्पकालिन तालिम',
+        Jawan: 'प्रहरी जवान',
+        OfficeHelper: 'प्रहरी कार्यालय सहयोगी'
+    };
+
+    let currentlyDisplayedRecords = [];
+    const ranksList = ["प्रउ", "प्रनाउ", "प्रनि", "प्रवनानि", "प्रनानि", "प्रसनि", "प्रवह", "प्रह", "प्रसह", "प्रज", "प्रकास"];
+
+    function cleanDate(dateStr) {
+        if (!dateStr) return '-';
+        let str = String(dateStr).trim();
+        if (str.includes('T')) {
+            str = str.split('T')[0];
+        }
+        return str;
+    }
+
+    // Tab Switching Logic
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+        if (tabId === 'home') {
+            document.getElementById('tabHome').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[0].classList.add('active');
+        } else if (tabId === 'form') {
+            document.getElementById('tabForm').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[1].classList.add('active');
+        } else if (tabId === 'summary') {
+            document.getElementById('tabSummary').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[2].classList.add('active');
+        } else if (tabId === 'records') {
+            document.getElementById('tabRecords').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[3].classList.add('active');
+        } else if (tabId === 'notrain') {
+            document.getElementById('tabNoTrain').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[4].classList.add('active');
+        } else if (tabId === 'ongoingtrain') {
+            document.getElementById('tabOngoingTrain').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[5].classList.add('active');
+        } else if (tabId === 'completedtrain') {
+            document.getElementById('tabCompletedTrain').style.display = 'block';
+            document.querySelectorAll('.nav-btn')[6].classList.add('active');
+        }
+    }
+
+    function switchSubTab(catKey) {
+        currentSubCategory = catKey;
+        document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('noTrainFormTitle').innerText = `नयाँ प्रविष्टि (${subCategoryNames[catKey]})`;
+        resetNoTrainForm();
+        renderNoTrainTable();
+    }
+
+    function initRankFilterDropdown() {
+        const rankSelect = document.getElementById('rankFilter');
+        rankSelect.innerHTML = '<option value="">-- सबै दर्जा --</option>';
+        ranksList.forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = r;
+            opt.textContent = r;
+            rankSelect.appendChild(opt);
+        });
+    }
+
+    function generateUniqueId() {
+        return 'rec_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    }
+
+    function saveData() {
+        localStorage.setItem('police_records_v4', JSON.stringify(staffRecords));
+        localStorage.setItem('police_notrain_records_v1', JSON.stringify(noTrainRecords));
+        localStorage.setItem('police_ongoing_train_records_v2', JSON.stringify(ongoingTrainRecords));
+        refreshUI();
+    }
+
+    function refreshUI() {
+        updateTrainingDropdown();
+        renderSummaryTable();
+        renderTable();
+        renderNoTrainTable();
+        renderOngoingTrainTable();
+        renderCompletedTrainTable();
+        document.getElementById('navRecordCount').innerText = staffRecords.length;
+    }
+
+    function escapeHtml(str) {
+        if (!str && str !== 0) return '-';
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function isComputerCodeExists(compCode, currentRecordId) {
+        let cleanCode = String(compCode).trim();
+        if (!cleanCode) return false;
+        return staffRecords.some(r => {
+            if (currentRecordId && String(r.id) === String(currentRecordId)) return false;
+            return String(r.compCode).trim() === cleanCode;
+        });
+    }
+
+    // No-Basic-Training Functions
+    function handleNoTrainSubmit(e) {
+        e.preventDefault();
+        const editId = document.getElementById('ntEditId').value;
+        const obj = {
+            id: editId ? editId : generateUniqueId(),
+            dataType: 'noTrain',
+            subCategory: currentSubCategory,
+            compCode: document.getElementById('ntCompCode').value.trim(),
+            rank: document.getElementById('ntRank').value.trim(),
+            fullname: document.getElementById('ntFullname').value.trim(),
+            darbandi: document.getElementById('ntDarbandi').value.trim(),
+            workingPlace: document.getElementById('ntWorkingPlace').value.trim(),
+            joinDate: cleanDate(document.getElementById('ntJoinDate').value.trim()),
+            canTrain: document.getElementById('ntCanTrain').value,
+            reason: document.getElementById('ntReason').value.trim(),
+            phone: document.getElementById('ntPhone').value.trim(),
+            remarks: document.getElementById('ntRemarks').value.trim()
+        };
+
+        if (!noTrainRecords[currentSubCategory]) noTrainRecords[currentSubCategory] = [];
+
+        if (editId) {
+            const idx = noTrainRecords[currentSubCategory].findIndex(r => String(r.id) === String(editId));
+            if (idx !== -1) noTrainRecords[currentSubCategory][idx] = obj;
+        } else {
+            noTrainRecords[currentSubCategory].unshift(obj);
+        }
+
+        saveData();
+        resetNoTrainForm();
+        alert("विवरण सफलतापूर्वक सुरक्षित गरियो!");
+
+        fetch(scriptUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(obj)
+        }).catch(error => console.error('Cloud Sync Error:', error));
+    }
+
+    function renderNoTrainTable() {
+        const tbody = document.getElementById('noTrainTableBody');
+        const list = noTrainRecords[currentSubCategory] || [];
+
+        if (list.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:15px; color:#64748b;">कुनै डाटा उपलब्ध छैन।</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        list.forEach((item, idx) => {
+            html += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><b>${escapeHtml(item.compCode)}</b></td>
+                    <td>${escapeHtml(item.rank)}</td>
+                    <td><b>${escapeHtml(item.fullname)}</b></td>
+                    <td>${escapeHtml(item.darbandi)}</td>
+                    <td>${escapeHtml(item.workingPlace)}</td>
+                    <td>${cleanDate(item.joinDate)}</td>
+                    <td><span class="status-badge" style="background:${item.canTrain === 'सक्ने' ? '#dcfce7' : '#fee2e2'}; color:${item.canTrain === 'सक्ने' ? '#15803d' : '#b91c1c'};">${escapeHtml(item.canTrain)}</span></td>
+                    <td>${escapeHtml(item.reason)}</td>
+                    <td>${escapeHtml(item.phone)}</td>
+                    <td>${escapeHtml(item.remarks)}</td>
+                    <td class="no-print">
+                        <button class="btn btn-warning" style="padding:2px 6px; font-size:10px;" onclick="editNoTrain('${item.id}')" title="सच्याउनुहोस्"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger" style="padding:2px 6px; font-size:10px;" onclick="deleteNoTrain('${item.id}')" title="हटाउनुहोस्"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function editNoTrain(id) {
+        const item = (noTrainRecords[currentSubCategory] || []).find(r => String(r.id) === String(id));
+        if (!item) return;
+
+        document.getElementById('ntEditId').value = item.id;
+        document.getElementById('ntCompCode').value = item.compCode || '';
+        document.getElementById('ntRank').value = item.rank || '';
+        document.getElementById('ntFullname').value = item.fullname || '';
+        document.getElementById('ntDarbandi').value = item.darbandi || '';
+        document.getElementById('ntWorkingPlace').value = item.workingPlace || '';
+        document.getElementById('ntJoinDate').value = cleanDate(item.joinDate || '');
+        document.getElementById('ntCanTrain').value = item.canTrain || 'सक्ने';
+        document.getElementById('ntReason').value = item.reason || '';
+        document.getElementById('ntPhone').value = item.phone || '';
+        document.getElementById('ntRemarks').value = item.remarks || '';
+
+        document.getElementById('ntSubmitBtn').innerHTML = `<i class="fa-solid fa-rotate"></i> अद्यावधिक`;
+        document.getElementById('ntCancelBtn').style.display = 'inline-block';
+    }
+
+    function resetNoTrainForm() {
+        document.getElementById('ntEditId').value = '';
+        document.getElementById('noTrainForm').reset();
+        document.getElementById('ntSubmitBtn').innerHTML = `<i class="fa-solid fa-save"></i> सुरक्षित गर्नुहोस्`;
+        document.getElementById('ntCancelBtn').style.display = 'none';
+    }
+
+    function deleteNoTrain(id) {
+        if (confirm("के तपाईं यो विवरण हटाउन चाहनुहुन्छ?")) {
+            noTrainRecords[currentSubCategory] = noTrainRecords[currentSubCategory].filter(r => String(r.id) !== String(id));
+            saveData();
+        }
+    }
+
+    // Ongoing Training Functions (With Edit, Delete & Attendance Sync)
+    function handleOngoingTrainSubmit(e) {
+        e.preventDefault();
+        const editId = document.getElementById('ogEditId').value;
+        const attendanceVal = cleanDate(document.getElementById('ogAttendanceDate').value.trim());
+        const compCodeVal = document.getElementById('ogCompCode').value.trim();
+        const trainingNameVal = document.getElementById('ogTrainingName').value.trim();
+
+        const obj = {
+            id: editId ? editId : generateUniqueId(),
+            dataType: 'ongoingTrain',
+            compCode: compCodeVal,
+            rank: document.getElementById('ogRank').value.trim(),
+            fullname: document.getElementById('ogFullname').value.trim(),
+            darbandi: document.getElementById('ogDarbandi').value.trim(),
+            startDate: cleanDate(document.getElementById('ogStartDate').value.trim()),
+            workDays: document.getElementById('ogWorkDays').value.trim(),
+            trainingName: trainingNameVal,
+            trainingPlace: document.getElementById('ogTrainingPlace').value.trim(),
+            dispatchDate: cleanDate(document.getElementById('ogDispatchDate').value.trim()),
+            attendanceDate: attendanceVal
+        };
+
+        if (editId) {
+            const idx = ongoingTrainRecords.findIndex(r => String(r.id) === String(editId));
+            if (idx !== -1) ongoingTrainRecords[idx] = obj;
+        } else {
+            ongoingTrainRecords.unshift(obj);
+        }
+
+        if (attendanceVal && attendanceVal !== '-') {
+            let staffMember = staffRecords.find(s => String(s.compCode).trim() === compCodeVal);
+            if (staffMember) {
+                let existingTrainings = staffMember.trainingDetails ? staffMember.trainingDetails.split(',').map(s => s.trim()).filter(Boolean) : [];
+                if (!existingTrainings.includes(trainingNameVal)) {
+                    existingTrainings.push(trainingNameVal);
+                    staffMember.trainingDetails = existingTrainings.join(', ');
+                }
+            }
+        }
+
+        saveData();
+        resetOngoingTrainForm();
+        alert("विवरण सफलतापूर्वक सुरक्षित गरियो!");
+
+        fetch(scriptUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(obj)
+        }).catch(error => console.error('Cloud Sync Error:', error));
+    }
+
+    function renderOngoingTrainTable() {
+        const tbody = document.getElementById('ongoingTrainTableBody');
+        const ongoingList = ongoingTrainRecords.filter(item => !item.attendanceDate || item.attendanceDate === '-' || item.attendanceDate === '');
+
+        if (ongoingList.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:15px; color:#64748b;">कुनै डाटा उपलब्ध छैन।</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        ongoingList.forEach((item, idx) => {
+            html += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><b>${escapeHtml(item.compCode)}</b></td>
+                    <td>${escapeHtml(item.rank)}</td>
+                    <td><b>${escapeHtml(item.fullname)}</b></td>
+                    <td>${escapeHtml(item.darbandi)}</td>
+                    <td>${cleanDate(item.startDate)}</td>
+                    <td>${escapeHtml(item.workDays)}</td>
+                    <td><b style="color:var(--primary);">${escapeHtml(item.trainingName)}</b></td>
+                    <td>${escapeHtml(item.trainingPlace)}</td>
+                    <td>${cleanDate(item.dispatchDate)}</td>
+                    <td><span class="status-badge" style="background:#fef3c7; color:#92400e;">${cleanDate(item.attendanceDate)}</span></td>
+                    <td class="no-print">
+                        <button class="btn btn-warning" style="padding:2px 6px; font-size:10px;" onclick="editOngoingTrain('${item.id}')" title="सच्याउनुहोस्"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger" style="padding:2px 6px; font-size:10px;" onclick="deleteOngoingTrain('${item.id}')" title="हटाउनुहोस्"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function renderCompletedTrainTable() {
+        const tbody = document.getElementById('completedTrainTableBody');
+        const completedList = ongoingTrainRecords.filter(item => item.attendanceDate && item.attendanceDate !== '-' && item.attendanceDate !== '');
+
+        if (completedList.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:15px; color:#64748b;">कुनै डाटा उपलब्ध छैन।</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        completedList.forEach((item, idx) => {
+            html += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><b>${escapeHtml(item.compCode)}</b></td>
+                    <td>${escapeHtml(item.rank)}</td>
+                    <td><b>${escapeHtml(item.fullname)}</b></td>
+                    <td>${escapeHtml(item.darbandi)}</td>
+                    <td>${cleanDate(item.startDate)}</td>
+                    <td>${escapeHtml(item.workDays)}</td>
+                    <td><b style="color:var(--primary);">${escapeHtml(item.trainingName)}</b></td>
+                    <td>${escapeHtml(item.trainingPlace)}</td>
+                    <td>${cleanDate(item.dispatchDate)}</td>
+                    <td><span class="status-badge" style="background:#dcfce7; color:#15803d;">${cleanDate(item.attendanceDate)}</span></td>
+                    <td class="no-print">
+                        <button class="btn btn-danger" style="padding:2px 6px; font-size:10px;" onclick="deleteOngoingTrain('${item.id}')" title="हटाउनुहोस्"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function editOngoingTrain(id) {
+        const item = ongoingTrainRecords.find(r => String(r.id) === String(id));
+        if (!item) return;
+
+        document.getElementById('ogEditId').value = item.id;
+        document.getElementById('ogCompCode').value = item.compCode || '';
+        document.getElementById('ogRank').value = item.rank || '';
+        document.getElementById('ogFullname').value = item.fullname || '';
+        document.getElementById('ogDarbandi').value = item.darbandi || '';
+        document.getElementById('ogStartDate').value = cleanDate(item.startDate || '');
+        document.getElementById('ogWorkDays').value = item.workDays || '';
+        document.getElementById('ogTrainingName').value = item.trainingName || '';
+        document.getElementById('ogTrainingPlace').value = item.trainingPlace || '';
+        document.getElementById('ogDispatchDate').value = cleanDate(item.dispatchDate || '');
+        document.getElementById('ogAttendanceDate').value = (item.attendanceDate === '-') ? '' : cleanDate(item.attendanceDate || '');
+
+        document.getElementById('ogSubmitBtn').innerHTML = `<i class="fa-solid fa-rotate"></i> अद्यावधिक`;
+        document.getElementById('ogCancelBtn').style.display = 'inline-block';
+        switchTab('ongoingtrain');
+    }
+
+    function resetOngoingTrainForm() {
+        document.getElementById('ogEditId').value = '';
+        document.getElementById('ongoingTrainForm').reset();
+        document.getElementById('ogSubmitBtn').innerHTML = `<i class="fa-solid fa-save"></i> सुरक्षित गर्नुहोस्`;
+        document.getElementById('ogCancelBtn').style.display = 'none';
+    }
+
+    function deleteOngoingTrain(id) {
+        if (confirm("के तपाईं यो विवरण हटाउन चाहनुहुन्छ?")) {
+            ongoingTrainRecords = ongoingTrainRecords.filter(r => String(r.id) !== String(id));
+            saveData();
+        }
+    }
+
+    function updateTrainingDropdown() {
+        const select = document.getElementById('trainingFilter');
+        const currentVal = select.value;
+        select.innerHTML = '<option value="">-- सबै तालिम --</option>';
+
+        let trainSet = new Set();
+        staffRecords.forEach(r => {
+            if (r.trainingDetails) r.trainingDetails.split(',').forEach(t => t.trim() && trainSet.add(t.trim()));
+            if (r.mobileTraining) r.mobileTraining.split(',').forEach(t => t.trim() && trainSet.add(t.trim()));
+        });
+
+        Array.from(trainSet).sort().forEach(tName => {
+            const opt = document.createElement('option');
+            opt.value = tName;
+            opt.textContent = tName;
+            if (tName === currentVal) opt.selected = true;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderSummaryTable() {
+        const tbody = document.getElementById('summaryTableBody');
+        let summaryData = {};
+
+        staffRecords.forEach(record => {
+            let userTrainings = new Set();
+            if (record.trainingDetails) record.trainingDetails.split(',').map(s => s.trim()).filter(Boolean).forEach(t => userTrainings.add(t));
+            if (record.mobileTraining) record.mobileTraining.split(',').map(s => s.trim()).filter(Boolean).forEach(t => userTrainings.add(t));
+
+            userTrainings.forEach(tName => {
+                if (!summaryData[tName]) summaryData[tName] = {};
+                let rank = record.rank || "अन्य";
+                summaryData[tName][rank] = (summaryData[tName][rank] || 0) + 1;
+            });
+        });
+
+        const keys = Object.keys(summaryData);
+        if (keys.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; padding:15px; color:#64748b;">कुनै डाटा उपलब्ध छैन।</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        keys.sort().forEach((tName, idx) => {
+            let total = 0;
+            let rankCells = '';
+
+            ranksList.forEach(rank => {
+                let count = (summaryData[tName] && summaryData[tName][rank]) ? summaryData[tName][rank] : 0;
+                total += count;
+                if (count > 0) {
+                    rankCells += `<td class="clickable-cell" onclick="filterBySummary('${escapeHtml(tName)}', '${escapeHtml(rank)}')">${count}</td>`;
+                } else {
+                    rankCells += `<td style="color:#94a3b8; text-align:center;">-</td>`;
+                }
+            });
+
+            html += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><b style="color:var(--primary);">${escapeHtml(tName)}</b></td>
+                    ${rankCells}
+                    <td style="text-align:center;"><span class="total-badge" onclick="filterBySummary('${escapeHtml(tName)}', '')">${total} जना</span></td>
+                </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function filterBySummary(tName, rank) {
+        document.getElementById('trainingFilter').value = tName;
+        document.getElementById('rankFilter').value = rank;
+        document.getElementById('searchInput').value = '';
+        renderTable();
+        switchTab('records');
+    }
+
+    function showDetailsModal(modalType, fullName, rank, textString) {
+        document.getElementById('modalTitle').innerHTML = `<span><i class="fa-solid fa-eye"></i> ${modalType}</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeDetailModal()"></i>`;
+        document.getElementById('modalSubtitle').innerHTML = `<i class="fa-solid fa-user-shield"></i> ${fullName} (${rank})`;
+        
+        const listEl = document.getElementById('modalDetailList');
+        listEl.innerHTML = '';
+        
+        if (!textString || textString.trim() === '-' || textString.trim() === '') {
+            listEl.innerHTML = `<li>विवरण उपलब्ध छैन।</li>`;
+        } else {
+            let items = textString.split(',').map(s => s.trim()).filter(Boolean);
+            if(items.length === 0) {
+                listEl.innerHTML = `<li>${escapeHtml(textString)}</li>`;
+            } else {
+                items.forEach((item, index) => {
+                    let li = document.createElement('li');
+                    li.innerHTML = `<b>${index + 1}.</b> ${escapeHtml(item)}`;
+                    listEl.appendChild(li);
+                });
+            }
+        }
+        document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    function closeDetailModal() {
+        document.getElementById('detailModal').style.display = 'none';
+    }
+
+   function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const selectedTraining = document.getElementById('trainingFilter').value.trim();
+        const selectedRank = document.getElementById('rankFilter').value;
+
+        let filteredRecords = staffRecords.filter(item => {
+            if (selectedTraining) {
+                let allTrainings = ((item.trainingDetails || '') + ',' + (item.mobileTraining || '')).split(',').map(s => s.trim());
+                let matchFound = allTrainings.some(t => t.toLowerCase() === selectedTraining.toLowerCase());
+                if (!matchFound) return false;
+            }
+            
+            if (selectedRank && item.rank !== selectedRank) return false;
+
+            if (query) {
+                const searchableText = `${item.compCode} ${item.pmisNo} ${item.rank} ${item.fullname} ${item.darbandi} ${item.workingPlace} ${item.education} ${item.phone} ${item.relativePhone} ${item.trainingDetails} ${item.mobileTraining}`.toLowerCase();
+                return searchableText.includes(query);
+            }
+            return true;
+        });
+
+        filteredRecords.sort((a, b) => {
+            let indexA = ranksList.indexOf(a.rank);
+            let indexB = ranksList.indexOf(b.rank);
+            if (indexA === -1) indexA = 999;
+            if (indexB === -1) indexB = 999;
+            return indexA - indexB;
+        });
+
+        currentlyDisplayedRecords = filteredRecords.map(item => {
+            let copiedItem = { ...item };
+            if (selectedTraining) {
+                let regularTrainings = (item.trainingDetails || '').split(',').map(s => s.trim());
+                let mobileTrainings = (item.mobileTraining || '').split(',').map(s => s.trim());
+                
+                let matchedReg = regularTrainings.filter(t => t.toLowerCase() === selectedTraining.toLowerCase());
+                let matchedMob = mobileTrainings.filter(t => t.toLowerCase() === selectedTraining.toLowerCase());
+
+                copiedItem.trainingDetails = matchedReg.length > 0 ? matchedReg.join(', ') : '-';
+                copiedItem.mobileTraining = matchedMob.length > 0 ? matchedMob.join(', ') : '-';
+            }
+            return copiedItem;
+        });
+
+        document.getElementById('recordCount').innerText = currentlyDisplayedRecords.length;
+
+        if (currentlyDisplayedRecords.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="16" style="text-align:center; padding:20px; color:#64748b;">कुनै पनि अभिलेख भेटिएन।</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        currentlyDisplayedRecords.forEach((item, index) => {
+            let trainVal = item.trainingDetails ? item.trainingDetails : '-';
+            let mobVal = item.mobileTraining ? item.mobileTraining : '-';
+            let fNameEsc = escapeHtml(item.fullname);
+            let rankEsc = escapeHtml(item.rank);
+
+            html += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td><b>${escapeHtml(item.compCode)}</b></td>
+                    <td>${escapeHtml(item.pmisNo)}</td>
+                    <td>${rankEsc}</td>
+                    <td><b>${fNameEsc}</b></td>
+                    <td>${escapeHtml(item.darbandi)}</td>
+                    <td>${escapeHtml(item.workingPlace)}</td>
+                    <td>${cleanDate(item.joinDate)}</td>
+                    <td>${cleanDate(item.promotionDate)}</td>
+                    <td>${cleanDate(item.dob)}</td>
+                    <td>${escapeHtml(item.education)}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 5px;">
+                            <span class="truncated-cell" style="max-width:130px;" title="${escapeHtml(trainVal)}">${escapeHtml(trainVal)}</span>
+                            ${trainVal !== '-' ? `<button class="btn btn-primary" style="padding:2px 6px; font-size:10px;" onclick="showDetailsModal('तालिम विवरण', '${fNameEsc.replace(/'/g, "\\'")}', '${rankEsc.replace(/'/g, "\\'")}', '${escapeHtml(trainVal).replace(/'/g, "\\'")}')" title="विस्तृत हेर्नुहोस्"><i class="fa-solid fa-eye"></i></button>` : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 5px;">
+                            <span class="truncated-cell" style="max-width:130px;" title="${escapeHtml(mobVal)}">${escapeHtml(mobVal)}</span>
+                            ${mobVal !== '-' ? `<button class="btn btn-primary" style="padding:2px 6px; font-size:10px;" onclick="showDetailsModal('घुम्ती तालिम विवरण', '${fNameEsc.replace(/'/g, "\\'")}', '${rankEsc.replace(/'/g, "\\'")}', '${escapeHtml(mobVal).replace(/'/g, "\\'")}')" title="विस्तृत हेर्नुहोस्"><i class="fa-solid fa-eye"></i></button>` : ''}
+                        </div>
+                    </td>
+                    <td>${escapeHtml(item.phone)}</td>
+                    <td>${escapeHtml(item.relativePhone)}</td>
+                    <td class="no-print">
+                        <button class="btn btn-warning" style="padding:3px 6px; font-size:11px;" onclick="editRecord('${item.id}')" title="सच्याउनुहोस्"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger" style="padding:3px 6px; font-size:11px;" onclick="deleteRecord('${item.id}')" title="हटाउनुहोस्"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function deleteRecord(id) {
+        if (confirm("के तपाईं यो प्रहरी कर्मचारीको विवरण पक्का हटाउन चाहनुहुन्छ?")) {
+            staffRecords = staffRecords.filter(r => String(r.id) !== String(id));
+            saveData();
+        }
+    }
+
+    document.getElementById('recordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const recordId = document.getElementById('editRecordId').value;
+        const compCodeVal = document.getElementById('compCode').value.trim();
+
+        if (isComputerCodeExists(compCodeVal, recordId)) {
+            alert(`त्रुटि: कम्प्युटर कोड "${compCodeVal}" पहिल्यै दर्ता भइसकेको छ!`);
+            document.getElementById('compCode').focus();
+            return;
+        }
+
+        let rawPmis = document.getElementById('pmisNo').value.trim();
+        let formattedPmis = rawPmis.toUpperCase().startsWith('C-') ? rawPmis.toUpperCase() : 'C-' + rawPmis;
+
+        const recordObj = {
+            id: recordId ? recordId : generateUniqueId(),
+            dataType: 'staff',
+            compCode: compCodeVal,
+            pmisNo: formattedPmis,
+            rank: document.getElementById('rank').value,
+            fullname: document.getElementById('fullname').value.trim(),
+            darbandi: document.getElementById('darbandi').value.trim(),
+            workingPlace: document.getElementById('workingPlace').value.trim(),
+            joinDate: cleanDate(document.getElementById('joinDate').value.trim()),
+            promotionDate: cleanDate(document.getElementById('promotionDate').value.trim()),
+            dob: cleanDate(document.getElementById('dob').value.trim()),
+            education: document.getElementById('education').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            relativePhone: document.getElementById('relativePhone').value.trim(),
+            trainingDetails: document.getElementById('trainingDetails').value.trim(),
+            mobileTraining: document.getElementById('mobileTraining').value.trim()
+        };
+
+        if (recordId) {
+            const idx = staffRecords.findIndex(r => String(r.id) === String(recordId));
+            if (idx !== -1) staffRecords[idx] = recordObj;
+        } else {
+            staffRecords.unshift(recordObj);
+        }
+
+        saveData();
+        resetForm();
+        alert("विवरण सफलतापूर्वक सुरक्षित गरियो!");
+        switchTab('records');
+
+        fetch(scriptUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(recordObj)
+        }).catch(error => console.error('Cloud Sync Error:', error));
+    });
+
+    function fetchCloudData() {
+        fetch(scriptUrl)
+            .then(response => response.json())
+            .then(cloudData => {
+                if (Array.isArray(cloudData) && cloudData.length > 0) {
+                    let newStaff = [];
+                    let newNoTrain = { Inspector: [], ASI: [], ShortTermASI: [], Jawan: [], OfficeHelper: [] };
+                    let newOngoing = [];
+
+                    cloudData.forEach(row => {
+                        let type = row.dataType;
+                        if (!type) {
+                            if (row.canTrain !== undefined || row.subCategory) {
+                                type = 'noTrain';
+                            } else if (row.startDate && row.trainingName) {
+                                type = 'ongoingTrain';
+                            } else {
+                                type = 'staff';
+                            }
+                        }
+
+                        if (type === 'noTrain') {
+                            let cat = row.subCategory || 'Inspector';
+                            if (!newNoTrain[cat]) newNoTrain[cat] = [];
+                            if (!newNoTrain[cat].some(r => String(r.id) === String(row.id))) {
+                                newNoTrain[cat].push(row);
+                            }
+                        } else if (type === 'ongoingTrain') {
+                            if (!newOngoing.some(r => String(r.id) === String(row.id))) {
+                                newOngoing.push(row);
+                            }
+                        } else {
+                            if (!newStaff.some(r => String(r.id) === String(row.id))) {
+                                newStaff.push(row);
+                            }
+                        }
+                    });
+
+                    staffRecords = newStaff;
+                    noTrainRecords = newNoTrain;
+                    ongoingTrainRecords = newOngoing;
+
+                    localStorage.setItem('police_records_v4', JSON.stringify(staffRecords));
+                    localStorage.setItem('police_notrain_records_v1', JSON.stringify(noTrainRecords));
+                    localStorage.setItem('police_ongoing_train_records_v2', JSON.stringify(ongoingTrainRecords));
+                    refreshUI();
+                }
+            })
+            .catch(error => console.error('Cloud Fetch Error:', error));
+    }
+
+    initRankFilterDropdown();
+    refreshUI();
+
+    function editRecord(id) {
+        const item = staffRecords.find(r => String(r.id) === String(id));
+        if (!item) return;
+
+        document.getElementById('editRecordId').value = item.id;
+        document.getElementById('compCode').value = item.compCode || '';
+        
+        let pmisClean = item.pmisNo || '';
+        if (pmisClean.toUpperCase().startsWith('C-')) pmisClean = pmisClean.substring(2);
+        document.getElementById('pmisNo').value = pmisClean;
+
+        document.getElementById('rank').value = item.rank || '';
+        document.getElementById('fullname').value = item.fullname || '';
+        document.getElementById('darbandi').value = item.darbandi || '';
+        document.getElementById('workingPlace').value = item.workingPlace || '';
+        document.getElementById('joinDate').value = cleanDate(item.joinDate || '');
+        document.getElementById('promotionDate').value = cleanDate(item.promotionDate || '');
+        document.getElementById('dob').value = cleanDate(item.dob || '');
+        document.getElementById('education').value = item.education || '';
+        document.getElementById('phone').value = item.phone || '';
+        document.getElementById('relativePhone').value = item.relativePhone || '';
+        document.getElementById('trainingDetails').value = item.trainingDetails || '';
+        document.getElementById('mobileTraining').value = item.mobileTraining || '';
+
+        document.getElementById('formHeaderTitle').innerHTML = `<i class="fa-solid fa-user-pen"></i> प्रहरी कर्मचारी विवरण संशोधन`;
+        document.getElementById('editBadge').style.display = 'inline-block';
+        document.getElementById('submitBtn').innerHTML = `<i class="fa-solid fa-rotate"></i> अद्यावधिक गर्नुहोस्`;
+        document.getElementById('cancelBtn').style.display = 'inline-flex';
+        
+        switchTab('form');
+    }
+
+    function resetForm() {
+        document.getElementById('editRecordId').value = '';
+        document.getElementById('recordForm').reset();
+        document.getElementById('formHeaderTitle').innerHTML = `<i class="fa-solid fa-user-plus"></i> नयाँ प्रहरी कर्मचारीको विवरण प्रविष्टि`;
+        document.getElementById('editBadge').style.display = 'none';
+        document.getElementById('submitBtn').innerHTML = `<i class="fa-solid fa-save"></i> विवरण सुरक्षित गर्नुहोस्`;
+        document.getElementById('cancelBtn').style.display = 'none';
+    }
+
+    function clearFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('trainingFilter').value = '';
+        document.getElementById('rankFilter').value = '';
+        renderTable();
+    }
+
+    function exportExcel() {
+        const recordsToExport = currentlyDisplayedRecords.length > 0 ? currentlyDisplayedRecords : staffRecords;
+        if (recordsToExport.length === 0) { alert("निर्यात गर्नको लागि कुनै डाटा छैन।"); return; }
+
+        const dataForExcel = recordsToExport.map((r, index) => ({
+            "क्र.सं.": index + 1,
+            "कम्प्युटर कोड": r.compCode || '',
+            "संकेत नं.": r.pmisNo || '',
+            "दर्जा": r.rank || '',
+            "नाम/थर": r.fullname || '',
+            "दरबन्दी": r.darbandi || '',
+            "कार्यरत स्थान": r.workingPlace || '',
+            "भर्ना मिति": cleanDate(r.joinDate) || '',
+            "बढुवा मिति": cleanDate(r.promotionDate) || '',
+            "जन्म मिति": cleanDate(r.dob) || '',
+            "शैक्षिक योग्यता": r.education || '',
+            "तालिम विवरण": r.trainingDetails || '',
+            "घुम्ती तालिम": r.mobileTraining || '',
+            "सम्पर्क नं.": r.phone || '',
+            "आफन्तको नं.": r.relativePhone || ''
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Training Records");
+        XLSX.writeFile(workbook, "Police_Records.xlsx");
+    }
+
+    function triggerExcelImport() { document.getElementById('excelFileInput').click(); }
+
+    function importExcelFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const jsonSheet = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                
+                let count = 0;
+                jsonSheet.forEach(row => {
+                    const compCode = row["कम्प्युटर कोड"] || row["compCode"] || '';
+                    const fullname = row["नाम/थर"] || row["fullname"] || '';
+
+                    let rawPmis = String(row["संकेत नं."] || row["pmisNo"] || '').trim();
+                    let formattedPmis = rawPmis ? (rawPmis.toUpperCase().startsWith('C-') ? rawPmis.toUpperCase() : 'C-' + rawPmis) : '';
+
+                    if (compCode || fullname) {
+                        staffRecords.unshift({
+                            id: generateUniqueId(),
+                            dataType: 'staff',
+                            compCode: String(compCode).trim(),
+                            pmisNo: formattedPmis,
+                            rank: String(row["दर्जा"] || row["rank"] || '').trim(),
+                            fullname: String(fullname).trim(),
+                            darbandi: String(row["दरबन्दी"] || row["darbandi"] || '').trim(),
+                            workingPlace: String(row["कार्यरत स्थान"] || row["workingPlace"] || '').trim(),
+                            joinDate: cleanDate(String(row["भर्ना मिति"] || row["joinDate"] || '')),
+                            promotionDate: cleanDate(String(row["बढुवा मिति"] || row["promotionDate"] || '')),
+                            dob: cleanDate(String(row["जन्म मिति"] || row["dob"] || '')),
+                            education: String(row["शैक्षिक योग्यता"] || row["education"] || '').trim(),
+                            trainingDetails: String(row["तालिम विवरण"] || row["trainingDetails"] || '').trim(),
+                            mobileTraining: String(row["घुम्ती तालिम"] || row["mobileTraining"] || '').trim(),
+                            phone: String(row["सम्पर्क नं."] || row["phone"] || '').trim(),
+                            relativePhone: String(row["आफन्तको नं."] || row["relativePhone"] || '').trim()
+                        });
+                        count++;
+                    }
+                });
+
+                saveData();
+                alert(`${count} वटा डाटा सफलतापुर्वक अपलोड भयो!`);
+            } catch (err) {
+                alert("फाइल इम्पोर्ट गर्न सकिएन।");
+            }
+            event.target.value = '';
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function exportJSONBackup() {
+        if (staffRecords.length === 0) { alert("ब्याकअप लिनको लागि कुनै डाटा छैन।"); return; }
+        const allDataForBackup = {
+            staffRecords: staffRecords,
+            noTrainRecords: noTrainRecords,
+            ongoingTrainRecords: ongoingTrainRecords
+        };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allDataForBackup, null, 2));
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = `Police_Records_Backup_${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+    }
+
+    function triggerRestore() { document.getElementById('restoreFileInput').click(); }
+
+    function importJSONBackup(event) {
+        const fileReader = new FileReader();
+        fileReader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (Array.isArray(data)) {
+                    staffRecords = data;
+                    saveData();
+                    alert("डाटा सफलतापूर्वक रिस्टोर भयो!");
+                } else if (data && typeof data === 'object') {
+                    if (data.staffRecords) staffRecords = data.staffRecords;
+                    if (data.noTrainRecords) noTrainRecords = data.noTrainRecords;
+                    if (data.ongoingTrainRecords) ongoingTrainRecords = data.ongoingTrainRecords;
+                    saveData();
+                    alert("डाटा सफलतापूर्वक रिस्टोर भयो!");
+                } else {
+                    alert("अमान्य JSON ढाँचा!");
+                }
+            } catch (err) { alert("JSON फाइल पढ्न सकिएन!"); }
+            event.target.value = '';
+        };
+        if (event.target.files[0]) fileReader.readAsText(event.target.files[0]);
+    }
+</script>
+
+</body>
+</html>

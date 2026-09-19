@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>दैनिक पिटी / रोलकल रिपोर्ट - काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Kalimati', 'Mukta', Arial, sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 5px;
+            color: #212529;
+        }
+        .container {
+            width: 100%;
+            max-width: 1350px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid #1a365d;
+        }
+        .header { text-align: center; margin-bottom: 5px; }
+        .header h3 { color: #1a365d; font-weight: bold; font-size: 18px; margin: 2px 0; }
+        .header h4 { font-size: 15px; margin: 2px 0; }
+        .header h5 { font-size: 13px; margin: 2px 0; color: #333; }
+        .print-date-display { display: none; text-align: right; font-weight: bold; font-size: 13px; margin-bottom: 4px; }
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border: 1px solid #d1d5db;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .form-group-inline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .form-group-inline label { font-weight: bold; font-size: 13px; color: #1a365d; }
+        .form-group-inline select, .form-group-inline input {
+            padding: 5px 8px;
+            font-size: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #fff;
+            transition: background 0.2s;
+        }
+        .btn-calc { background-color: #2b6cb0; }
+        .btn-calc:hover { background-color: #2c5282; }
+        .btn-save { background-color: #2f855a; }
+        .btn-save:hover { background-color: #276749; }
+        .btn-reset { background-color: #c53030; }
+        .btn-reset:hover { background-color: #9b2c2c; }
+        .btn-print { background-color: #1a365d; }
+        .btn-print:hover { background-color: #0f172a; }
+
+        .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 10px; }
+        table { width: 100%; min-width: 850px; border-collapse: collapse; text-align: center; font-size: 12px; }
+        th, td { border: 1px solid #4a5568; padding: 3px 2px; }
+        th { background-color: #1a365d; color: #ffffff; font-weight: bold; }
+        .text-left { text-align: left; padding-left: 6px; }
+        input.cell-input {
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            text-align: center;
+            font-size: 12px;
+            background: transparent;
+            font-family: inherit;
+            padding: 0;
+        }
+        input.cell-input:focus { outline: 1px solid #2b6cb0; background: #fff; }
+        .readonly-cell { background-color: #edf2f7; font-weight: bold; }
+        
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            text-align: center;
+            page-break-inside: avoid;
+            gap: 15px;
+        }
+        .sig-box { width: 33%; }
+        .sig-line {
+            border-top: 1px solid #1a365d;
+            margin-top: 25px;
+            margin-bottom: 3px;
+            padding-top: 4px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .sig-box input {
+            width: 100%;
+            text-align: center;
+            border: 1px dashed #cbd5e1;
+            padding: 3px;
+            font-family: inherit;
+            margin-top: 3px;
+            border-radius: 3px;
+            background: #fafafa;
+            font-size: 12px;
+        }
+
+        /* प्रिन्ट गर्दा एउटै पेजमा मिलाउन र कन्ट्रोल बार लुकाउन थप गरिएको कोड */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 5mm;
+            }
+            body {
+                background-color: #fff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border-top: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .controls-bar {
+                display: none !important;
+            }
+            .print-date-display {
+                display: block !important;
+            }
+            table {
+                font-size: 11px;
+            }
+            th, td {
+                padding: 2px 1px;
+            }
+            .signature-section {
+                margin-top: 15px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .controls-bar { flex-direction: column; align-items: stretch; }
+            .form-group-inline { width: 100%; justify-content: space-between; }
+            .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
+            .btn { width: 100%; padding: 10px; }
+            .signature-section { flex-direction: column; gap: 15px; }
+            .sig-box { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h5>नेपाल सरकार</h5>
+        <h5>गृह मन्त्रालय</h5>
+        <h4>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</h4>
+        <h3 id="reportTitleDisplay">दैनिक पिटी तथा रोलकल रिपोर्ट</h3>
+    </div>
+
+    <div class="print-date-display">
+        मिति: <span id="printDateSpan">२०८२।०४।०३</span> गते ।
+    </div>
+
+    <div class="controls-bar">
+        <div class="form-group-inline">
+            <label for="reportType">रिपोर्टको प्रकार:</label>
+            <select id="reportType" onchange="updateTitle()">
+                <option value="दैनिक पिटी रिपोर्ट">दैनिक पिटी रिपोर्ट</option>
+                <option value="दैनिक रोलकल रिपोर्ट">दैनिक रोलकल रिपोर्ट</option>
+                <option value="दैनिक पिटी तथा रोलकल रिपोर्ट" selected>दैनिक पिटी तथा रोलकल रिपोर्ट</option>
+            </select>
+        </div>
+
+        <div class="form-group-inline">
+            <label for="reportDate">मिति:</label>
+            <input type="text" id="reportDate" value="२०८३।०४।३०" placeholder="२०८३।०४।३०" oninput="updatePrintDate()">
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-calc" onclick="calculateAll()">हिसाब गर्नुहोस्</button>
+            <button class="btn btn-save" onclick="saveData()">सेभ गर्नुहोस्</button>
+            <button class="btn btn-reset" onclick="resetData()">रिसेट</button>
+            <button class="btn btn-print" onclick="window.print()">प्रिन्ट रिपोर्ट</button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th style="width: 35px;">सि.नं.</th>
+                    <th style="width: 170px;">विवरण</th>
+                    <th style="width: 45px;">प्रउ</th>
+                    <th style="width: 45px;">प्रनाउ</th>
+                    <th style="width: 45px;">प्रनि</th>
+                    <th style="width: 45px;">प्रबनानि</th>
+                    <th style="width: 45px;">प्रनानि</th>
+                    <th style="width: 45px;">प्रसनि</th>
+                    <th style="width: 45px;">प्रबह</th>
+                    <th style="width: 45px;">प्रह</th>
+                    <th style="width: 60px;">प्रसह</th>
+                    <th style="width: 45px;">प्रज</th>
+                    <th style="width: 45px;">प्रकास</th>
+                    <th style="width: 55px;">जम्मा</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>१</td>
+                    <td class="text-left">कुल कार्यरत संख्या</td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="0" value="1"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="1" value="1"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="2" value="4"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="3" value="4"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="4" value="5"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="5" value="12"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="6" value="1"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="7" value="22"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="8" value="62"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="9" value="103"></td>
+                    <td><input type="number" class="cell-input" data-row="0" data-col="10" value="22"></td>
+                    <td class="readonly-cell" id="row-total-0">240</td>
+                </tr>
+                <tr>
+                    <td>२</td>
+                    <td class="text-left">आन्तरिक ड्युटी(पोष्ट)</td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="8"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="1" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-1">0</td>
+                </tr>
+                <tr>
+                    <td>३</td>
+                    <td class="text-left">कार्यालय ड्युटी</td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="6" value="1"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="7" value="5"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="8" value="8"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="2" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-2">14</td>
+                </tr>
+                <tr>
+                    <td>४</td>
+                    <td class="text-left">बाहिरी ड्युटी</td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="6" value="1"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="7" value="3"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="8" value="2"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="3" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-3">6</td>
+                </tr>
+                <tr>
+                    <td>५</td>
+                    <td class="text-left">क्वाटरगार्ड</td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="8" value="2"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="9" value="2"></td>
+                    <td><input type="number" class="cell-input" data-row="4" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-4">4</td>
+                </tr>
+                <tr>
+                    <td>६</td>
+                    <td class="text-left">मौखिक काज</td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="8"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="5" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-5">0</td>
+                </tr>
+                <tr>
+                    <td>७</td>
+                    <td class="text-left">लाईन विरामी</td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="8" value="24"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="6" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-6">24</td>
+                </tr>
+                <tr>
+                    <td>८</td>
+                    <td class="text-left">स्थायी विरामी</td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="8" value="36"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="7" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-7">36</td>
+                </tr>
+                <tr>
+                    <td>९</td>
+                    <td class="text-left">बिदा</td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="8" value="2"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="9" value="6"></td>
+                    <td><input type="number" class="cell-input" data-row="8" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-8">8</td>
+                </tr>
+                <tr>
+                    <td>१०</td>
+                    <td class="text-left">ने.प्र.अ. कुरुवा</td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="8" value="4"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="9" value="2"></td>
+                    <td><input type="number" class="cell-input" data-row="9" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-9">6</td>
+                </tr>
+                <tr>
+                    <td>११</td>
+                    <td class="text-left">फटिक तथा निर्माण</td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="8"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="10" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-10">0</td>
+                </tr>
+                <tr>
+                    <td>१२</td>
+                    <td class="text-left">विविध खर्च</td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="0"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="1"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="2"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="3"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="4"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="5"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="6"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="7"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="8"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="9"></td>
+                    <td><input type="number" class="cell-input" data-row="11" data-col="10"></td>
+                    <td class="readonly-cell" id="row-total-11">0</td>
+                </tr>
+                <tr style="background-color: #f8fafc; font-weight: bold;">
+                    <td>१३</td>
+                    <td class="text-left">कुल जम्मा खर्च</td>
+                    <td class="readonly-cell" id="col-sum-0">0</td>
+                    <td class="readonly-cell" id="col-sum-1">0</td>
+                    <td class="readonly-cell" id="col-sum-2">0</td>
+                    <td class="readonly-cell" id="col-sum-3">0</td>
+                    <td class="readonly-cell" id="col-sum-4">0</td>
+                    <td class="readonly-cell" id="col-sum-5">0</td>
+                    <td class="readonly-cell" id="col-sum-6">0</td>
+                    <td class="readonly-cell" id="col-sum-7">0</td>
+                    <td class="readonly-cell" id="col-sum-8">0</td>
+                    <td class="readonly-cell" id="col-sum-9">0</td>
+                    <td class="readonly-cell" id="col-sum-10">0</td>
+                    <td class="readonly-cell" id="grand-total-sum">0</td>
+                </tr>
+                <tr style="background-color: #ebf8ff; font-weight: bold;">
+                    <td>१४</td>
+                    <td class="text-left">पिटी/रोलकल हाजिर संख्या</td>
+                    <td><input type="number" class="cell-input present-input" data-col="0"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="1"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="2"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="3"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="4"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="5"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="6"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="7"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="8"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="9"></td>
+                    <td><input type="number" class="cell-input present-input" data-col="10"></td>
+                    <td class="readonly-cell" id="present-grand-total">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="signature-section">
+        <div class="sig-box">
+            <div class="sig-line">
+                <input type="text" id="sigRank1" value="हवल्दार मेजर" placeholder="पद लेख्नुहोस्">
+            </div>
+            <div><input type="text" id="sigName1" placeholder="नाम लेख्नुहोस्"></div>
+        </div>
+        <div class="sig-box">
+            <div class="sig-line">
+                <input type="text" id="sigRank2" value="सुवेदार मेजर" placeholder="पद लेख्नुहोस्">
+            </div>
+            <div><input type="text" id="sigName2" placeholder="नाम लेख्नुहोस्"></div>
+        </div>
+         <div class="sig-box">
+            <div class="sig-line">
+                <input type="text" id="sigRank2" value="ड्यूटी अधिकृत" placeholder="पद लेख्नुहोस्">
+            </div>
+            <div><input type="text" id="sigName2" placeholder="नाम लेख्नुहोस्"></div>
+        </div>
+        <div class="sig-box">
+            <div class="sig-line">
+                <input type="text" id="sigRank3" value="फिल्ड अधिकृत" placeholder="पद लेख्नुहोस्">
+            </div>
+            <div><input type="text" id="sigName3" placeholder="नाम लेख्नुहोस्"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateTitle() {
+        const type = document.getElementById('reportType').value;
+        document.getElementById('reportTitleDisplay').innerText = type;
+    }
+
+    function updatePrintDate() {
+        const dateVal = document.getElementById('reportDate').value;
+        document.getElementById('printDateSpan').innerText = dateVal;
+    }
+
+    function calculateAll() {
+        for (let r = 0; r < 12; r++) {
+            let rowSum = 0;
+            for (let c = 0; c < 11; c++) {
+                let input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                let val = parseFloat(input.value) || 0;
+                rowSum += val;
+            }
+            document.getElementById(`row-total-${r}`).innerText = rowSum;
+        }
+
+        let totalExpenseSum = 0;
+        for (let c = 0; c < 11; c++) {
+            let colExpenseSum = 0;
+            for (let r = 1; r < 12; r++) {
+                let input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                colExpenseSum += parseFloat(input.value) || 0;
+            }
+            document.getElementById(`col-sum-${c}`).innerText = colExpenseSum;
+            totalExpenseSum += colExpenseSum;
+        }
+        document.getElementById('grand-total-sum').innerText = totalExpenseSum;
+
+        let totalPresentSum = 0;
+        document.querySelectorAll('.present-input').extras = document.querySelectorAll('.present-input').forEach(input => {
+            totalPresentSum += parseFloat(input.value) || 0;
+        });
+        document.getElementById('present-grand-total').innerText = totalPresentSum;
+    }
+
+    // Fixed loop for calculating present grand total properly
+    function calculateAll() {
+        for (let r = 0; r < 12; r++) {
+            let rowSum = 0;
+            for (let c = 0; c < 11; c++) {
+                let input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                let val = parseFloat(input.value) || 0;
+                rowSum += val;
+            }
+            document.getElementById(`row-total-${r}`).innerText = rowSum;
+        }
+
+        let totalExpenseSum = 0;
+        for (let c = 0; c < 11; c++) {
+            let colExpenseSum = 0;
+            for (let r = 1; r < 12; r++) {
+                let input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                colExpenseSum += parseFloat(input.value) || 0;
+            }
+            document.getElementById(`col-sum-${c}`).innerText = colExpenseSum;
+            totalExpenseSum += colExpenseSum;
+        }
+        document.getElementById('grand-total-sum').innerText = totalExpenseSum;
+
+        let totalPresentSum = 0;
+        document.querySelectorAll('.present-input').forEach(input => {
+            totalPresentSum += parseFloat(input.value) || 0;
+        });
+        document.getElementById('present-grand-total').innerText = totalPresentSum;
+    }
+
+    document.querySelectorAll('.cell-input').forEach(input => {
+        input.addEventListener('input', calculateAll);
+    });
+
+    function saveData() {
+        if(!confirm('के तपाईं यो डेटा अनलाइन गुगल सिटमा चिटिक्क पङ्क्तिबद्ध रूपमा सेभ गर्न चाहनुहुन्छ?')) return;
+
+        let allRowsData = [];
+        let rowTotals = [];
+        for (let r = 0; r < 12; r++) {
+            let rowCols = [];
+            for (let c = 0; c < 11; c++) {
+                let input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                let val = parseFloat(input.value) || 0;
+                rowCols.push(val);
+            }
+            allRowsData.push(rowCols);
+            let tVal = parseFloat(document.getElementById(`row-total-${r}`).innerText) || 0;
+            rowTotals.push(tVal);
+        }
+
+        let colSums = [];
+        for (let c = 0; c < 11; c++) {
+            let sVal = parseFloat(document.getElementById(`col-sum-${c}`).innerText) || 0;
+            colSums.push(sVal);
+        }
+
+        let presents = [];
+        document.querySelectorAll('.present-input').forEach(input => {
+            presents.push(parseFloat(input.value) || 0);
+        });
+
+        let totalExpenseSum = parseFloat(document.getElementById('grand-total-sum').innerText) || 0;
+        let totalPresentSum = parseFloat(document.getElementById('present-grand-total').innerText) || 0;
+
+        const data = {
+            reportType: document.getElementById('reportType').value,
+            reportDate: document.getElementById('reportDate').value,
+            sigRank1: document.getElementById('sigRank1').value,
+            sigName1: document.getElementById('sigName15')?.value || '',
+            sigRank2: document.getElementById('sigRank2').value,
+            sigName2: document.getElementById('sigName2')?.value || '',
+            sigRank3: document.getElementById('sigRank3')?.value || '',
+            sigName3: document.getElementById('sigName3')?.value || '',
+            allRowsData: allRowsData,
+            rowTotals: rowTotals,
+            colSums: colSums,
+            presents: presents,
+            totalExpenseSum: totalExpenseSum,
+            totalPresentSum: totalPresentSum
+        };
+
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5YXbHwCRFUQqolCA-f4S7JSIj90M6noTmfh_DA_waIXRZvGkFld_I35_vGa-y5WbihA/exec";
+
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            alert('तपाईंको रिपोर्ट गुगल सिटमा पङ्क्तिबद्ध रूपमा सफलतापुर्वक सेभ भयो!');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('डेटा पठाउँदा त्रुटि भयो!');
+        });
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem('policeReportManualV4');
+        if (saved) {
+            const data = JSON.parse(saved);
+            if(data.reportType) document.getElementById('reportType').value = data.reportType;
+            if(data.reportDate) document.getElementById('reportDate').value = data.reportDate;
+            
+            updateTitle();
+            updatePrintDate();
+            calculateAll();
+        }
+    }
+
+    function resetData() {
+        if(confirm('के तपाईं सबै डेटा खाली गर्न चाहनुहुन्छ?')) {
+            localStorage.removeItem('policeReportManualV4');
+            location.reload();
+        }
+    }
+
+    window.onload = function() {
+        loadData();
+        updatePrintDate();
+        calculateAll();
+    };
+</script>
+
+</body>
+</html>
