@@ -1,91 +1,498 @@
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>डिजिटल प्रणाली संग्रह</title>
-<link rel="icon" href="my-logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #f4f6fa; --card: #ffffff; --text: #16202e; --muted: #5b6b80;
-    --line: #dde3ec; --accent: #12508a; --accent-soft: #e8f0f9;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0e141c; --card: #172130; --text: #e8eef6; --muted: #93a4b8;
-      --line: #263447; --accent: #6fb2ee; --accent-soft: #1b2b3e;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0e141c; --card: #172130; --text: #e8eef6; --muted: #93a4b8;
-    --line: #263447; --accent: #6fb2ee; --accent-soft: #1b2b3e;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 0 16px 64px; background: var(--bg); color: var(--text);
-    font-family: 'Mukta', system-ui, sans-serif; line-height: 1.6;
-  }
-  header {
-    max-width: 960px; margin: 0 auto; padding: 48px 0 32px;
-    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
-  }
-  header img { width: 72px; height: 72px; object-fit: contain; }
-  h1 { margin: 0; font-size: clamp(22px, 4.5vw, 32px); font-weight: 800; letter-spacing: -.01em; }
-  header p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
-  main { max-width: 960px; margin: 0 auto; }
-  h2 {
-    font-size: 14px; text-transform: uppercase; letter-spacing: .08em;
-    color: var(--muted); font-weight: 600; margin: 40px 0 16px;
-  }
-  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-  a.card {
-    display: block; text-decoration: none; color: inherit; background: var(--card);
-    border: 1px solid var(--line); border-radius: 12px; padding: 20px;
-    transition: border-color .15s, transform .15s;
-  }
-  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .card .name { font-weight: 600; font-size: 17px; margin-bottom: 4px; }
-  .card .desc { color: var(--muted); font-size: 14px; }
-  .note {
-    background: var(--accent-soft); border: 1px solid var(--line); border-radius: 12px;
-    padding: 16px 20px; color: var(--muted); font-size: 14px;
-  }
-  .note code {
-    font-family: ui-monospace, monospace; font-size: 13px;
-    background: var(--card); padding: 1px 6px; border-radius: 4px; color: var(--text);
-  }
-  footer { max-width: 960px; margin: 48px auto 0; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 20px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Mukta', sans-serif; }
+        .nepal-police-blue { background-color: #0c4a79; }
+        .nepal-police-darkblue { background-color: #083252; }
+        .nepal-police-banner-blue { background-color: #12528a; }
+    </style>
 </head>
-<body>
-<header>
-  <img src="my-logo.png" alt="लोगो">
-  <div>
-    <h1>डिजिटल प्रणाली संग्रह</h1>
-    <p>काठमाडौं उपत्यका प्रहरी — सशस्त्र प्रहरी गण नं. २, महाराजगंज</p>
-  </div>
-</header>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-<main>
-  <h2>वेब प्रणालीहरू</h2>
-  <div class="grid">
-    <a class="card" href="apps/bida-management/index.html"><div class="name">बिदा व्यवस्थापन प्रणाली</div><div class="desc">कर्मचारी बिदा आवेदन तथा अभिलेख</div></a>
-    <a class="card" href="apps/duty-system/index.html"><div class="name">कार्यालय ड्युटी व्यवस्थापन</div><div class="desc">ड्युटी तालिका (Cloud Connected)</div></a>
-    <a class="card" href="apps/gate-pass/index.html"><div class="name">डिजिटल गेट पास प्रणाली</div><div class="desc">गेट पास जारी तथा रेकर्ड</div></a>
-    <a class="card" href="apps/digital-correspondence/index.html"><div class="name">डिजिटल पत्राचार तथा हस्ताक्षर</div><div class="desc">पत्राचार व्यवस्थापन प्रणाली</div></a>
-    <a class="card" href="apps/daily-record-form/index.html"><div class="name">दैनिक काम-कारवाही फारम</div><div class="desc">दैनिक अभिलेख फारम</div></a>
-    <a class="card" href="apps/pt-report/index.html"><div class="name">दैनिक पिटी / रोलकल रिपोर्ट</div><div class="desc">पिटी तथा रोलकल प्रतिवेदन</div></a>
-    <a class="card" href="apps/staff-records/index.html"><div class="name">प्रहरी कर्मचारी डिजिटल अभिलेख</div><div class="desc">कर्मचारी विवरण तथा तालिम रेकर्ड</div></a>
-  </div>
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 shadow-inner">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center flex-wrap gap-4">
+                <a href="#" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-bell text-yellow-400"></i> आपत्कालीन सम्पर्क नं.</a>
+                <a href="#" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-circle-question text-sky-400"></i> बारम्बार सोधिने प्रश्नहरू</a>
+                <a href="#" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-comment-dots text-emerald-400"></i> उजुरी तथा गुनासो</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="font-semibold text-white flex items-center gap-1.5 bg-sky-900/60 px-3 py-1 rounded-full border border-sky-700/50">
+                    <i class="fa-solid fa-phone-volume text-sky-300 animate-pulse"></i> प्रहरी कन्ट्रोल : १००, ड्यूटी अधिकृत.: ९८५१२९१२९०
+                </span>
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-400">खोज्नुहोस</span>
+                    <div class="relative">
+                        <input type="text" placeholder="Search..." class="bg-slate-800 text-white text-xs px-3 py-1 rounded border border-slate-700 focus:outline-none focus:border-sky-500">
+                        <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-1.5 text-slate-400 text-xs"></i>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-sm pl-2 border-l border-slate-700">
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <div class="flex items-center gap-1 pl-2 border-l border-slate-700 text-xs font-medium">
+                    <span class="text-sky-400">नेपा</span>
+                    <input type="checkbox" id="lang-toggle" class="cursor-pointer accent-sky-500">
+                    <span>EN</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <h2>Python (Flask) प्रणालीहरू</h2>
-  <div class="note">
-    <code>python-apps/</code> फोल्डरभित्रका Flask प्रणालीहरू GitHub Pages मा चल्दैनन् — तिनलाई सर्भर चाहिन्छ।
-    सोर्स कोड यहीँ राखिएको छ; होस्ट गर्न PythonAnywhere वा Render प्रयोग गर्नुहोस्।
-  </div>
-</main>
+    <header class="nepal-police-blue text-white shadow-md relative z-30">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1 shadow-lg border-2 border-yellow-400 overflow-hidden">
+                    <img src="png-transparent-nepal-police-club-cricket-team-logo-sports-cricket-teams-thumbnail.png" alt="नेपाल प्रहरी लोगो" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-wide drop-shadow">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</h1>
+                    <p class="text-xs md:text-sm text-sky-200 font-semibold tracking-wider">महाराजगंज, काठमाडौं • "सत्य, सेवा, सुरक्षा"</p>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-3">
+                <div class="bg-red-600 text-white font-bold text-xs uppercase px-3 py-1.5 rounded animate-pulse shadow">
+                    <i class="fa-solid fa-bullhorn mr-1"></i> New Notice
+                </div>
+                <a href="#high-bandwidth" id="bw-toggle" class="border border-sky-300 text-sky-100 hover:bg-sky-700/50 text-xs px-3.5 py-1.5 rounded transition font-semibold">
+                    High Bandwidth
+                </a>
+            </div>
+        </div>
 
-<footer>सबै प्रणालीहरू एकै ठाउँमा — <code>police-apps</code></footer>
+        <nav class="nepal-police-darkblue border-t border-blue-950 shadow-inner">
+            <div class="max-w-7xl mx-auto px-4">
+                <ul class="flex items-center justify-start md:justify-center overflow-x-auto whitespace-nowrap text-sm font-semibold py-2.5 gap-1 md:gap-3 no-scrollbar">
+                    <li><a href="#" class="px-3.5 py-2 rounded bg-sky-900/80 text-white flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-house text-xs"></i> गृहपृष्ठ</a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">हाम्रो बारेमा <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">संरचना <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">समाचार <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सूचनाहरू <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सार्वजनिक सेवाहरू <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">नागरिक सुरक्षा <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">करियर <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सम्पर्क नम्बरहरू</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <div class="lg:col-span-3 space-y-6">
+            
+            <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200">
+                <div class="w-full h-[380px] sm:h-[420px] bg-slate-900 rounded-lg overflow-hidden relative shadow-inner border border-slate-200 group">
+                    <div id="slider-container" class="w-full h-full relative">
+                        <div class="slide absolute inset-0 transition-opacity duration-700 opacity-100 flex flex-col justify-end">
+                            <img src="1_n.jpg" alt="गतिविधि १" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+1'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="relative z-10 p-4 sm:p-5 text-white">
+                                <p class="text-xs sm:text-sm font-medium leading-relaxed drop-shadow">
+                                    प्रहरी व्याटन २०८३ को निरीक्षणको क्रममा प्रहरी अतिरिक्त महानिरीक्षक शिद्धी विक्रम शाहज्यू मन्दिर दर्शन पश्चात फोटो सेसन। मिति:- २०८३।०५।२४ गते |
+                                </p>
+                            </div>
+                        </div>
+                        <div class="slide absolute inset-0 transition-opacity duration-700 opacity-0 flex flex-col justify-end">
+                            <img src="2_n.jpg" alt="गतिविधि २" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+2'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="relative z-10 p-4 sm:p-5 text-white">
+                                <p class="text-xs sm:text-sm font-medium leading-relaxed drop-shadow">
+                                    काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज परिसरमा निरीक्षण कार्य सम्पन्न हुँदै। मिति:- २०८३।०५।२४ गते |
+                                </p>
+                            </div>
+                        </div>
+                        <div class="slide absolute inset-0 transition-opacity duration-700 opacity-0 flex flex-col justify-end">
+                            <img src="3_n.jpg" alt="गतिविधि ३" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+3'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="relative z-10 p-4 sm:p-5 text-white">
+                                <p class="text-xs sm:text-sm font-medium leading-relaxed drop-shadow">
+                                    प्रहरी अतिरिक्त महानिरीक्षक शिद्धी विक्रम शाह वृक्षारोपण गर्नु हुँदै। मिति:- २०८३।०५।२४ गते |
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="changeSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/80 transition opacity-0 group-hover:opacity-100 z-20"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                    <button onclick="changeSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/80 transition opacity-0 group-hover:opacity-100 z-20"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+
+                    <div class="absolute bottom-3 right-4 flex items-center gap-1.5 z-20" id="pagination-dots">
+                        <button onclick="currentSlide = 0; showSlide(currentSlide);" class="dot w-2.5 h-2.5 rounded-full bg-white transition"></button>
+                        <button onclick="currentSlide = 1; showSlide(currentSlide);" class="dot w-2.5 h-2.5 rounded-full bg-white/50 transition"></button>
+                        <button onclick="currentSlide = 2; showSlide(currentSlide);" class="dot w-2.5 h-2.5 rounded-full bg-white/50 transition"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+                <button onclick="openPoliceModal()" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-sky-500 hover:shadow-md transition flex items-center justify-between group text-left w-full cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="text-sky-700 text-3xl group-hover:scale-110 transition transform"><i class="fa-solid fa-building-shield"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700 transition">नजिकका प्रहरी कार्यालयहरू तथा विटहरू</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">क्लिक गरेर नजिकका कार्यालय र सम्पर्क विवरण हेर्नुहोस्</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-sky-700 transition"></i>
+                </button>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <div class="nepal-police-banner-blue text-white flex items-center justify-between px-4 py-2 text-sm font-semibold">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-red-600 text-white px-2 py-0.5 rounded text-xs animate-pulse">ताजा अपडेट</span>
+                        <span>गणका गतिविधि तथा सूचनाहरू</span>
+                    </div>
+                    <button class="text-xs text-sky-200 hover:text-white underline transition">सबै हेर्नुहोस्</button>
+                </div>
+                <div class="p-4 bg-sky-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-sky-900 bg-white px-3 py-1 rounded border border-slate-200 text-xs shadow-sm">Invitation for Bidders</span>
+                        <a href="#" class="text-sm font-medium text-slate-800 hover:text-sky-700 transition"> अनुशासनमा बसौं आफु भन्दा जेष्ठ सदस्यलाई सम्मान गरौं । नियमित शारिरीक व्यायाम गरौ स्वस्थ्य बनौं । ।</a>
+                    </div>
+                    <span class="text-xs text-slate-500 whitespace-nowrap"><i class="fa-regular fa-clock mr-1"></i> २०८३ आश्विन ४ गते</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-sky-900 text-base mb-3 pb-2 border-b border-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-sky-600 text-sm"></i> अन्य जानकारीहरू
+                        </h3>
+                        <ul class="space-y-2.5 text-sm text-slate-700">
+                            <li><a href="javascript:void(0)" onclick="openWorkingPoliceForm()" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> प्रहरी कर्मचारी परिचय पत्र फाराम</a></li>
+                            <li><a href="javascript:void(0)" onclick="openExPoliceForm()" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> पूर्व प्रहरी कर्मचारीहरूको लागि परिचय पत्र फाराम</a></li>
+                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> गणको वार्षिक कार्ययोजना प्रतिवेदन</a></li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-slate-100 text-right">
+                        <a href="#" class="inline-block bg-slate-800 hover:bg-sky-900 text-white text-xs px-4 py-2 rounded font-medium transition shadow-sm">विस्तृतमा <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-sky-900 text-base mb-3 pb-2 border-b border-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-sky-600 text-sm"></i> सार्वजनिक सुविधा
+                        </h3>
+                        <ul class="space-y-2.5 text-sm text-slate-700">
+                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल पुलिस हेल्थ क्लब</a></li>
+                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल पुलिस क्लब गतिविधि</a></li>
+                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल प्रहरी ब्यान्ड तथा सांगीतिक कार्यक्रम</a></li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-slate-100 text-right">
+                        <a href="#" class="inline-block bg-slate-800 hover:bg-sky-900 text-white text-xs px-4 py-2 rounded font-medium transition shadow-sm">विस्तृतमा <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-sky-900 text-base mb-3 pb-2 border-b border-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-award text-sky-600 text-sm"></i> चारित्रिक प्रमाणपत्र
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            नेपाल प्रहरीले विभिन्न प्रयोजनका लागि चारित्रिक प्रमाणपत्र उपलब्ध गराई पाउ भनी अनलाइन निवेदन दिने स्वदेशी तथा विदेशी नागरिकहरूलाई चारित्रिक प्रमाणपत्र उपलब्ध गराउने गर्दछ।
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <a href="#" class="text-xs text-sky-700 hover:text-sky-900 font-bold flex items-center gap-1">चालचलन प्रमाणपत्र सम्बन्धी थप जानकारी <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nepal-police-darkblue text-white p-6 rounded-xl shadow-md border-l-4 border-yellow-400 relative overflow-hidden">
+                <div class="absolute right-4 bottom-2 text-white/5 text-8xl font-black pointer-events-none select-none">MISSION</div>
+                <h3 class="text-yellow-400 font-extrabold text-xs uppercase tracking-widest mb-2">MISSION STATEMENT</h3>
+                <blockquote class="text-sm md:text-base italic font-medium leading-relaxed text-slate-100">
+                    "कानूनी राज्यको मूल अवधारणाबाट निर्देशित प्रभावकारी अपराध नियन्त्रण र अनुसन्धान एवं कानून कार्यान्वयनद्वारा समाजमा शान्ति, सुव्यवस्था and सुरक्षा स्थापना गर्न प्रतिबद्ध, राष्ट्रप्रति समर्पित, स्वच्छ एवं व्यावसायिक प्रहरी।"
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden text-center">
+                <div class="bg-sky-900 text-white text-xs py-2 font-bold uppercase tracking-wider border-b border-sky-800">
+                    गण प्रमुख / गणपति
+                </div>
+                <div class="p-4 bg-slate-50">
+                    <div class="w-full aspect-[4/5] bg-slate-200 rounded-lg overflow-hidden mb-3 shadow-inner border border-slate-300 relative group">
+                        <img src="502623281_1253783306757172_8390503549905700779_n.jpg" alt="गण प्रमुख" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/400x500/0c4a79/ffffff?text=Commander'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-3">
+                            <span class="text-white text-xs font-bold">गण प्रमुख</span>
+                        </div>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base">तिलक भारती</h3>
+                    <p class="text-xs text-sky-800 font-bold mt-0.5">प्रहरी उपरीक्षक </p>
+                    <p class="text-[11px] text-slate-500 mt-1">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden text-center">
+                <div class="bg-slate-800 text-white text-xs py-2 font-bold uppercase tracking-wider border-b border-slate-700">
+                    सूचना अधिकृत
+                </div>
+                <div class="p-4 bg-slate-50">
+                    <div class="w-full aspect-[4/5] bg-slate-200 rounded-lg overflow-hidden mb-3 shadow-inner border border-slate-300 relative group">
+                        <img src="f482b71e-3ad1-3d00-b08e-ca45fa6bb2f1_1636647905.jpg" alt="सूचना अधिकृत" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/400x500/0c4a79/ffffff?text=Information+Officer'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-3">
+                            <span class="text-white text-xs font-bold">सूचना अधिकृत</span>
+                        </div>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base">सूचना अधिकृत</h3>
+                    <p class="text-xs text-sky-800 font-bold mt-0.5">प्रहरी नायव उपरीक्षक खगेन्द्र बहादुर खड्का</p>
+                    <p class="text-[11px] text-slate-500 mt-1">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-sky-900 to-blue-950 text-white rounded-xl p-5 shadow-sm border border-sky-800">
+                <h4 class="font-bold text-sm mb-3 flex items-center gap-2 text-yellow-400">
+                    <i class="fa-solid fa-headset"></i> आपत्कालीन सहायता डेक्स
+                </h4>
+                <p class="text-xs text-sky-100 mb-4 leading-relaxed">
+                    महाराजगंज गण परिसर वा काठमाडौं उपत्यकाभित्र कुनैपनि सुरक्षा सहयोग वा आपत्कालीन जानकारीका लागि तत्काल सम्पर्क गर्नुहोस्।
+                </p>
+                <div class="bg-sky-950/80 rounded p-3 text-center border border-sky-800">
+                    <span class="text-xs text-sky-300 block font-medium">गण कन्ट्रोल रुम</span>
+                    <span class="text-lg font-black text-white tracking-wider">९८५१२९१२९०</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- पेजबको सबैभन्दा तलतिर (Footer भन्दा ठिक माथि) थपिएको फोल्डर/प्रणालीहरूको सेक्सन -->
+    <!-- ========================================== -->
+    <div class="max-w-7xl mx-auto px-4 mt-8 mb-4 w-full">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-sky-900 font-extrabold text-base mb-4 border-b pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-folder-open text-sky-600"></i> डिजिटल प्रणालीहरू (फोल्डर लिङ्कहरू)
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- फोल्डर १ -->
+                <button onclick="checkPassword('apps/bida-management/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">बिदा व्यवस्थापन प्रणाली</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">कर्मचारी बिदा आवेदन तथा अभिलेख</p>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- फोल्डर २ -->
+                <button onclick="checkPassword('apps/duty-system/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">कार्यालय ड्युटी व्यवस्थापन</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">ड्युटी तालिका (Cloud Connected)</p>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- फोल्डर ३ -->
+                <button onclick="checkPassword('apps/gate-pass/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">डिजिटल गेट पास प्रणाली</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">गेट पास जारी तथा रेकर्ड</p>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- फोल्डर ४ -->
+                <button onclick="checkPassword('apps/digital-correspondence/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">डिजिटल पत्राचार तथा हस्ताक्षर</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">पत्राचार व्यवस्थापन प्रणाली</p>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- फोल्डर ५ -->
+                <button onclick="checkPassword('apps/daily-record-form/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">दैनिक काम-कारवाही फारम</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">दैनिक अभिलेख फारम</p>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- फोल्डर ६ -->
+                <button onclick="checkPassword('apps/pt-report/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">दैनिक पिटी / रोलकल रिपोर्ट</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">पिटी तथा रोलकल प्रतिवेदन</p>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- फोल्डर ७ (कर्मचारी डिजिटल अभिलेख थपिएको) -->
+                <button onclick="checkPassword('apps/staff-records/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-sky-700">प्रहरी कर्मचारी डिजिटल अभिलेख</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">कर्मचारी विवरण तथा तालिम रेकर्ड</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ========================================== -->
+
+    <!-- साझा पासवर्ड माग्ने मोडल (Popup) -->
+    <div id="passwordModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center">
+            <div class="text-sky-800 text-3xl mb-3"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="font-bold text-slate-900 text-base mb-1">पासवर्ड प्रविष्ट गर्नुहोस्</h3>
+            <p class="text-xs text-slate-500 mb-4">यो फोल्डर खोल्न साझा पासवर्ड हालिट गर्नुहोस्।</p>
+            
+            <input type="password" id="folderPassword" placeholder="पासवर्ड लेख्नुहोस्..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600 mb-4">
+            
+            <div class="flex gap-2">
+                <button onclick="closePasswordModal()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs py-2 rounded-lg font-medium transition">रद्द गर्ने</button>
+                <button onclick="verifyPassword()" class="w-1/2 bg-sky-700 hover:bg-sky-800 text-white text-xs py-2 rounded-lg font-medium transition">लगइन गर्ने</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 text-xs mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+                <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">कार्यालयको ठेगाना</h5>
+                <p class="leading-relaxed mb-2">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</p>
+                <p class="text-slate-500">महाराजगंज, काठमाडौं, नेपाल</p>
+            </div>
+            <div>
+                <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">महत्त्वपूर्ण लिङ्कहरू</h5>
+                <ul class="space-y-1.5">
+                    <li><a href="https://nepalpolice.gov.np" target="_blank" class="hover:text-white transition">नेपाल प्रहरी आधिकारिक वेबसाइट</a></li>
+                    <li><a href="#" class="hover:text-white transition">गृह मन्त्रालय</a></li>
+                    <li><a href="#" class="hover:text-white transition">सार्वजनिक खरिद अनुगमन कार्यालय</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">प्रविधि तथा सुरक्षा</h5>
+                <ul class="space-y-1.5">
+                    <li><a href="#" class="hover:text-white transition">गोपनीयता नीति (Privacy Policy)</a></li>
+                    <li><a href="#" class="hover:text-white transition">साइबर ब्यूरो नेपाल</a></li>
+                    <li><a href="#" class="hover:text-white transition">वेबसाइट म्यापिङ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">आगन्तुक गणना</h5>
+                <div class="bg-slate-800 p-3 rounded text-center border border-slate-700">
+                    <span class="text-slate-400 block text-[10px]">कुल आगन्तुकहरू</span>
+                    <span class="text-lg font-extrabold text-sky-400 tracking-widest font-mono">२,४५,८९०</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-slate-950 py-4 text-center text-[11px] text-slate-500 border-t border-slate-800/80">
+            © २०२६ काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २, महाराजगंज — सर्वाधिकार सुरक्षित | नेपाल प्रहरी शैलीमा निर्मित
+        </div>
+    </footer>
+
+    <script>
+        let targetFolderUrl = '';
+        const MASTER_PASSWORD = 'nepalpolice123'; // सबै फोल्डरको लागि साझा पासवर्ड (तपाईंले इच्छा अनुसार परिवर्तन गर्न सक्नुहुन्छ)
+
+        function checkPassword(folderUrl) {
+            targetFolderUrl = folderUrl;
+            document.getElementById('folderPassword').value = '';
+            document.getElementById('passwordModal').classList.remove('hidden');
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.add('hidden');
+            targetFolderUrl = '';
+        }
+
+        function verifyPassword() {
+            const enteredPass = document.getElementById('folderPassword').value;
+            if (enteredPass === MASTER_PASSWORD) {
+                alert('पासवर्ड मिल्यो! फोल्डर खुल्दैछ...');
+                window.location.href = targetFolderUrl;
+            } else {
+                alert('गलत पासवर्ड! कृपया सहि पासवर्ड हाल्नुहोला।');
+            }
+        }
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('#pagination-dots .dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('opacity-100');
+                slide.classList.add('opacity-0');
+                if (i === index) {
+                    slide.classList.remove('opacity-0');
+                    slide.classList.add('opacity-100');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.remove('bg-white/50');
+                    dot.classList.add('bg-white');
+                } else {
+                    dot.classList.remove('bg-white');
+                    dot.classList.add('bg-white/50');
+                }
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        setInterval(() => {
+            changeSlide(1);
+        }, 4000);
+
+        function openPoliceModal() {
+            document.getElementById('policeModal').classList.remove('hidden');
+        }
+        function closePoliceModal() {
+            document.getElementById('policeModal').classList.add('hidden');
+        }
+
+        function openWorkingPoliceForm() {
+            document.getElementById('workingPoliceModal').classList.remove('hidden');
+        }
+        function closeWorkingPoliceForm() {
+            document.getElementById('workingPoliceModal').classList.add('hidden');
+        }
+
+        function openExPoliceForm() {
+            document.getElementById('exPoliceModal').classList.remove('hidden');
+        }
+        function closeExPoliceForm() {
+            document.getElementById('exPoliceModal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
