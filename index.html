@@ -134,60 +134,16 @@
                 </div>
             </div>
 
+            <!-- नजिकका प्रहरी कार्यालय तथा विटहरू खोल्ने मुख्य बटन -->
             <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
                 <button onclick="openPoliceModal()" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-sky-500 hover:shadow-md transition flex items-center justify-between group text-left w-full cursor-pointer">
                     <div class="flex items-center gap-4">
                         <div class="text-sky-700 text-3xl group-hover:scale-110 transition transform"><i class="fa-solid fa-building-shield"></i></div>
                         <div>
-                            <!-- नजिकका प्रहरी कार्यालय तथा विटहरूको सूची देखाउने मोडल -->
-<div id="policeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto">
-        <div class="flex justify-between items-center border-b pb-3 mb-4">
-            <h3 class="font-bold text-sky-900 text-lg flex items-center gap-2">
-                <i class="fa-solid fa-building-shield text-sky-700"></i> नजिकका प्रहरी कार्यालयहरू तथा विटहरू
-            </h3>
-            <button onclick="closePoliceModal()" class="text-slate-400 hover:text-slate-700 text-lg font-bold">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        
-        <div class="space-y-3 text-sm text-slate-700">
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-sky-900">१. काठमाडौं उपत्यका प्रहरी कार्यालय</h4>
-                <p class="text-xs text-slate-500 mt-0.5">ठेगाना: रानीपोखरी, काठमाडौं</p>
-                <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: १०, ०१-४२२८४००</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-sky-900">२. काठमाडौं प्रहरी परिसर, काठमाडौं (जिल्ला प्रहरी परिसर)</h4>
-                <p class="text-xs text-slate-500 mt-0.5">ठेगाना: भद्रकाली, काठमाडौं</p>
-                <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: ०१-४२६१९४५</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-sky-900">३. प्रहरी वृत्त, महाराजगंज</h4>
-                <p class="text-xs text-slate-500 mt-0.5">ठेगाना: महाराजगंज, काठमाडौं (गण नजिकै)</p>
-                <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: ०१-४३७११८९</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-sky-900">४. प्रहरी विट, बसुन्धारा</h4>
-                <p class="text-xs text-slate-500 mt-0.5">ठेगाना: बसुन्धारा चोक, काठमाडौं</p>
-                <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> आपत्कालीन सहायता उपलब्ध</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-sky-900">५. प्रहरी विट, पसल (सामुदायिक प्रहरी सेवा केन्द्र)</h4>
-                <p class="text-xs text-slate-500 mt-0.5">ठेगाना: सामाखुसी, काठमाडौं</p>
-                <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> कन्ट्रोल रुम: ९८५१२९१२९०</p>
-            </div>
-        </div>
-
-        <div class="mt-5 text-right">
-            <button onclick="closePoliceModal()" class="bg-sky-700 hover:bg-sky-800 text-white text-xs px-4 py-2 rounded-lg font-medium transition">बन्द गर्ने</button>
-        </div>
-    </div>
-</div>
+                            <h3 class="font-bold text-sky-900 text-base">नजिकका प्रहरी कार्यालयहरू तथा विटहरू</h3>
+                            <p class="text-xs text-slate-500 mt-0.5">कार्यालय र विटहरूको विवरण हेर्न यहाँ क्लिक गर्नुहोस्</p>
+                        </div>
+                    </div>
                     <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-sky-700 transition"></i>
                 </button>
             </div>
@@ -316,9 +272,7 @@
         </div>
     </main>
 
-    <!-- ========================================== -->
-    <!-- पेजबको सबैभन्दा तलतिर (Footer भन्दा ठिक माथि) थपिएको फोल्डर/प्रणालीहरूको सेक्सन -->
-    <!-- ========================================== -->
+    <!-- डिजिटल प्रणालीहरूको सेक्सन -->
     <div class="max-w-7xl mx-auto px-4 mt-8 mb-4 w-full">
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 class="text-sky-900 font-extrabold text-base mb-4 border-b pb-2 flex items-center gap-2">
@@ -391,7 +345,7 @@
                     </div>
                 </button>
 
-                <!-- फोल्डर ७ (कर्मचारी डिजिटल अभिलेख थपिएको) -->
+                <!-- फोल्डर ७ -->
                 <button onclick="checkPassword('apps/staff-records/index.html')" class="bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-500 p-4 rounded-xl text-left transition group cursor-pointer shadow-xs">
                     <div class="flex items-center gap-3">
                         <div class="text-sky-700 text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-folder-closed"></i></div>
@@ -404,14 +358,63 @@
             </div>
         </div>
     </div>
-    <!-- ========================================== -->
+
+    <!-- नजिकका प्रहरी कार्यालय तथा विटहरूको सूची देखाउने मोडल (लुकेको र क्लिक गर्दा खुल्ने) -->
+    <div id="policeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="font-bold text-sky-900 text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-building-shield text-sky-700"></i> नजिकका प्रहरी कार्यालयहरू तथा विटहरू
+                </h3>
+                <button onclick="closePoliceModal()" class="text-slate-400 hover:text-slate-700 text-lg font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-3 text-sm text-slate-700">
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <h4 class="font-bold text-sky-900">१. काठमाडौं उपत्यका प्रहरी कार्यालय</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">ठेगाना: रानीपोखरी, काठमाडौं</p>
+                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: १०, ०१-४२२८४००</p>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <h4 class="font-bold text-sky-900">२. महानगरीय प्रहरी परिसर, काठमाडौं (जिल्ला प्रहरी परिसर)</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">ठेगाना: भद्रकाली, काठमाडौं</p>
+                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: ०१-४२६१९४५</p>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <h4 class="font-bold text-sky-900">३. प्रहरी वृत्त, महाराजगंज</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">ठेगाना: महाराजगंज, काठमाडौं (गण नजिकै)</p>
+                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: ०१-४३७११८९</p>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <h4 class="font-bold text-sky-900">४. प्रहरी विट, बसुन्धारा</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">ठेगाना: बसुन्धारा चोक, काठमाडौं</p>
+                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> आपत्कालीन सहायता उपलब्ध</p>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <h4 class="font-bold text-sky-900">५. प्रहरी विट, सामाखुसी (सामुदायिक प्रहरी सेवा केन्द्र)</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">ठेगाना: सामाखुसी, काठमाडौं</p>
+                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> कन्ट्रोल रुम: ९८५१२९१२९०</p>
+                </div>
+            </div>
+
+            <div class="mt-5 text-right">
+                <button onclick="closePoliceModal()" class="bg-sky-700 hover:bg-sky-800 text-white text-xs px-4 py-2 rounded-lg font-medium transition">बन्द गर्ने</button>
+            </div>
+        </div>
+    </div>
 
     <!-- साझा पासवर्ड माग्ने मोडल (Popup) -->
     <div id="passwordModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center">
             <div class="text-sky-800 text-3xl mb-3"><i class="fa-solid fa-lock"></i></div>
             <h3 class="font-bold text-slate-900 text-base mb-1">पासवर्ड प्रविष्ट गर्नुहोस्</h3>
-            <p class="text-xs text-slate-500 mb-4">यो फोल्डर खोल्न साझा पासवर्ड हालिट गर्नुहोस्।</p>
+            <p class="text-xs text-slate-500 mb-4">यो फोल्डर खोल्न साझा पासवर्ड हाल्नुहोस्।</p>
             
             <input type="password" id="folderPassword" placeholder="पासवर्ड लेख्नुहोस्..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600 mb-4">
             
@@ -460,7 +463,7 @@
 
     <script>
         let targetFolderUrl = '';
-        const MASTER_PASSWORD = 'nepalpolice123'; // सबै फोल्डरको लागि साझा पासवर्ड (तपाईंले इच्छा अनुसार परिवर्तन गर्न सक्नुहुन्छ)
+        const MASTER_PASSWORD = 'nepalpolice123'; // सबै फोल्डरको लागि साझा पासवर्ड
 
         function checkPassword(folderUrl) {
             targetFolderUrl = folderUrl;
@@ -518,6 +521,7 @@
             changeSlide(1);
         }, 4000);
 
+        // नजिकका प्रहरी कार्यालय तथा विटहरूको मोडल खोल्ने र बन्द गर्ने फंक्सनहरू
         function openPoliceModal() {
             document.getElementById('policeModal').classList.remove('hidden');
         }
