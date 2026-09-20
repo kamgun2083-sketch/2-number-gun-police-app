@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २, महाराजगंजको वेबसाइट — गतिविधि, सूचना, सार्वजनिक सेवा तथा सम्पर्क विवरण।">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ne_NP">
+    <meta property="og:title" content="काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज">
+    <meta property="og:description" content="गतिविधि, सूचना, सार्वजनिक सेवा तथा सम्पर्क विवरण।">
+    <link rel="icon" href="my-logo.png">
     <title>काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,37 +18,48 @@
         .nepal-police-blue { background-color: #0c4a79; }
         .nepal-police-darkblue { background-color: #083252; }
         .nepal-police-banner-blue { background-color: #12528a; }
+        /* मेनुको scrollbar लुकाउने (यो क्लास पहिले परिभाषित थिएन) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* फोन/ट्याबलेटमा स्लाइडरका तीर सधैँ देखिने (hover नहुने उपकरणमा) */
+        @media (hover: none) { .slider-arrow { opacity: 1 !important; } }
+        /* मेनुबाट सम्बन्धित भागमा सहज रूपमा पुग्ने र केही क्षण हाइलाइट हुने */
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+        #about, #structure, #news, #notices, #public-services, #emergency-desk { scroll-margin-top: 16px; }
+        .nav-flash { outline: 3px solid #facc15; outline-offset: 3px; }
+        .slider-arrow:focus-visible { opacity: 1 !important; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+<body id="top" class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
     <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 shadow-inner">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center flex-wrap gap-4">
-                <a href="#" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-bell text-yellow-400"></i> आपत्कालीन सम्पर्क नं.</a>
+                <a href="#emergency-desk" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-bell text-yellow-400"></i> आपत्कालीन सम्पर्क नं.</a>
                 <a href="#" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-circle-question text-sky-400"></i> बारम्बार सोधिने प्रश्नहरू</a>
                 <a href="#" class="hover:text-white flex items-center gap-1.5 transition"><i class="fa-solid fa-comment-dots text-emerald-400"></i> उजुरी तथा गुनासो</a>
             </div>
             <div class="flex items-center gap-4">
                 <span class="font-semibold text-white flex items-center gap-1.5 bg-sky-900/60 px-3 py-1 rounded-full border border-sky-700/50">
-                    <i class="fa-solid fa-phone-volume text-sky-300 animate-pulse"></i> प्रहरी कन्ट्रोल : १००, ड्यूटी अधिकृत.: ९८५१२९१२९०
+                    <i class="fa-solid fa-phone-volume text-sky-300 animate-pulse"></i> प्रहरी कन्ट्रोल : १००, ड्युटी अधिकृत : ९८५१२९१२९०
                 </span>
                 <div class="flex items-center gap-2">
-                    <span class="text-slate-400">खोज्नुहोस</span>
+                    <span class="text-slate-400">खोज्नुहोस्</span>
                     <div class="relative">
-                        <input type="text" placeholder="Search..." class="bg-slate-800 text-white text-xs px-3 py-1 rounded border border-slate-700 focus:outline-none focus:border-sky-500">
+                        <input type="text" placeholder="Search..." aria-label="खोज्नुहोस्" class="bg-slate-800 text-white text-xs px-3 py-1 rounded border border-slate-700 focus:outline-none focus:border-sky-500">
                         <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-1.5 text-slate-400 text-xs"></i>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 text-sm pl-2 border-l border-slate-700">
-                    <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-white"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="hover:text-white"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="फेसबुक" class="hover:text-white"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="एक्स (ट्विटर)" class="hover:text-white"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="इन्स्टाग्राम" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="युट्युब" class="hover:text-white"><i class="fa-brands fa-youtube"></i></a>
                 </div>
                 <div class="flex items-center gap-1 pl-2 border-l border-slate-700 text-xs font-medium">
-                    <span class="text-sky-400">नेपा</span>
-                    <input type="checkbox" id="lang-toggle" class="cursor-pointer accent-sky-500">
+                    <span class="text-sky-400">नेपाली</span>
+                    <input type="checkbox" id="lang-toggle" aria-label="भाषा परिवर्तन गर्नुहोस्" class="cursor-pointer accent-sky-500">
                     <span>EN</span>
                 </div>
             </div>
@@ -53,7 +70,7 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
                 <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1 shadow-lg border-2 border-yellow-400 overflow-hidden">
-                    <img src="my-logo.png" alt="नेपाल प्रहरी लोगो" class="w-full h-full object-contain">
+                    <img src="my-logo.png" alt="नेपाल प्रहरी लोगो" class="w-full h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/0c4a79/ffffff?text=Logo'">
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-extrabold tracking-wide drop-shadow">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</h1>
@@ -73,15 +90,15 @@
         <nav class="nepal-police-darkblue border-t border-blue-950 shadow-inner">
             <div class="max-w-7xl mx-auto px-4">
                 <ul class="flex items-center justify-start md:justify-center overflow-x-auto whitespace-nowrap text-sm font-semibold py-2.5 gap-1 md:gap-3 no-scrollbar">
-                    <li><a href="#" class="px-3.5 py-2 rounded bg-sky-900/80 text-white flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-house text-xs"></i> गृहपृष्ठ</a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">हाम्रो बारेमा <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">संरचना <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">समाचार <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सूचनाहरू <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सार्वजनिक सेवाहरू <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">नागरिक सुरक्षा <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">करियर <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
-                    <li><a href="#" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सम्पर्क नम्बरहरू</a></li>
+                    <li><a href="#top" class="px-3.5 py-2 rounded bg-sky-900/80 text-white flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-house text-xs"></i> गृहपृष्ठ</a></li>
+                    <li><a href="#about" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">हाम्रो बारेमा <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#structure" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">संरचना <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#news" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">समाचार <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#notices" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सूचनाहरू <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#public-services" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सार्वजनिक सेवाहरू <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="#emergency-desk" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">नागरिक सुरक्षा <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="https://careers.nepalpolice.gov.np" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">करियर <i class="fa-solid fa-chevron-down text-[10px] opacity-70"></i></a></li>
+                    <li><a href="javascript:void(0)" onclick="openPoliceModal()" class="px-3.5 py-2 rounded hover:bg-sky-800/60 text-slate-200 transition">सम्पर्क नम्बरहरू</a></li>
                 </ul>
             </div>
         </nav>
@@ -91,11 +108,11 @@
 
         <div class="lg:col-span-3 space-y-6">
             
-            <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200">
+            <div id="news" class="bg-white p-3 rounded-xl shadow-sm border border-slate-200">
                 <div class="w-full h-[380px] sm:h-[420px] bg-slate-900 rounded-lg overflow-hidden relative shadow-inner border border-slate-200 group">
                     <div id="slider-container" class="w-full h-full relative">
                         <div class="slide absolute inset-0 transition-opacity duration-700 opacity-100 flex flex-col justify-end">
-                            <img src="1_n.jpg" alt="गतिविधि १" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+1'">
+                            <img src="1_n.jpg" alt="प्रहरी अतिरिक्त महानिरीक्षकसँग मन्दिर दर्शन पश्चातको फोटो सेसन" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+1'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                             <div class="relative z-10 p-4 sm:p-5 text-white">
                                 <p class="text-xs sm:text-sm font-medium leading-relaxed drop-shadow">
@@ -104,7 +121,7 @@
                             </div>
                         </div>
                         <div class="slide absolute inset-0 transition-opacity duration-700 opacity-0 flex flex-col justify-end">
-                            <img src="2_n.jpg" alt="गतिविधि २" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+2'">
+                            <img src="2_n.jpg" alt="गण परिसरमा निरीक्षण कार्य सम्पन्न हुँदै" loading="lazy" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+2'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                             <div class="relative z-10 p-4 sm:p-5 text-white">
                                 <p class="text-xs sm:text-sm font-medium leading-relaxed drop-shadow">
@@ -113,7 +130,7 @@
                             </div>
                         </div>
                         <div class="slide absolute inset-0 transition-opacity duration-700 opacity-0 flex flex-col justify-end">
-                            <img src="3_n.jpg" alt="गतिविधि ३" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+3'">
+                            <img src="3_n.jpg" alt="प्रहरी अतिरिक्त महानिरीक्षक वृक्षारोपण गर्दै" loading="lazy" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/900x500/0c4a79/ffffff?text=Police+Activity+3'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                             <div class="relative z-10 p-4 sm:p-5 text-white">
                                 <p class="text-xs sm:text-sm font-medium leading-relaxed drop-shadow">
@@ -123,13 +140,13 @@
                         </div>
                     </div>
 
-                    <button onclick="changeSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/80 transition opacity-0 group-hover:opacity-100 z-20"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                    <button onclick="changeSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/80 transition opacity-0 group-hover:opacity-100 z-20"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                    <button onclick="changeSlide(-1)" aria-label="अघिल्लो स्लाइड" class="slider-arrow absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/80 transition opacity-0 group-hover:opacity-100 z-20"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                    <button onclick="changeSlide(1)" aria-label="अर्को स्लाइड" class="slider-arrow absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/80 transition opacity-0 group-hover:opacity-100 z-20"><i class="fa-solid fa-chevron-right text-xs"></i></button>
 
                     <div class="absolute bottom-3 right-4 flex items-center gap-1.5 z-20" id="pagination-dots">
-                        <button onclick="currentSlide = 0; showSlide(currentSlide);" class="dot w-2.5 h-2.5 rounded-full bg-white transition"></button>
-                        <button onclick="currentSlide = 1; showSlide(currentSlide);" class="dot w-2.5 h-2.5 rounded-full bg-white/50 transition"></button>
-                        <button onclick="currentSlide = 2; showSlide(currentSlide);" class="dot w-2.5 h-2.5 rounded-full bg-white/50 transition"></button>
+                        <button onclick="currentSlide = 0; showSlide(currentSlide);" aria-label="स्लाइड १" class="dot w-2.5 h-2.5 rounded-full bg-white transition"></button>
+                        <button onclick="currentSlide = 1; showSlide(currentSlide);" aria-label="स्लाइड २" class="dot w-2.5 h-2.5 rounded-full bg-white/50 transition"></button>
+                        <button onclick="currentSlide = 2; showSlide(currentSlide);" aria-label="स्लाइड ३" class="dot w-2.5 h-2.5 rounded-full bg-white/50 transition"></button>
                     </div>
                 </div>
             </div>
@@ -148,7 +165,7 @@
                 </button>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+            <div id="notices" class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
                 <div class="nepal-police-banner-blue text-white flex items-center justify-between px-4 py-2 text-sm font-semibold">
                     <div class="flex items-center gap-2">
                         <span class="bg-red-600 text-white px-2 py-0.5 rounded text-xs animate-pulse">ताजा अपडेट</span>
@@ -158,22 +175,22 @@
                 </div>
                 <div class="p-4 bg-sky-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div class="flex items-center gap-3">
-                        <span class="font-bold text-sky-900 bg-white px-3 py-1 rounded border border-slate-200 text-xs shadow-sm">Invitation for Bidders</span>
-                        <a href="#" class="text-sm font-medium text-slate-800 hover:text-sky-700 transition"> अनुशासनमा बसौं आफु भन्दा जेष्ठ सदस्यलाई सम्मान गरौं । नियमित शारिरीक व्यायाम गरौ स्वस्थ्य बनौं । ।</a>
+                        <span class="font-bold text-sky-900 bg-white px-3 py-1 rounded border border-slate-200 text-xs shadow-sm">सूचना</span>
+                        <a href="#" class="text-sm font-medium text-slate-800 hover:text-sky-700 transition"> अनुशासनमा बसौं, आफू भन्दा ज्येष्ठ सदस्यलाई सम्मान गरौं। नियमित शारीरिक व्यायाम गरौं, स्वस्थ बनौं।</a>
                     </div>
-                    <span class="text-xs text-slate-500 whitespace-nowrap"><i class="fa-regular fa-clock mr-1"></i> २०८३ आश्विन ४ गते</span>
+                    <span class="text-xs text-slate-500 whitespace-nowrap"><i class="fa-regular fa-clock mr-1"></i> २०८३।०६।०४ गते</span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="public-services" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
                     <div>
                         <h3 class="font-bold text-sky-900 text-base mb-3 pb-2 border-b border-slate-100 flex items-center gap-2">
                             <i class="fa-solid fa-circle-info text-sky-600 text-sm"></i> अन्य जानकारीहरू
                         </h3>
                         <ul class="space-y-2.5 text-sm text-slate-700">
-                            <li><a href="javascript:void(0)" onclick="openWorkingPoliceForm()" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> प्रहरी कर्मचारी परिचय पत्र फाराम</a></li>
-                            <li><a href="javascript:void(0)" onclick="openExPoliceForm()" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> पूर्व प्रहरी कर्मचारीहरूको लागि परिचय पत्र फाराम</a></li>
+                            <li><a href="id-card-form-working-police.doc" download="id-card-form-working-police.doc" title="Word फाइल डाउनलोड गर्नुहोस्" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> प्रहरी कर्मचारी परिचय पत्र फाराम</a></li>
+                            <li><a href="id-card-form-expolice.docx" download="id-card-form-expolice.docx" title="Word फाइल डाउनलोड गर्नुहोस्" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> पूर्व प्रहरी कर्मचारीहरूको लागि परिचय पत्र फाराम</a></li>
                             <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> गणको वार्षिक कार्ययोजना प्रतिवेदन</a></li>
                         </ul>
                     </div>
@@ -188,9 +205,9 @@
                             <i class="fa-solid fa-shield-halved text-sky-600 text-sm"></i> सार्वजनिक सुविधा
                         </h3>
                         <ul class="space-y-2.5 text-sm text-slate-700">
-                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल पुलिस हेल्थ क्लब</a></li>
-                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल पुलिस क्लब गतिविधि</a></li>
-                            <li><a href="#" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल प्रहरी ब्यान्ड तथा सांगीतिक कार्यक्रम</a></li>
+                            <li><a href="https://www.nepalpolice.gov.np/public-services/public-facility/11" target="_blank" rel="noopener noreferrer" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल पुलिस हेल्थ क्लब</a></li>
+                            <li><a href="https://www.nepalpolice.gov.np/public-services/public-facility/7" target="_blank" rel="noopener noreferrer" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल पुलिस क्लब गतिविधि</a></li>
+                            <li><a href="https://www.nepalpolice.gov.np/public-services/public-facility/6" target="_blank" rel="noopener noreferrer" class="hover:text-sky-700 flex items-center gap-2 transition"><i class="fa-solid fa-angle-right text-xs text-sky-500"></i> नेपाल प्रहरी ब्यान्ड तथा सांगीतिक कार्यक्रम</a></li>
                         </ul>
                     </div>
                     <div class="mt-6 pt-3 border-t border-slate-100 text-right">
@@ -204,7 +221,7 @@
                             <i class="fa-solid fa-award text-sky-600 text-sm"></i> चारित्रिक प्रमाणपत्र
                         </h3>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            नेपाल प्रहरीले विभिन्न प्रयोजनका लागि चारित्रिक प्रमाणपत्र उपलब्ध गराई पाउ भनी अनलाइन निवेदन दिने स्वदेशी तथा विदेशी नागरिकहरूलाई चारित्रिक प्रमाणपत्र उपलब्ध गराउने गर्दछ।
+                            नेपाल प्रहरीले विभिन्न प्रयोजनका लागि चारित्रिक प्रमाणपत्र उपलब्ध गराई पाऊँ भनी अनलाइन निवेदन दिने स्वदेशी तथा विदेशी नागरिकहरूलाई चारित्रिक प्रमाणपत्र उपलब्ध गराउने गर्दछ।
                         </p>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-100">
@@ -213,30 +230,30 @@
                 </div>
             </div>
 
-            <div class="nepal-police-darkblue text-white p-6 rounded-xl shadow-md border-l-4 border-yellow-400 relative overflow-hidden">
+            <div id="about" class="nepal-police-darkblue text-white p-6 rounded-xl shadow-md border-l-4 border-yellow-400 relative overflow-hidden">
                 <div class="absolute right-4 bottom-2 text-white/5 text-8xl font-black pointer-events-none select-none">MISSION</div>
                 <h3 class="text-yellow-400 font-extrabold text-xs uppercase tracking-widest mb-2">MISSION STATEMENT</h3>
                 <blockquote class="text-sm md:text-base italic font-medium leading-relaxed text-slate-100">
-                    "कानूनी राज्यको मूल अवधारणाबाट निर्देशित प्रभावकारी अपराध नियन्त्रण र अनुसन्धान एवं कानून कार्यान्वयनद्वारा समाजमा शान्ति, सुव्यवस्था and सुरक्षा स्थापना गर्न प्रतिबद्ध, राष्ट्रप्रति समर्पित, स्वच्छ एवं व्यावसायिक प्रहरी।"
+                    "कानूनी राज्यको मूल अवधारणाबाट निर्देशित प्रभावकारी अपराध नियन्त्रण र अनुसन्धान एवं कानून कार्यान्वयनद्वारा समाजमा शान्ति, सुव्यवस्था र सुरक्षा स्थापना गर्न प्रतिबद्ध, राष्ट्रप्रति समर्पित, स्वच्छ एवं व्यावसायिक प्रहरी।"
                 </blockquote>
             </div>
         </div>
 
-        <div class="space-y-6">
+        <div id="structure" class="space-y-6">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden text-center">
                 <div class="bg-sky-900 text-white text-xs py-2 font-bold uppercase tracking-wider border-b border-sky-800">
                     गण प्रमुख / गणपति
                 </div>
                 <div class="p-4 bg-slate-50">
                     <div class="w-full aspect-[4/5] bg-slate-200 rounded-lg overflow-hidden mb-3 shadow-inner border border-slate-300 relative group">
-                        <img src="502623281_1253783306757172_8390503549905700779_n.jpg" alt="गण प्रमुख" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/400x500/0c4a79/ffffff?text=Commander'">
+                        <img src="502623281_1253783306757172_8390503549905700779_n.jpg" alt="गण प्रमुख तिलक भारती" loading="lazy" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://placehold.co/400x500/0c4a79/ffffff?text=Commander'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-3">
                             <span class="text-white text-xs font-bold">गण प्रमुख</span>
                         </div>
                     </div>
                     <h3 class="font-extrabold text-slate-900 text-base">तिलक भारती</h3>
                     <p class="text-xs text-sky-800 font-bold mt-0.5">प्रहरी उपरीक्षक </p>
-                    <p class="text-[11px] text-slate-500 mt-1">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</p>
+                    <p class="text-xs text-slate-500 mt-1">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २</p>
                 </div>
             </div>
 
@@ -246,18 +263,18 @@
                 </div>
                 <div class="p-4 bg-slate-50">
                     <div class="w-full aspect-[4/5] bg-slate-200 rounded-lg overflow-hidden mb-3 shadow-inner border border-slate-300 relative group">
-                        <img src="f482b71e-3ad1-3d00-b08e-ca45fa6bb2f1_1636647905.jpg" alt="सूचना अधिकृत" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/400x500/0c4a79/ffffff?text=Information+Officer'">
+                        <img src="f482b71e-3ad1-3d00-b08e-ca45fa6bb2f1_1636647905.jpg" alt="सूचना अधिकृत खगेन्द्र बहादुर खड्का" loading="lazy" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://placehold.co/400x500/0c4a79/ffffff?text=Information+Officer'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-3">
                             <span class="text-white text-xs font-bold">सूचना अधिकृत</span>
                         </div>
                     </div>
-                    <h3 class="font-extrabold text-slate-900 text-base">सूचना अधिकृत</h3>
-                    <p class="text-xs text-sky-800 font-bold mt-0.5">प्रहरी नायव उपरीक्षक खगेन्द्र बहादुर खड्का</p>
-                    <p class="text-[11px] text-slate-500 mt-1">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</p>
+                    <h3 class="font-extrabold text-slate-900 text-base">खगेन्द्र बहादुर खड्का</h3>
+                    <p class="text-xs text-sky-800 font-bold mt-0.5">प्रहरी नायब उपरीक्षक</p>
+                    <p class="text-xs text-slate-500 mt-1">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</p>
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-sky-900 to-blue-950 text-white rounded-xl p-5 shadow-sm border border-sky-800">
+            <div id="emergency-desk" class="bg-gradient-to-br from-sky-900 to-blue-950 text-white rounded-xl p-5 shadow-sm border border-sky-800">
                 <h4 class="font-bold text-sm mb-3 flex items-center gap-2 text-yellow-400">
                     <i class="fa-solid fa-headset"></i> आपत्कालीन सहायता डेक्स
                 </h4>
@@ -360,13 +377,13 @@
     </div>
 
     <!-- नजिकका प्रहरी कार्यालय तथा विटहरूको सूची देखाउने मोडल (लुकेको र क्लिक गर्दा खुल्ने) -->
-    <div id="policeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+    <div id="policeModal" role="dialog" aria-modal="true" aria-labelledby="policeModalTitle" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
-                <h3 class="font-bold text-sky-900 text-lg flex items-center gap-2">
+                <h3 id="policeModalTitle" class="font-bold text-sky-900 text-lg flex items-center gap-2">
                     <i class="fa-solid fa-building-shield text-sky-700"></i> नजिकका प्रहरी कार्यालयहरू तथा विटहरू
                 </h3>
-                <button onclick="closePoliceModal()" class="text-slate-400 hover:text-slate-700 text-lg font-bold">
+                <button onclick="closePoliceModal()" aria-label="बन्द गर्नुहोस्" class="text-slate-400 hover:text-slate-700 text-lg font-bold">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -375,7 +392,7 @@
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
                     <h4 class="font-bold text-sky-900">१. काठमाडौं उपत्यका प्रहरी कार्यालय</h4>
                     <p class="text-xs text-slate-500 mt-0.5">ठेगाना: रानीपोखरी, काठमाडौं</p>
-                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: १०, ०१-४२२८४००</p>
+                    <p class="text-xs text-sky-700 font-semibold mt-1"><i class="fa-solid fa-phone mr-1"></i> सम्पर्क: १००, ०१-४२२८४००</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
@@ -410,13 +427,14 @@
     </div>
 
     <!-- साझा पासवर्ड माग्ने मोडल (Popup) -->
-    <div id="passwordModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+    <div id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center">
             <div class="text-sky-800 text-3xl mb-3"><i class="fa-solid fa-lock"></i></div>
-            <h3 class="font-bold text-slate-900 text-base mb-1">पासवर्ड प्रविष्ट गर्नुहोस्</h3>
+            <h3 id="passwordModalTitle" class="font-bold text-slate-900 text-base mb-1">पासवर्ड प्रविष्ट गर्नुहोस्</h3>
             <p class="text-xs text-slate-500 mb-4">यो फोल्डर खोल्न साझा पासवर्ड हाल्नुहोस्।</p>
             
-            <input type="password" id="folderPassword" placeholder="पासवर्ड लेख्नुहोस्..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600 mb-4">
+            <input type="password" id="folderPassword" placeholder="पासवर्ड लेख्नुहोस्..." autocomplete="off" onkeydown="if(event.key==='Enter'){verifyPassword();}" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600 mb-4">
+            <p id="passwordMessage" role="alert" class="hidden text-xs text-red-600 font-medium -mt-2 mb-4"></p>
             
             <div class="flex gap-2">
                 <button onclick="closePasswordModal()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs py-2 rounded-lg font-medium transition">रद्द गर्ने</button>
@@ -435,40 +453,112 @@
             <div>
                 <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">महत्त्वपूर्ण लिङ्कहरू</h5>
                 <ul class="space-y-1.5">
-                    <li><a href="https://nepalpolice.gov.np" target="_blank" class="hover:text-white transition">नेपाल प्रहरी आधिकारिक वेबसाइट</a></li>
-                    <li><a href="#" class="hover:text-white transition">गृह मन्त्रालय</a></li>
-                    <li><a href="#" class="hover:text-white transition">सार्वजनिक खरिद अनुगमन कार्यालय</a></li>
+                    <li><a href="https://nepalpolice.gov.np" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">नेपाल प्रहरी आधिकारिक वेबसाइट</a></li>
+                    <li><a href="https://moha.gov.np" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">गृह मन्त्रालय</a></li>
+                    <li><a href="https://ppmo.gov.np" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">सार्वजनिक खरिद अनुगमन कार्यालय</a></li>
                 </ul>
             </div>
             <div>
                 <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">प्रविधि तथा सुरक्षा</h5>
                 <ul class="space-y-1.5">
                     <li><a href="#" class="hover:text-white transition">गोपनीयता नीति (Privacy Policy)</a></li>
-                    <li><a href="#" class="hover:text-white transition">साइबर ब्यूरो नेपाल</a></li>
+                    <li><a href="https://cyberbureau.nepalpolice.gov.np" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">साइबर ब्यूरो नेपाल</a></li>
                     <li><a href="#" class="hover:text-white transition">वेबसाइट म्यापिङ</a></li>
                 </ul>
             </div>
             <div>
                 <h5 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-2">सम्पर्कको लागि</h5>
                 <div class="bg-slate-800 p-3 rounded text-center border border-slate-700">
-                    <span class="text-slate-400 block text-[10px]">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</span>
-                    <span class="text-lg font-extrabold text-sky-400 tracking-widest font-mono"></span>
+                    <span class="text-slate-400 block text-xs">काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २ महाराजगंज</span>
+                    <span class="text-lg font-extrabold text-sky-400 tracking-widest font-mono">९८५१२९१२९०</span>
                 </div>
             </div>
         </div>
-        <div class="bg-slate-950 py-4 text-center text-[11px] text-slate-500 border-t border-slate-800/80">
+        <div class="bg-slate-950 py-4 text-center text-xs text-slate-500 border-t border-slate-800/80">
             © २०२६ काठमाडौं उपत्यका प्रहरी सशस्त्र प्रहरी गण नं. २, महाराजगंज — सर्वाधिकार सुरक्षित | नेपाल प्रहरी शैलीमा निर्मित
         </div>
     </footer>
 
     <script>
         let targetFolderUrl = '';
-        const MASTER_PASSWORD = 'nepalpolice123'; // सबै फोल्डरको लागि साझा पासवर्ड
+        // सबै फोल्डरको लागि साझा पासवर्ड — पासवर्ड आफैँ होइन, यसको SHA-256 hash मात्र राखिएको छ
+        const PASSWORD_HASH = '1d774f05ff3eb3e88b32d48c6b08756fc11ef6178bb62e1885b410d869988509';
+
+        // सुरक्षित नभएको (http) वातावरणमा पनि काम गर्ने SHA-256
+        function sha256Fallback(ascii) {
+            ascii = unescape(encodeURIComponent(ascii));
+            var rightRotate = function (value, amount) { return (value >>> amount) | (value << (32 - amount)); };
+            var maxWord = Math.pow(2, 32);
+            var result = '';
+            var words = [];
+            var asciiBitLength = ascii.length * 8;
+            var hash = [];
+            var k = [];
+            var primeCounter = 0;
+            var isComposite = {};
+            var i, j;
+            for (var candidate = 2; primeCounter < 64; candidate++) {
+                if (!isComposite[candidate]) {
+                    for (i = 0; i < 313; i += candidate) { isComposite[i] = candidate; }
+                    hash[primeCounter] = (Math.pow(candidate, 0.5) * maxWord) | 0;
+                    k[primeCounter++] = (Math.pow(candidate, 1 / 3) * maxWord) | 0;
+                }
+            }
+            ascii += '\x80';
+            while (ascii.length % 64 - 56) { ascii += '\x00'; }
+            for (i = 0; i < ascii.length; i++) {
+                j = ascii.charCodeAt(i);
+                words[i >> 2] |= j << ((3 - i) % 4) * 8;
+            }
+            words[words.length] = ((asciiBitLength / maxWord) | 0);
+            words[words.length] = (asciiBitLength);
+            for (j = 0; j < words.length;) {
+                var w = words.slice(j, j += 16);
+                var oldHash = hash;
+                hash = hash.slice(0, 8);
+                for (i = 0; i < 64; i++) {
+                    var w15 = w[i - 15], w2 = w[i - 2];
+                    var a = hash[0], e = hash[4];
+                    var temp1 = hash[7] + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) + ((e & hash[5]) ^ ((~e) & hash[6])) + k[i]
+                        + (w[i] = (i < 16) ? w[i] : (w[i - 16] + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) | 0);
+                    var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+                    hash = [(temp1 + temp2) | 0].concat(hash);
+                    hash[4] = (hash[4] + temp1) | 0;
+                }
+                for (i = 0; i < 8; i++) { hash[i] = (hash[i] + oldHash[i]) | 0; }
+            }
+            for (i = 0; i < 8; i++) {
+                for (j = 3; j + 1; j--) {
+                    var b = (hash[i] >> (j * 8)) & 255;
+                    result += ((b < 16) ? 0 : '') + b.toString(16);
+                }
+            }
+            return result;
+        }
+
+        async function sha256Hex(text) {
+            if (window.crypto && window.crypto.subtle && window.TextEncoder) {
+                try {
+                    const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+                    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+                } catch (err) { /* तल fallback प्रयोग हुन्छ */ }
+            }
+            return sha256Fallback(text);
+        }
+
+        function showPasswordMessage(msg) {
+            const box = document.getElementById('passwordMessage');
+            box.textContent = msg;
+            if (msg) { box.classList.remove('hidden'); } else { box.classList.add('hidden'); }
+        }
 
         function checkPassword(folderUrl) {
             targetFolderUrl = folderUrl;
-            document.getElementById('folderPassword').value = '';
+            const input = document.getElementById('folderPassword');
+            input.value = '';
+            showPasswordMessage('');
             document.getElementById('passwordModal').classList.remove('hidden');
+            input.focus();
         }
 
         function closePasswordModal() {
@@ -476,13 +566,14 @@
             targetFolderUrl = '';
         }
 
-        function verifyPassword() {
-            const enteredPass = document.getElementById('folderPassword').value;
-            if (enteredPass === MASTER_PASSWORD) {
-                alert('पासवर्ड मिल्यो! फोल्डर खुल्दैछ...');
+        async function verifyPassword() {
+            const input = document.getElementById('folderPassword');
+            const enteredHash = await sha256Hex(input.value);
+            if (enteredHash === PASSWORD_HASH && targetFolderUrl) {
                 window.location.href = targetFolderUrl;
             } else {
-                alert('गलत पासवर्ड! कृपया सहि पासवर्ड हाल्नुहोला।');
+                showPasswordMessage('गलत पासवर्ड! कृपया सहि पासवर्ड हाल्नुहोला।');
+                input.select();
             }
         }
 
@@ -517,9 +608,30 @@
             showSlide(currentSlide);
         }
 
-        setInterval(() => {
+        let sliderTimer = setInterval(() => {
             changeSlide(1);
         }, 4000);
+
+        // माउस माथि हुँदा वा कीबोर्ड फोकसमा हुँदा स्लाइड रोकिने; फोनमा swipe गर्न मिल्ने
+        const sliderBox = document.getElementById('slider-container').parentElement;
+        function pauseSlider() { clearInterval(sliderTimer); }
+        function resumeSlider() {
+            clearInterval(sliderTimer);
+            sliderTimer = setInterval(() => { changeSlide(1); }, 4000);
+        }
+        sliderBox.addEventListener('mouseenter', pauseSlider);
+        sliderBox.addEventListener('mouseleave', resumeSlider);
+        sliderBox.addEventListener('focusin', pauseSlider);
+        sliderBox.addEventListener('focusout', resumeSlider);
+
+        let touchStartX = null;
+        sliderBox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+        sliderBox.addEventListener('touchend', (e) => {
+            if (touchStartX === null) return;
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 40) { changeSlide(dx < 0 ? 1 : -1); }
+            touchStartX = null;
+        }, { passive: true });
 
         // नजिकका प्रहरी कार्यालय तथा विटहरूको मोडल खोल्ने र बन्द गर्ने फंक्सनहरू
         function openPoliceModal() {
@@ -529,19 +641,41 @@
             document.getElementById('policeModal').classList.add('hidden');
         }
 
-        function openWorkingPoliceForm() {
-            document.getElementById('workingPoliceModal').classList.remove('hidden');
-        }
-        function closeWorkingPoliceForm() {
-            document.getElementById('workingPoliceModal').classList.add('hidden');
-        }
 
-        function openExPoliceForm() {
-            document.getElementById('exPoliceModal').classList.remove('hidden');
-        }
-        function closeExPoliceForm() {
-            document.getElementById('exPoliceModal').classList.add('hidden');
-        }
+        // गन्तव्य नभएका (#) लिंकले पेज माथि नफर्काओस्
+        document.querySelectorAll('a[href="#"]').forEach((a) => {
+            a.addEventListener('click', (e) => e.preventDefault());
+        });
+
+        // मेनुबाट पुगेको भाग केही क्षण हाइलाइट हुने
+        document.querySelectorAll('a[href^="#"]').forEach((a) => {
+            const id = a.getAttribute('href').slice(1);
+            if (!id || id === 'top') return;
+            a.addEventListener('click', () => {
+                const target = document.getElementById(id);
+                if (!target) return;
+                target.classList.add('nav-flash');
+                setTimeout(() => target.classList.remove('nav-flash'), 1600);
+            });
+        });
+
+        // मोडल: बाहिर क्लिक गर्दा र Esc थिच्दा बन्द हुने
+        const modalIds = ['passwordModal', 'policeModal'];
+        modalIds.forEach((id) => {
+            const modal = document.getElementById(id);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    if (id === 'passwordModal') { targetFolderUrl = ''; }
+                }
+            });
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modalIds.forEach((id) => document.getElementById(id).classList.add('hidden'));
+                targetFolderUrl = '';
+            }
+        });
     </script>
 </body>
 </html>
